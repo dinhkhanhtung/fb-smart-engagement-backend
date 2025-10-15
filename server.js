@@ -33,8 +33,8 @@ app.get('/', (req, res) => {
 
 // Test route
 app.get('/test', (req, res) => {
-    res.json({ 
-        message: 'Server is working!', 
+    res.json({
+        message: 'Server is working!',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV || 'development',
         port: process.env.PORT || 3000
