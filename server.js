@@ -20,6 +20,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
+// Home route
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
 // Database setup
 const db = new sqlite3.Database('database.db');
 
@@ -448,6 +453,16 @@ async function logAnalytics(userId, eventType, eventData) {
         console.error('Analytics logging error:', error);
     }
 }
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'OK', message: 'FB Smart Engagement Pro API is running' });
+});
+
+// Admin route
+app.get('/admin', (req, res) => {
+    res.sendFile(__dirname + '/public/admin.html');
+});
 
 // Start server
 app.listen(PORT, () => {
