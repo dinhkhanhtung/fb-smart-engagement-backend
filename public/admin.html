@@ -304,7 +304,18 @@
 
     <script>
         // Check authentication
-        const token = localStorage.getItem('adminToken');
+        let token = localStorage.getItem('adminToken');
+        
+        // Get token from URL if available
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get('token');
+        if (urlToken) {
+            token = urlToken;
+            localStorage.setItem('adminToken', token);
+            // Clean URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        
         if (!token) {
             window.location.href = '/admin';
         }

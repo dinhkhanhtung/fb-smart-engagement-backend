@@ -615,12 +615,12 @@ app.get('/admin', (req, res) => {
 
 // Admin dashboard route (protected)
 app.get('/admin/dashboard', (req, res) => {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-
+    const token = req.query.token || req.headers.authorization?.replace('Bearer ', '');
+    
     if (!token) {
         return res.status(401).json({ error: 'No token provided' });
     }
-
+    
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin-secret-key');
         if (decoded.role !== 'admin') {

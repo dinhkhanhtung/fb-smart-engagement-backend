@@ -159,9 +159,9 @@
                 if (data.success) {
                     // Store token
                     localStorage.setItem('adminToken', data.token);
-
-                    // Redirect to dashboard
-                    window.location.href = '/admin/dashboard';
+                    
+                    // Redirect to dashboard with token
+                    window.location.href = '/admin/dashboard?token=' + encodeURIComponent(data.token);
                 } else {
                     let errorMessage = data.message || 'Đăng nhập thất bại';
                     if (data.debug) {
