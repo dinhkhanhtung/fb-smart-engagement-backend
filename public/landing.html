@@ -43,21 +43,21 @@
             flex-direction: column;
             height: 100%;
         }
-        
+
         .pricing-card:hover {
             transform: translateY(-10px);
         }
-        
+
         .pricing-card .card-body {
             display: flex;
             flex-direction: column;
             height: 100%;
         }
-        
+
         .pricing-card .features {
             flex-grow: 1;
         }
-        
+
         .pricing-card .btn-upgrade {
             margin-top: auto;
         }
@@ -150,8 +150,8 @@
 </head>
 
 <body>
-    <!-- Admin Login Button -->
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+    <!-- Admin Login Button - Hidden for security -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000; display: none;" id="admin-btn">
         <a href="/admin" class="btn btn-outline-light btn-sm">
             <i class="fas fa-cog me-2"></i>Admin
         </a>
@@ -338,7 +338,8 @@
 
                             <div class="features">
                                 <ul class="list-unstyled text-start">
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới hạn</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới
+                                        hạn</li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cài đặt nâng cao</li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ ưu tiên</li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bảng điều khiển</li>
@@ -362,7 +363,8 @@
 
                             <div class="features">
                                 <ul class="list-unstyled text-start">
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới hạn</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới
+                                        hạn</li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cài đặt nâng cao</li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ ưu tiên</li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bảng điều khiển</li>
@@ -387,10 +389,13 @@
                             <div class="features">
                                 <ul class="list-unstyled text-start">
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tất cả tính năng</li>
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Không giới hạn thời gian</li>
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cập nhật miễn phí</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Không giới hạn thời
+                                        gian</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cập nhật miễn phí
+                                    </li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ VIP</li>
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tính năng độc quyền</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tính năng độc quyền
+                                    </li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>&nbsp;</li>
                                     <li class="mb-2"><i class="fas fa-check text-success me-2"></i>&nbsp;</li>
                                 </ul>
@@ -509,6 +514,28 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Admin access - Triple click to show admin button
+        let clickCount = 0;
+        let clickTimer = null;
+        
+        document.addEventListener('click', function(e) {
+            clickCount++;
+            
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+            }
+            
+            if (clickCount === 3) {
+                document.getElementById('admin-btn').style.display = 'block';
+                clickCount = 0;
+            } else {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 1000);
+            }
+        });
+    </script>
 </body>
 
 </html>

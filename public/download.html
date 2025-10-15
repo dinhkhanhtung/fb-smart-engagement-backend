@@ -67,8 +67,8 @@
 
 <body>
     <div class="container py-5">
-        <!-- Admin Login Button -->
-        <div class="text-end mb-3">
+        <!-- Admin Login Button - Hidden for security -->
+        <div class="text-end mb-3" style="display: none;" id="admin-btn">
             <a href="/admin" class="btn btn-outline-light btn-sm">
                 <i class="fas fa-cog me-2"></i>Admin Login
             </a>
@@ -93,7 +93,7 @@
                             <a href="/download/extension.zip" class="btn-download btn-lg">
                                 <i class="fas fa-download me-2"></i>TẢI EXTENSION NGAY
                             </a>
-                            <p class="text-muted mt-3">File size: ~2MB | Tương thích: Chrome, Edge, Firefox, Opera</p>
+                            <p class="text-muted mt-3">File size: ~2MB | Tương thích: Chrome, Edge (Chromium-based browsers)</p>
                         </div>
 
                         <!-- Installation Steps -->
@@ -129,37 +129,21 @@
                             <div class="text-start">
                                 <div class="card bg-light">
                                     <div class="card-body">
-                                        <h5>Chrome/Edge/Opera:</h5>
+                                        <h5>Chrome/Edge (Chromium-based):</h5>
                                         <ol>
                                             <li>Tải file extension.zip</li>
                                             <li>Giải nén file vào thư mục</li>
-                                            <li>Mở Chrome/Edge/Opera, gõ: <code>chrome://extensions/</code></li>
+                                            <li>Mở Chrome/Edge, gõ: <code>chrome://extensions/</code></li>
                                             <li>Bật "Developer mode" (góc trên bên phải)</li>
                                             <li>Click "Load unpacked"</li>
                                             <li>Chọn thư mục đã giải nén</li>
                                             <li>Extension sẽ xuất hiện trong danh sách</li>
                                         </ol>
                                         
-                                        <h5 class="mt-4">Firefox:</h5>
-                                        <ol>
-                                            <li>Tải file extension.zip</li>
-                                            <li>Giải nén file</li>
-                                            <li>Mở Firefox, gõ: <code>about:debugging</code></li>
-                                            <li>Click "This Firefox"</li>
-                                            <li>Click "Load Temporary Add-on"</li>
-                                            <li>Chọn file manifest.json trong thư mục đã giải nén</li>
-                                        </ol>
-                                        
-                                        <h5 class="mt-4">Safari (macOS):</h5>
-                                        <ol>
-                                            <li>Tải file extension.zip</li>
-                                            <li>Giải nén file</li>
-                                            <li>Mở Safari → Preferences → Advanced</li>
-                                            <li>Bật "Show Develop menu"</li>
-                                            <li>Develop → Show Extension Builder</li>
-                                            <li>Click "+" → Add Extension</li>
-                                            <li>Chọn thư mục đã giải nén</li>
-                                        </ol>
+                                        <div class="alert alert-warning mt-3">
+                                            <strong>Lưu ý:</strong> Extension này được thiết kế cho Chrome và Edge (Chromium). 
+                                            Firefox và Safari có thể không tương thích hoàn toàn do khác biệt về API.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -223,6 +207,27 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Admin access - Triple click to show admin button
+        let clickCount = 0;
+        let clickTimer = null;
+        
+        document.addEventListener('click', function(e) {
+            clickCount++;
+            
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+            }
+            
+            if (clickCount === 3) {
+                document.getElementById('admin-btn').style.display = 'block';
+                clickCount = 0;
+            } else {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 1000);
+            }
+        });
     </script>
 </body>
 
