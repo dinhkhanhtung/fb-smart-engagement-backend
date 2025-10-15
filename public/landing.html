@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +13,13 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
-        
+
         .hero-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 100px 0;
         }
-        
+
         .benefit-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -28,27 +29,44 @@
             text-align: center;
             transition: transform 0.3s ease;
         }
-        
+
         .benefit-card:hover {
             transform: translateY(-10px);
         }
-        
+
         .pricing-card {
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         
         .pricing-card:hover {
             transform: translateY(-10px);
         }
         
+        .pricing-card .card-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .pricing-card .features {
+            flex-grow: 1;
+        }
+        
+        .pricing-card .btn-upgrade {
+            margin-top: auto;
+        }
+
         .pricing-card.featured {
             border: 3px solid #ff6b6b;
             position: relative;
         }
-        
+
         .pricing-card.featured::before {
             content: "PHỔ BIẾN NHẤT";
             position: absolute;
@@ -62,7 +80,7 @@
             font-size: 12px;
             font-weight: bold;
         }
-        
+
         .btn-download {
             background: linear-gradient(45deg, #ff6b6b, #feca57);
             border: none;
@@ -75,12 +93,12 @@
             display: inline-block;
             transition: transform 0.3s ease;
         }
-        
+
         .btn-download:hover {
             transform: scale(1.05);
             color: white;
         }
-        
+
         .btn-upgrade {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
@@ -89,12 +107,12 @@
             color: white;
             font-weight: bold;
         }
-        
+
         .btn-upgrade:hover {
             background: linear-gradient(45deg, #764ba2, #667eea);
             color: white;
         }
-        
+
         .stats-section {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -102,18 +120,18 @@
             padding: 50px;
             margin: 50px 0;
         }
-        
+
         .stat-item {
             text-align: center;
             color: white;
         }
-        
+
         .stat-number {
             font-size: 3rem;
             font-weight: bold;
             color: #feca57;
         }
-        
+
         .testimonial {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -121,7 +139,7 @@
             padding: 30px;
             margin: 20px 0;
         }
-        
+
         .cta-section {
             background: linear-gradient(45deg, #ff6b6b, #feca57);
             color: white;
@@ -130,6 +148,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Admin Login Button -->
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
@@ -181,7 +200,7 @@
                 <h2 class="display-5 fw-bold mb-3">Tại sao chọn FB Smart Engagement Pro?</h2>
                 <p class="lead">Công nghệ tiên tiến, an toàn tuyệt đối</p>
             </div>
-            
+
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="benefit-card">
@@ -249,7 +268,7 @@
                 <h2 class="display-5 fw-bold mb-3">🎉 DÙNG THỬ MIỄN PHÍ 3 NGÀY!</h2>
                 <p class="lead">Không cần thẻ tín dụng, tải ngay và trải nghiệm</p>
             </div>
-            
+
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="benefit-card">
@@ -257,7 +276,8 @@
                         <div class="row">
                             <div class="col-md-4 text-center">
                                 <div class="mb-3">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center"
+                                        style="width: 60px; height: 60px;">
                                         <span class="fw-bold">1</span>
                                     </div>
                                 </div>
@@ -266,7 +286,8 @@
                             </div>
                             <div class="col-md-4 text-center">
                                 <div class="mb-3">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center"
+                                        style="width: 60px; height: 60px;">
                                         <span class="fw-bold">2</span>
                                     </div>
                                 </div>
@@ -275,7 +296,8 @@
                             </div>
                             <div class="col-md-4 text-center">
                                 <div class="mb-3">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center"
+                                        style="width: 60px; height: 60px;">
                                         <span class="fw-bold">3</span>
                                     </div>
                                 </div>
@@ -283,7 +305,7 @@
                                 <p class="small">Tiếp tục sử dụng không giới hạn</p>
                             </div>
                         </div>
-                        
+
                         <div class="mt-4">
                             <a href="/download" class="btn-download me-3">
                                 <i class="fas fa-download me-2"></i>Tải Extension
@@ -305,7 +327,7 @@
                 <h2 class="display-5 fw-bold mb-3">💰 Bảng giá PRO</h2>
                 <p class="lead">Chọn gói phù hợp với nhu cầu của bạn</p>
             </div>
-            
+
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-4 col-md-6">
                     <div class="pricing-card h-100">
@@ -313,58 +335,68 @@
                             <h3 class="card-title">📅 Gói Tháng</h3>
                             <div class="display-4 fw-bold text-primary mb-3">99,000₫</div>
                             <p class="text-muted">/tháng</p>
-                            
-                            <ul class="list-unstyled text-start">
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới hạn</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cài đặt nâng cao</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ ưu tiên</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bảng điều khiển</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Mẫu tùy chỉnh</li>
-                            </ul>
-                            
-                            <a href="/payment" class="btn-upgrade w-100 mt-4">Chọn Tháng</a>
+
+                            <div class="features">
+                                <ul class="list-unstyled text-start">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới hạn</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cài đặt nâng cao</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ ưu tiên</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bảng điều khiển</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Mẫu tùy chỉnh</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>&nbsp;</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>&nbsp;</li>
+                                </ul>
+                            </div>
+
+                            <a href="/payment" class="btn-upgrade w-100">Chọn Tháng</a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-4 col-md-6">
                     <div class="pricing-card featured h-100">
                         <div class="card-body text-center p-4">
                             <h3 class="card-title">📆 Gói Năm</h3>
                             <div class="display-4 fw-bold text-primary mb-3">990,000₫</div>
                             <p class="text-muted">/năm <span class="badge bg-success">Tiết kiệm 2 tháng!</span></p>
-                            
-                            <ul class="list-unstyled text-start">
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới hạn</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cài đặt nâng cao</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ ưu tiên</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bảng điều khiển</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Mẫu tùy chỉnh</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Truy cập API</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Nhiều tài khoản</li>
-                            </ul>
-                            
-                            <a href="/payment" class="btn-upgrade w-100 mt-4">Chọn Năm</a>
+
+                            <div class="features">
+                                <ul class="list-unstyled text-start">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Phản ứng không giới hạn</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cài đặt nâng cao</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ ưu tiên</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bảng điều khiển</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Mẫu tùy chỉnh</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Truy cập API</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Nhiều tài khoản</li>
+                                </ul>
+                            </div>
+
+                            <a href="/payment" class="btn-upgrade w-100">Chọn Năm</a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-4 col-md-6">
                     <div class="pricing-card h-100">
                         <div class="card-body text-center p-4">
                             <h3 class="card-title">♾️ Trọn Đời</h3>
                             <div class="display-4 fw-bold text-primary mb-3">1,990,000₫</div>
                             <p class="text-muted">một lần duy nhất</p>
-                            
-                            <ul class="list-unstyled text-start">
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tất cả tính năng</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Không giới hạn thời gian</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cập nhật miễn phí</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ VIP</li>
-                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tính năng độc quyền</li>
-                            </ul>
-                            
-                            <a href="/payment" class="btn-upgrade w-100 mt-4">Chọn Trọn Đời</a>
+
+                            <div class="features">
+                                <ul class="list-unstyled text-start">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tất cả tính năng</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Không giới hạn thời gian</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cập nhật miễn phí</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Hỗ trợ VIP</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Tính năng độc quyền</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>&nbsp;</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>&nbsp;</li>
+                                </ul>
+                            </div>
+
+                            <a href="/payment" class="btn-upgrade w-100">Chọn Trọn Đời</a>
                         </div>
                     </div>
                 </div>
@@ -378,7 +410,7 @@
             <div class="text-center text-white mb-5">
                 <h2 class="display-5 fw-bold mb-3">💬 Khách hàng nói gì</h2>
             </div>
-            
+
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="testimonial">
@@ -389,7 +421,8 @@
                                 <small class="text-muted">Doanh nhân</small>
                             </div>
                         </div>
-                        <p>"Extension này thực sự tuyệt vời! Tương tác tự nhiên, không bị khóa tài khoản. Doanh thu tăng 300%!"</p>
+                        <p>"Extension này thực sự tuyệt vời! Tương tác tự nhiên, không bị khóa tài khoản. Doanh thu tăng
+                            300%!"</p>
                         <div class="text-warning">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -408,7 +441,8 @@
                                 <small class="text-muted">Influencer</small>
                             </div>
                         </div>
-                        <p>"Dùng được 6 tháng rồi, chưa bao giờ bị vấn đề gì. Engagement tăng đáng kể, fan tương tác nhiều hơn."</p>
+                        <p>"Dùng được 6 tháng rồi, chưa bao giờ bị vấn đề gì. Engagement tăng đáng kể, fan tương tác
+                            nhiều hơn."</p>
                         <div class="text-warning">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -467,7 +501,8 @@
                 </div>
                 <div class="col-md-6 text-end">
                     <p>© 2025 AppX. All rights reserved.</p>
-                    <p>Liên hệ: <a href="https://www.facebook.com/dinhkhanhtung" class="text-white">Facebook</a> | Zalo: 0982581222</p>
+                    <p>Liên hệ: <a href="https://www.facebook.com/dinhkhanhtung" class="text-white">Facebook</a> | Zalo:
+                        0982581222</p>
                 </div>
             </div>
         </div>
@@ -475,4 +510,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
