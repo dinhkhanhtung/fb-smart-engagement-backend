@@ -19,14 +19,14 @@
             "src": "/test",
             "dest": "server.js"
         },
-    {
-      "src": "/test-html",
-      "dest": "server.js"
-    },
-    {
-      "src": "/payment",
-      "dest": "server.js"
-    },
+        {
+            "src": "/test-html",
+            "dest": "server.js"
+        },
+        {
+            "src": "/payment",
+            "dest": "server.js"
+        },
         {
             "src": "/",
             "dest": "server.js"

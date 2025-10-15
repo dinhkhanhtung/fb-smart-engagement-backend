@@ -286,32 +286,32 @@ app.post('/api/create-license', async (req, res) => {
 app.post('/api/payment/bank-transfer', async (req, res) => {
     try {
         const { userId, plan, amount, transactionId, bankInfo } = req.body;
-        
+
         // Validate required fields
         if (!userId || !plan || !amount || !transactionId) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Missing required fields' 
+            return res.status(400).json({
+                success: false,
+                error: 'Missing required fields'
             });
         }
 
         // Create pending payment record
         const paymentId = crypto.randomUUID();
-        
+
         db.run(`
             INSERT INTO payments (id, user_id, plan, amount, status, transaction_id, bank_info, created_at)
             VALUES (?, ?, ?, ?, 'pending', ?, ?, datetime('now'))
         `, [paymentId, userId, plan, amount, transactionId, JSON.stringify(bankInfo)]);
 
-        res.json({ 
-            success: true, 
+        res.json({
+            success: true,
             paymentId,
             message: 'Payment request created. Please wait for manual verification.',
             bankInfo: {
-                accountNumber: process.env.BANK_ACCOUNT || '1234567890',
-                accountName: process.env.BANK_NAME || 'NGUYEN VAN A',
-                bank: process.env.BANK_NAME || 'Vietcombank',
-                branch: process.env.BANK_BRANCH || 'HCM',
+                accountNumber: process.env.BANK_ACCOUNT || '0982581222',
+                accountName: process.env.BANK_NAME || 'Đinh Khánh Tùng',
+                bank: process.env.BANK_NAME || 'BIDV',
+                branch: process.env.BANK_BRANCH || 'BIDV',
                 amount: amount,
                 content: `FBENGAGE ${paymentId}`
             }
@@ -329,11 +329,11 @@ app.post('/api/payment/bank-transfer', async (req, res) => {
 app.post('/api/admin/verify-payment', async (req, res) => {
     try {
         const { paymentId, status } = req.body;
-        
+
         if (!paymentId || !status) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Missing paymentId or status' 
+            return res.status(400).json({
+                success: false,
+                error: 'Missing paymentId or status'
             });
         }
 

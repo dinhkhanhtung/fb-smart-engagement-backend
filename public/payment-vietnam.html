@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,23 +12,27 @@
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .card {
             border: none;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
+
         .btn-primary {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
             border-radius: 10px;
             padding: 12px 30px;
         }
+
         .bank-info {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
         }
+
         .copy-btn {
             background: #28a745;
             color: white;
@@ -38,6 +43,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -93,7 +99,7 @@
                                 <label class="form-label">Số điện thoại</label>
                                 <input type="tel" class="form-control" id="phone" required>
                             </div>
-                            
+
                             <button class="btn btn-primary w-100" onclick="showBankInfo()">
                                 Tiếp tục thanh toán
                             </button>
@@ -106,23 +112,25 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <strong>Số tài khoản:</strong>
-                                        <span id="account-number">1234567890</span>
-                                        <button class="copy-btn ms-2" onclick="copyToClipboard('account-number')">Copy</button>
+                                        <span id="account-number">0982581222</span>
+                                        <button class="copy-btn ms-2"
+                                            onclick="copyToClipboard('account-number')">Copy</button>
                                     </div>
                                     <div class="col-md-6">
                                         <strong>Tên chủ tài khoản:</strong>
-                                        <span id="account-name">NGUYEN VAN A</span>
-                                        <button class="copy-btn ms-2" onclick="copyToClipboard('account-name')">Copy</button>
+                                        <span id="account-name">Đinh Khánh Tùng</span>
+                                        <button class="copy-btn ms-2"
+                                            onclick="copyToClipboard('account-name')">Copy</button>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-md-6">
                                         <strong>Ngân hàng:</strong>
-                                        <span id="bank-name">Vietcombank</span>
+                                        <span id="bank-name">BIDV</span>
                                     </div>
                                     <div class="col-md-6">
                                         <strong>Chi nhánh:</strong>
-                                        <span id="bank-branch">HCM</span>
+                                        <span id="bank-branch">BIDV</span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -143,14 +151,15 @@
                                 <ol>
                                     <li>Chuyển khoản đúng số tiền và nội dung</li>
                                     <li>Chụp ảnh biên lai chuyển khoản</li>
-                                    <li>Gửi ảnh qua Zalo: 0982581222</li>
+                                    <li>Gửi ảnh qua Zalo: <strong>0982581222</strong></li>
                                     <li>Chúng tôi sẽ kích hoạt PRO trong 24h</li>
                                 </ol>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Mã giao dịch (nếu có)</label>
-                                <input type="text" class="form-control" id="transaction-id" placeholder="VD: 1234567890">
+                                <input type="text" class="form-control" id="transaction-id"
+                                    placeholder="VD: 1234567890">
                             </div>
 
                             <button class="btn btn-success w-100" onclick="submitPayment()">
@@ -162,7 +171,8 @@
                         <div id="success-message" style="display: none;">
                             <div class="alert alert-success text-center">
                                 <h4>✅ Đã gửi yêu cầu thanh toán!</h4>
-                                <p>Vui lòng chuyển khoản theo thông tin trên và gửi ảnh biên lai qua Zalo: <strong>0982581222</strong></p>
+                                <p>Vui lòng chuyển khoản theo thông tin trên và gửi ảnh biên lai qua Zalo:
+                                    <strong>0982581222</strong></p>
                                 <p>Chúng tôi sẽ kích hoạt PRO trong 24h.</p>
                             </div>
                         </div>
@@ -180,15 +190,15 @@
         function selectPlan(plan, amount) {
             selectedPlan = plan;
             selectedAmount = amount;
-            
+
             // Remove active class from all cards
             document.querySelectorAll('.plan-card').forEach(card => {
                 card.classList.remove('border-primary');
             });
-            
+
             // Add active class to selected card
             event.currentTarget.classList.add('border-primary');
-            
+
             // Show payment form
             document.getElementById('payment-form').style.display = 'block';
         }
@@ -197,7 +207,7 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
-            
+
             if (!name || !email || !phone) {
                 alert('Vui lòng điền đầy đủ thông tin');
                 return;
@@ -205,11 +215,11 @@
 
             // Generate payment ID
             paymentId = 'FB' + Date.now();
-            
+
             // Update bank info
             document.getElementById('amount').textContent = selectedAmount.toLocaleString() + '₫';
             document.getElementById('content').textContent = `FBENGAGE ${paymentId}`;
-            
+
             // Show bank info
             document.getElementById('payment-form').style.display = 'none';
             document.getElementById('bank-info').style.display = 'block';
@@ -217,7 +227,7 @@
 
         async function submitPayment() {
             const transactionId = document.getElementById('transaction-id').value;
-            
+
             try {
                 const response = await fetch('/api/payment/bank-transfer', {
                     method: 'POST',
@@ -259,4 +269,5 @@
         }
     </script>
 </body>
+
 </html>
