@@ -6,28 +6,32 @@
             "use": "@vercel/node"
         }
     ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/admin",
-      "dest": "server.js"
-    },
-    {
-      "src": "/test",
-      "dest": "server.js"
-    },
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "server.js"
+        },
+        {
+            "src": "/admin",
+            "dest": "server.js"
+        },
+        {
+            "src": "/test",
+            "dest": "server.js"
+        },
     {
       "src": "/test-html",
       "dest": "server.js"
     },
     {
-      "src": "/",
+      "src": "/payment",
       "dest": "server.js"
-    }
-  ],
+    },
+        {
+            "src": "/",
+            "dest": "server.js"
+        }
+    ],
     "env": {
         "NODE_ENV": "production"
     }

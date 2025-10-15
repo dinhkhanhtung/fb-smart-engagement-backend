@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB Smart Engagement Pro - Thanh toán</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+        }
+        .bank-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h1 class="text-center mb-4">🚀 FB Smart Engagement Pro</h1>
+                        <h3 class="text-center mb-4">Nâng cấp lên PRO</h3>
+
+                        <!-- Plan Selection -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="card plan-card" onclick="selectPlan('monthly', 99000)">
+                                    <div class="card-body text-center">
+                                        <h5>📅 Tháng</h5>
+                                        <h3 class="text-primary">99,000₫</h3>
+                                        <p>Thanh toán hàng tháng</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card plan-card" onclick="selectPlan('yearly', 990000)">
+                                    <div class="card-body text-center">
+                                        <h5>📆 Năm</h5>
+                                        <h3 class="text-primary">990,000₫</h3>
+                                        <p>Tiết kiệm 2 tháng</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card plan-card" onclick="selectPlan('lifetime', 1990000)">
+                                    <div class="card-body text-center">
+                                        <h5>♾️ Trọn đời</h5>
+                                        <h3 class="text-primary">1,990,000₫</h3>
+                                        <p>Sử dụng mãi mãi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Form -->
+                        <div id="payment-form" style="display: none;">
+                            <h4>Thông tin thanh toán</h4>
+                            <div class="mb-3">
+                                <label class="form-label">Họ tên</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100" onclick="showBankInfo()">
+                                Tiếp tục thanh toán
+                            </button>
+                        </div>
+
+                        <!-- Bank Transfer Info -->
+                        <div id="bank-info" style="display: none;">
+                            <h4>Thông tin chuyển khoản</h4>
+                            <div class="bank-info">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Số tài khoản:</strong>
+                                        <span id="account-number">1234567890</span>
+                                        <button class="copy-btn ms-2" onclick="copyToClipboard('account-number')">Copy</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Tên chủ tài khoản:</strong>
+                                        <span id="account-name">NGUYEN VAN A</span>
+                                        <button class="copy-btn ms-2" onclick="copyToClipboard('account-name')">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <strong>Ngân hàng:</strong>
+                                        <span id="bank-name">Vietcombank</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Chi nhánh:</strong>
+                                        <span id="bank-branch">HCM</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <strong>Số tiền:</strong>
+                                        <span id="amount" class="text-danger fw-bold"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Nội dung:</strong>
+                                        <span id="content"></span>
+                                        <button class="copy-btn ms-2" onclick="copyToClipboard('content')">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <strong>Hướng dẫn:</strong>
+                                <ol>
+                                    <li>Chuyển khoản đúng số tiền và nội dung</li>
+                                    <li>Chụp ảnh biên lai chuyển khoản</li>
+                                    <li>Gửi ảnh qua Zalo: 0982581222</li>
+                                    <li>Chúng tôi sẽ kích hoạt PRO trong 24h</li>
+                                </ol>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mã giao dịch (nếu có)</label>
+                                <input type="text" class="form-control" id="transaction-id" placeholder="VD: 1234567890">
+                            </div>
+
+                            <button class="btn btn-success w-100" onclick="submitPayment()">
+                                Xác nhận đã chuyển khoản
+                            </button>
+                        </div>
+
+                        <!-- Success Message -->
+                        <div id="success-message" style="display: none;">
+                            <div class="alert alert-success text-center">
+                                <h4>✅ Đã gửi yêu cầu thanh toán!</h4>
+                                <p>Vui lòng chuyển khoản theo thông tin trên và gửi ảnh biên lai qua Zalo: <strong>0982581222</strong></p>
+                                <p>Chúng tôi sẽ kích hoạt PRO trong 24h.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPlan = null;
+        let selectedAmount = 0;
+        let paymentId = null;
+
+        function selectPlan(plan, amount) {
+            selectedPlan = plan;
+            selectedAmount = amount;
+            
+            // Remove active class from all cards
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('border-primary');
+            });
+            
+            // Add active class to selected card
+            event.currentTarget.classList.add('border-primary');
+            
+            // Show payment form
+            document.getElementById('payment-form').style.display = 'block';
+        }
+
+        function showBankInfo() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (!name || !email || !phone) {
+                alert('Vui lòng điền đầy đủ thông tin');
+                return;
+            }
+
+            // Generate payment ID
+            paymentId = 'FB' + Date.now();
+            
+            // Update bank info
+            document.getElementById('amount').textContent = selectedAmount.toLocaleString() + '₫';
+            document.getElementById('content').textContent = `FBENGAGE ${paymentId}`;
+            
+            // Show bank info
+            document.getElementById('payment-form').style.display = 'none';
+            document.getElementById('bank-info').style.display = 'block';
+        }
+
+        async function submitPayment() {
+            const transactionId = document.getElementById('transaction-id').value;
+            
+            try {
+                const response = await fetch('/api/payment/bank-transfer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: 'user_' + Date.now(),
+                        plan: selectedPlan,
+                        amount: selectedAmount,
+                        transactionId: transactionId || paymentId,
+                        bankInfo: {
+                            name: document.getElementById('name').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value
+                        }
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('bank-info').style.display = 'none';
+                    document.getElementById('success-message').style.display = 'block';
+                } else {
+                    alert('Lỗi: ' + result.error);
+                }
+            } catch (error) {
+                alert('Lỗi kết nối: ' + error.message);
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Đã copy: ' + text);
+            });
+        }
+    </script>
+</body>
+</html>

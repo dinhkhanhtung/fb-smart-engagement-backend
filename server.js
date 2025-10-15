@@ -10,7 +10,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// Payment system - using bank transfer for Vietnam
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,11 @@ app.get('/test', (req, res) => {
 // Test HTML route
 app.get('/test-html', (req, res) => {
     res.sendFile(require('path').join(__dirname, 'public', 'test.html'));
+});
+
+// Vietnam Payment route
+app.get('/payment', (req, res) => {
+    res.sendFile(require('path').join(__dirname, 'public', 'payment-vietnam.html'));
 });
 
 // Database setup
@@ -67,14 +73,28 @@ db.serialize(() => {
 
     // Payments table
     db.run(`CREATE TABLE IF NOT EXISTS payments (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id VARCHAR(255) PRIMARY KEY,
         user_id VARCHAR(255),
-        stripe_payment_id VARCHAR(255),
-        amount INTEGER,
-        currency VARCHAR(10),
         plan VARCHAR(50),
-        status VARCHAR(50),
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        amount DECIMAL(10,2),
+        status VARCHAR(50) DEFAULT 'pending',
+        transaction_id VARCHAR(255),
+        bank_info TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        verified_at DATETIME
+    )`);
+
+    // Payments table (updated for bank transfer)
+    db.run(`CREATE TABLE IF NOT EXISTS payments (
+        id VARCHAR(255) PRIMARY KEY,
+        user_id VARCHAR(255),
+        plan VARCHAR(50),
+        amount DECIMAL(10,2),
+        status VARCHAR(50) DEFAULT 'pending',
+        transaction_id VARCHAR(255),
+        bank_info TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        verified_at DATETIME
     )`);
 
     // Analytics table
@@ -261,26 +281,89 @@ app.post('/api/create-license', async (req, res) => {
 });
 
 /**
- * Stripe Payment Webhook
+ * Bank Transfer Payment (Vietnam)
  */
-app.post('/api/webhook/stripe', express.raw({ type: 'application/json' }), (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    let event;
-
+app.post('/api/payment/bank-transfer', async (req, res) => {
     try {
-        event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-    } catch (err) {
-        console.log(`Webhook signature verification failed.`, err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
+        const { userId, plan, amount, transactionId, bankInfo } = req.body;
+        
+        // Validate required fields
+        if (!userId || !plan || !amount || !transactionId) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'Missing required fields' 
+            });
+        }
 
-    // Handle the event
-    if (event.type === 'payment_intent.succeeded') {
-        const paymentIntent = event.data.object;
-        handleSuccessfulPayment(paymentIntent);
-    }
+        // Create pending payment record
+        const paymentId = crypto.randomUUID();
+        
+        db.run(`
+            INSERT INTO payments (id, user_id, plan, amount, status, transaction_id, bank_info, created_at)
+            VALUES (?, ?, ?, ?, 'pending', ?, ?, datetime('now'))
+        `, [paymentId, userId, plan, amount, transactionId, JSON.stringify(bankInfo)]);
 
-    res.json({ received: true });
+        res.json({ 
+            success: true, 
+            paymentId,
+            message: 'Payment request created. Please wait for manual verification.',
+            bankInfo: {
+                accountNumber: process.env.BANK_ACCOUNT || '1234567890',
+                accountName: process.env.BANK_NAME || 'NGUYEN VAN A',
+                bank: process.env.BANK_NAME || 'Vietcombank',
+                branch: process.env.BANK_BRANCH || 'HCM',
+                amount: amount,
+                content: `FBENGAGE ${paymentId}`
+            }
+        });
+
+    } catch (error) {
+        console.error('Bank transfer payment error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+/**
+ * Manual Payment Verification (Admin)
+ */
+app.post('/api/admin/verify-payment', async (req, res) => {
+    try {
+        const { paymentId, status } = req.body;
+        
+        if (!paymentId || !status) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'Missing paymentId or status' 
+            });
+        }
+
+        // Update payment status
+        db.run(`
+            UPDATE payments 
+            SET status = ?, verified_at = datetime('now')
+            WHERE id = ?
+        `, [status, paymentId]);
+
+        // If approved, activate PRO license
+        if (status === 'approved') {
+            const payment = await new Promise((resolve, reject) => {
+                db.get('SELECT * FROM payments WHERE id = ?', [paymentId], (err, row) => {
+                    if (err) reject(err);
+                    else resolve(row);
+                });
+            });
+
+            if (payment) {
+                await activateProLicense(payment.user_id, payment.plan, null);
+            }
+        }
+
+        res.json({ success: true, message: 'Payment status updated' });
+
+    } catch (error) {
+        console.error('Payment verification error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
 });
 
 /**
