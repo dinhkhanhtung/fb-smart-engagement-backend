@@ -48,7 +48,7 @@ app.get('/test-html', (req, res) => {
 
 // Vietnam Payment route
 app.get('/payment', (req, res) => {
-    res.sendFile(require('path').join(__dirname, 'public', 'payment-vietnam.html'));
+    res.sendFile(require('path').join(__dirname, 'public', 'payment-auto.html'));
 });
 
 // Database setup - Use in-memory database for Vercel
@@ -291,39 +291,37 @@ app.post('/api/create-license', async (req, res) => {
 });
 
 /**
- * Bank Transfer Payment (Vietnam)
+ * Bank Transfer Payment (Vietnam) - Auto System
  */
 app.post('/api/payment/bank-transfer', async (req, res) => {
     try {
-        const { userId, plan, amount, transactionId, bankInfo } = req.body;
-
+        const { userId, plan, amount, paymentCode, userInfo } = req.body;
+        
         // Validate required fields
-        if (!userId || !plan || !amount || !transactionId) {
-            return res.status(400).json({
-                success: false,
-                error: 'Missing required fields'
+        if (!userId || !plan || !amount || !paymentCode || !userInfo) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'Missing required fields' 
             });
         }
 
         // Create pending payment record
-        const paymentId = crypto.randomUUID();
-
         db.run(`
             INSERT INTO payments (id, user_id, plan, amount, status, transaction_id, bank_info, created_at)
             VALUES (?, ?, ?, ?, 'pending', ?, ?, datetime('now'))
-        `, [paymentId, userId, plan, amount, transactionId, JSON.stringify(bankInfo)]);
+        `, [paymentCode, userId, plan, amount, paymentCode, JSON.stringify(userInfo)]);
 
-        res.json({
-            success: true,
-            paymentId,
-            message: 'Payment request created. Please wait for manual verification.',
+        res.json({ 
+            success: true, 
+            paymentId: paymentCode,
+            message: 'Payment code created. Please transfer money and wait for auto verification.',
             bankInfo: {
                 accountNumber: process.env.BANK_ACCOUNT || '0982581222',
                 accountName: process.env.BANK_NAME || 'Đinh Khánh Tùng',
                 bank: process.env.BANK_NAME || 'BIDV',
                 branch: process.env.BANK_BRANCH || 'BIDV',
                 amount: amount,
-                content: `FBENGAGE ${paymentId}`
+                content: `FBENGAGE ${paymentCode}`
             }
         });
 
@@ -331,6 +329,31 @@ app.post('/api/payment/bank-transfer', async (req, res) => {
         console.error('Bank transfer payment error:', error);
         res.status(500).json({ success: false, error: error.message });
     }
+});
+
+/**
+ * Check Payment Status
+ */
+app.get('/api/payment/check/:paymentCode', (req, res) => {
+    const { paymentCode } = req.params;
+    
+    db.get('SELECT * FROM payments WHERE id = ?', [paymentCode], (err, row) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+        if (!row) {
+            return res.status(404).json({ error: 'Payment not found' });
+        }
+        
+        res.json({
+            status: row.status,
+            paymentId: row.id,
+            amount: row.amount,
+            plan: row.plan,
+            createdAt: row.created_at
+        });
+    });
 });
 
 /**
