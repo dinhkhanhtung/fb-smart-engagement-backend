@@ -92,6 +92,11 @@
                         <i class="fas fa-key me-2"></i>
                         Licenses
                     </a>
+                    <hr class="text-white">
+                    <a class="nav-link" href="#" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-2"></i>
+                        Logout
+                    </a>
                     <a class="nav-link" href="#analytics" onclick="showSection('analytics')">
                         <i class="fas fa-chart-line me-2"></i>
                         Analytics
@@ -298,12 +303,24 @@
     </div>
 
     <script>
+        // Check authentication
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
+            window.location.href = '/admin';
+        }
+        
         // Global variables
         let currentSection = 'dashboard';
         let users = [];
         let payments = [];
         let licenses = [];
 
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminToken');
+            window.location.href = '/admin';
+        }
+        
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function () {
             loadDashboard();
@@ -334,7 +351,11 @@
         // Dashboard functions
         async function loadDashboard() {
             try {
-                const response = await fetch('/api/admin/analytics');
+                const response = await fetch('/api/admin/analytics', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 const data = await response.json();
 
                 if (data.success) {
@@ -354,7 +375,11 @@
         // Users functions
         async function loadUsers() {
             try {
-                const response = await fetch('/api/admin/users');
+                const response = await fetch('/api/admin/users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 const data = await response.json();
 
                 if (data.success) {
@@ -398,7 +423,11 @@
         // Payment functions
         async function loadPayments() {
             try {
-                const response = await fetch('/api/admin/payments');
+                const response = await fetch('/api/admin/payments', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 const data = await response.json();
 
                 if (data.success) {
@@ -439,7 +468,11 @@
         // License functions
         async function loadLicenses() {
             try {
-                const response = await fetch('/api/admin/licenses');
+                const response = await fetch('/api/admin/licenses', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 const data = await response.json();
 
                 if (data.success) {
@@ -504,7 +537,10 @@
             if (userId && plan) {
                 fetch('/api/create-license', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         userId: userId,
                         plan: plan,

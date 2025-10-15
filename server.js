@@ -595,9 +595,132 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'FB Smart Engagement Pro API is running' });
 });
 
-// Admin route
+// Admin login route
 app.get('/admin', (req, res) => {
-    res.sendFile(require('path').join(__dirname, 'public', 'admin.html'));
+    res.sendFile(require('path').join(__dirname, 'public', 'admin-login.html'));
+});
+
+// Admin dashboard route (protected)
+app.get('/admin/dashboard', (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+    
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin-secret-key');
+        if (decoded.role !== 'admin') {
+            return res.status(403).json({ error: 'Access denied' });
+        }
+        res.sendFile(require('path').join(__dirname, 'public', 'admin.html'));
+    } catch (error) {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+});
+
+// Admin login API
+app.post('/api/admin/login', async (req, res) => {
+    const { email, password } = req.body;
+    
+    const adminEmail = process.env.ADMIN_EMAIL || 'dinhkhanhtung@outlook.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123456';
+    
+    if (email === adminEmail && password === adminPassword) {
+        const token = jwt.sign(
+            { email, role: 'admin' },
+            process.env.JWT_SECRET || 'admin-secret-key',
+            { expiresIn: '24h' }
+        );
+        
+        res.json({ 
+            success: true, 
+            token,
+            message: 'Login successful' 
+        });
+    } else {
+        res.status(401).json({ 
+            success: false, 
+            message: 'Invalid credentials' 
+        });
+    }
+});
+
+// Middleware to verify admin token
+function verifyAdminToken(req, res, next) {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+    
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin-secret-key');
+        if (decoded.role !== 'admin') {
+            return res.status(403).json({ error: 'Access denied' });
+        }
+        req.admin = decoded;
+        next();
+    } catch (error) {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+}
+
+// Admin API endpoints
+app.get('/api/admin/analytics', verifyAdminToken, (req, res) => {
+    db.all("SELECT COUNT(*) as total FROM users", (err, users) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        
+        db.all("SELECT COUNT(*) as total FROM users WHERE is_pro = 1", (err, proUsers) => {
+            if (err) {
+                return res.status(500).json({ success: false, error: err.message });
+            }
+            
+            db.all("SELECT COUNT(*) as total FROM payments WHERE status = 'completed'", (err, payments) => {
+                if (err) {
+                    return res.status(500).json({ success: false, error: err.message });
+                }
+                
+                res.json({
+                    success: true,
+                    analytics: {
+                        total_users: users[0].total,
+                        pro_users: proUsers[0].total,
+                        total_payments: payments[0].total
+                    }
+                });
+            });
+        });
+    });
+});
+
+app.get('/api/admin/users', verifyAdminToken, (req, res) => {
+    db.all("SELECT * FROM users ORDER BY created_at DESC", (err, users) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.json({ success: true, users });
+    });
+});
+
+app.get('/api/admin/payments', verifyAdminToken, (req, res) => {
+    db.all("SELECT * FROM payments ORDER BY created_at DESC", (err, payments) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.json({ success: true, payments });
+    });
+});
+
+app.get('/api/admin/licenses', verifyAdminToken, (req, res) => {
+    db.all("SELECT * FROM licenses ORDER BY created_at DESC", (err, licenses) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: err.message });
+        }
+        res.json({ success: true, licenses });
+    });
 });
 
 // Error handling middleware
