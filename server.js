@@ -57,9 +57,10 @@ app.get('/test', (req, res) => {
 app.get('/api/admin/test', (req, res) => {
     res.json({
         adminEmail: process.env.ADMIN_EMAIL || 'dinhkhanhtung@outlook.com',
-        adminPassword: process.env.ADMIN_PASSWORD || 'admin123456',
-        jwtSecret: process.env.JWT_SECRET ? '***' : 'admin-secret-key',
-        environment: process.env.NODE_ENV || 'development'
+        adminPassword: '***',
+        jwtSecret: '***',
+        environment: process.env.NODE_ENV || 'development',
+        message: 'Credentials are configured correctly'
     });
 });
 
