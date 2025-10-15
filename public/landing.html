@@ -518,14 +518,14 @@
         // Admin access - Triple click to show admin button
         let clickCount = 0;
         let clickTimer = null;
-        
-        document.addEventListener('click', function(e) {
+
+        document.addEventListener('click', function (e) {
             clickCount++;
-            
+
             if (clickTimer) {
                 clearTimeout(clickTimer);
             }
-            
+
             if (clickCount === 3) {
                 document.getElementById('admin-btn').style.display = 'block';
                 clickCount = 0;

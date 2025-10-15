@@ -93,7 +93,8 @@
                             <a href="/download/extension.zip" class="btn-download btn-lg">
                                 <i class="fas fa-download me-2"></i>TẢI EXTENSION NGAY
                             </a>
-                            <p class="text-muted mt-3">File size: ~2MB | Tương thích: Chrome, Edge (Chromium-based browsers)</p>
+                            <p class="text-muted mt-3">File size: ~2MB | Tương thích: Chrome, Edge (Chromium-based
+                                browsers)</p>
                         </div>
 
                         <!-- Installation Steps -->
@@ -139,9 +140,10 @@
                                             <li>Chọn thư mục đã giải nén</li>
                                             <li>Extension sẽ xuất hiện trong danh sách</li>
                                         </ol>
-                                        
+
                                         <div class="alert alert-warning mt-3">
-                                            <strong>Lưu ý:</strong> Extension này được thiết kế cho Chrome và Edge (Chromium). 
+                                            <strong>Lưu ý:</strong> Extension này được thiết kế cho Chrome và Edge
+                                            (Chromium).
                                             Firefox và Safari có thể không tương thích hoàn toàn do khác biệt về API.
                                         </div>
                                     </div>
@@ -211,14 +213,14 @@
         // Admin access - Triple click to show admin button
         let clickCount = 0;
         let clickTimer = null;
-        
-        document.addEventListener('click', function(e) {
+
+        document.addEventListener('click', function (e) {
             clickCount++;
-            
+
             if (clickTimer) {
                 clearTimeout(clickTimer);
             }
-            
+
             if (clickCount === 3) {
                 document.getElementById('admin-btn').style.display = 'block';
                 clickCount = 0;
