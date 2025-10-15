@@ -67,12 +67,6 @@
 
 <body>
     <div class="container py-5">
-        <!-- Admin Login Button - Hidden for security -->
-        <div class="text-end mb-3" style="display: none;" id="admin-btn">
-            <a href="/admin" class="btn btn-outline-light btn-sm">
-                <i class="fas fa-cog me-2"></i>Admin Login
-            </a>
-        </div>
 
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -209,13 +203,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Check for admin access via URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('admin') === 'true') {
-            document.getElementById('admin-btn').style.display = 'block';
-        }
-    </script>
 </body>
 
 </html>
