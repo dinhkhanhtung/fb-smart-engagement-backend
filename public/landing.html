@@ -61,6 +61,62 @@
         .pricing-card .btn-upgrade {
             margin-top: auto;
         }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                margin: 10px;
+                max-width: calc(100% - 20px);
+            }
+            
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .modal-header {
+                padding: 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.1rem;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .alert {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .form-control {
+                padding: 10px 12px;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            .form-label {
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+            }
+            
+            .pricing-card {
+                margin-bottom: 20px;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+        }
 
         .pricing-card.featured {
             border: 3px solid #ff6b6b;
@@ -349,7 +405,8 @@
                                 </ul>
                             </div>
 
-                            <button class="btn-upgrade w-100" onclick="openPaymentModal('monthly', 99000)">Mua Ngay - 99,000₫</button>
+                            <button class="btn-upgrade w-100" onclick="openPaymentModal('monthly', 99000)">Mua Ngay -
+                                99,000₫</button>
                         </div>
                     </div>
                 </div>
@@ -374,7 +431,8 @@
                                 </ul>
                             </div>
 
-                            <button class="btn-upgrade w-100" onclick="openPaymentModal('yearly', 990000)">Mua Ngay - 990,000₫</button>
+                            <button class="btn-upgrade w-100" onclick="openPaymentModal('yearly', 990000)">Mua Ngay -
+                                990,000₫</button>
                         </div>
                     </div>
                 </div>
@@ -401,7 +459,8 @@
                                 </ul>
                             </div>
 
-                            <button class="btn-upgrade w-100" onclick="openPaymentModal('lifetime', 1990000)">Mua Ngay - 1,990,000₫</button>
+                            <button class="btn-upgrade w-100" onclick="openPaymentModal('lifetime', 1990000)">Mua Ngay -
+                                1,990,000₫</button>
                         </div>
                     </div>
                 </div>
@@ -519,7 +578,7 @@
 
     <!-- Payment Modal -->
     <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="paymentModalLabel">
@@ -530,17 +589,17 @@
                 <div class="modal-body">
                     <div id="paymentForm">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-12 col-md-6 mb-3">
                                 <h6 class="mb-3">Thông tin gói</h6>
                                 <div class="card bg-light">
-                                    <div class="card-body">
+                                    <div class="card-body text-center">
                                         <h5 id="selectedPlanName">Gói Tháng</h5>
                                         <h3 class="text-primary" id="selectedPlanPrice">99,000₫</h3>
                                         <p class="text-muted" id="selectedPlanDuration">Thanh toán hàng tháng</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-12 col-md-6">
                                 <h6 class="mb-3">Thông tin khách hàng</h6>
                                 <form id="customerForm">
                                     <div class="mb-3">
@@ -559,7 +618,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div id="paymentInfo" style="display: none;">
                         <div class="alert alert-success">
                             <h6><i class="fas fa-check-circle me-2"></i>Mã thanh toán đã được tạo!</h6>
@@ -568,26 +627,36 @@
                                 <i class="fas fa-copy me-1"></i>Copy mã
                             </button>
                         </div>
-                        
+
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="mb-0"><i class="fas fa-university me-2"></i>Thông tin chuyển khoản</h6>
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-12 col-md-6 mb-3">
                                         <p><strong>Ngân hàng:</strong> BIDV</p>
-                                        <p><strong>Số tài khoản:</strong> 0982581222</p>
+                                        <p><strong>Số tài khoản:</strong> 
+                                            <span class="text-primary">0982581222</span>
+                                            <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('0982581222')">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </p>
                                         <p><strong>Chủ tài khoản:</strong> Đinh Khánh Tùng</p>
                                     </div>
-                                    <div class="col-md-6">
-                                        <p><strong>Số tiền:</strong> <span id="paymentAmount"></span></p>
-                                        <p><strong>Nội dung:</strong> <span id="paymentContent"></span></p>
+                                    <div class="col-12 col-md-6">
+                                        <p><strong>Số tiền:</strong> <span id="paymentAmount" class="text-success fw-bold"></span></p>
+                                        <p><strong>Nội dung:</strong> 
+                                            <span id="paymentContent" class="text-primary fw-bold"></span>
+                                            <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyPaymentContent()">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="alert alert-info">
                             <h6><i class="fas fa-info-circle me-2"></i>Hướng dẫn thanh toán:</h6>
                             <ol class="mb-0">
@@ -616,52 +685,52 @@
         if (urlParams.get('admin') === 'true') {
             document.getElementById('admin-btn').style.display = 'block';
         }
-        
+
         let selectedPlan = '';
         let selectedAmount = 0;
         let currentPaymentCode = '';
-        
+
         // Plan information
         const planInfo = {
             'monthly': { name: 'Gói Tháng', price: '99,000₫', duration: 'Thanh toán hàng tháng' },
             'yearly': { name: 'Gói Năm', price: '990,000₫', duration: 'Tiết kiệm 2 tháng' },
             'lifetime': { name: 'Gói Trọn Đời', price: '1,990,000₫', duration: 'Sử dụng mãi mãi' }
         };
-        
+
         function openPaymentModal(plan, amount) {
             selectedPlan = plan;
             selectedAmount = amount;
-            
+
             const info = planInfo[plan];
             document.getElementById('selectedPlanName').textContent = info.name;
             document.getElementById('selectedPlanPrice').textContent = info.price;
             document.getElementById('selectedPlanDuration').textContent = info.duration;
-            
+
             // Reset form
             document.getElementById('paymentForm').style.display = 'block';
             document.getElementById('paymentInfo').style.display = 'none';
             document.getElementById('createPaymentBtn').style.display = 'block';
             document.getElementById('customerForm').reset();
-            
+
             // Show modal
             const modal = new bootstrap.Modal(document.getElementById('paymentModal'));
             modal.show();
         }
-        
+
         async function createPayment() {
             const name = document.getElementById('customerName').value;
             const email = document.getElementById('customerEmail').value;
             const phone = document.getElementById('customerPhone').value;
-            
+
             if (!name || !email || !phone) {
                 alert('Vui lòng điền đầy đủ thông tin!');
                 return;
             }
-            
+
             // Generate payment code
             const paymentCode = 'FB' + Date.now().toString().slice(-8);
             currentPaymentCode = paymentCode;
-            
+
             try {
                 const response = await fetch('/api/payment/bank-transfer', {
                     method: 'POST',
@@ -677,15 +746,15 @@
                         paymentCode: paymentCode
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     // Show payment info
                     document.getElementById('paymentForm').style.display = 'none';
                     document.getElementById('paymentInfo').style.display = 'block';
                     document.getElementById('createPaymentBtn').style.display = 'none';
-                    
+
                     document.getElementById('paymentCode').textContent = paymentCode;
                     document.getElementById('paymentAmount').textContent = planInfo[selectedPlan].price;
                     document.getElementById('paymentContent').textContent = `FB ${paymentCode}`;
@@ -696,12 +765,45 @@
                 alert('Lỗi kết nối. Vui lòng thử lại!');
             }
         }
-        
+
         function copyPaymentCode() {
             const content = `Mã thanh toán: ${currentPaymentCode}\nNội dung chuyển khoản: FB ${currentPaymentCode}`;
             navigator.clipboard.writeText(content).then(() => {
-                alert('Đã copy mã thanh toán!');
+                showToast('Đã copy mã thanh toán!', 'success');
             });
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Đã copy!', 'success');
+            });
+        }
+        
+        function copyPaymentContent() {
+            const content = `FB ${currentPaymentCode}`;
+            navigator.clipboard.writeText(content).then(() => {
+                showToast('Đã copy nội dung chuyển khoản!', 'success');
+            });
+        }
+        
+        function showToast(message, type = 'info') {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type} position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 250px;';
+            toast.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>${message}
+                <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                }
+            }, 3000);
         }
     </script>
 </body>
