@@ -22,7 +22,17 @@ app.use(express.static('public'));
 
 // Home route
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(require('path').join(__dirname, 'public', 'index.html'));
+});
+
+// Test route
+app.get('/test', (req, res) => {
+    res.json({ message: 'Server is working!', timestamp: new Date().toISOString() });
+});
+
+// Test HTML route
+app.get('/test-html', (req, res) => {
+    res.sendFile(require('path').join(__dirname, 'public', 'test.html'));
 });
 
 // Database setup
@@ -461,7 +471,7 @@ app.get('/api/health', (req, res) => {
 
 // Admin route
 app.get('/admin', (req, res) => {
-    res.sendFile(__dirname + '/public/admin.html');
+    res.sendFile(require('path').join(__dirname, 'public', 'admin.html'));
 });
 
 // Start server
