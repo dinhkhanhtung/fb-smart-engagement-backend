@@ -57,8 +57,9 @@ app.get('/test', (req, res) => {
 app.get('/api/admin/test', (req, res) => {
     res.json({
         adminEmail: process.env.ADMIN_EMAIL || 'dinhkhanhtung@outlook.com',
-        adminPassword: process.env.ADMIN_PASSWORD ? '***' : 'admin123456',
-        jwtSecret: process.env.JWT_SECRET ? '***' : 'admin-secret-key'
+        adminPassword: process.env.ADMIN_PASSWORD || 'admin123456',
+        jwtSecret: process.env.JWT_SECRET ? '***' : 'admin-secret-key',
+        environment: process.env.NODE_ENV || 'development'
     });
 });
 
@@ -633,31 +634,31 @@ app.get('/admin/dashboard', (req, res) => {
 // Admin login API
 app.post('/api/admin/login', async (req, res) => {
     const { email, password } = req.body;
-    
+
     const adminEmail = process.env.ADMIN_EMAIL || 'dinhkhanhtung@outlook.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin123456';
-    
+
     console.log('Login attempt:', { email, adminEmail, passwordMatch: password === adminPassword });
-    
+
     if (email === adminEmail && password === adminPassword) {
         const token = jwt.sign(
             { email, role: 'admin' },
             process.env.JWT_SECRET || 'admin-secret-key',
             { expiresIn: '24h' }
         );
-        
+
         console.log('Login successful for:', email);
-        
-        res.json({ 
-            success: true, 
+
+        res.json({
+            success: true,
             token,
-            message: 'Login successful' 
+            message: 'Login successful'
         });
     } else {
         console.log('Login failed:', { email, expectedEmail: adminEmail, passwordMatch: password === adminPassword });
-        
-        res.status(401).json({ 
-            success: false, 
+
+        res.status(401).json({
+            success: false,
             message: 'Invalid credentials',
             debug: {
                 providedEmail: email,

@@ -159,11 +159,11 @@
                 });
 
                 const data = await response.json();
-                
+
                 if (data.success) {
                     // Store token
                     localStorage.setItem('adminToken', data.token);
-                    
+
                     // Redirect to dashboard
                     window.location.href = '/admin/dashboard';
                 } else {
@@ -198,7 +198,7 @@
             try {
                 const response = await fetch('/api/admin/test');
                 const data = await response.json();
-                
+
                 showAlert('info', `
                     <strong>Thông tin đăng nhập:</strong><br>
                     Email: <code>${data.adminEmail}</code><br>
@@ -208,7 +208,7 @@
                 showAlert('danger', 'Không thể kiểm tra thông tin');
             }
         }
-        
+
         // Check if already logged in
         const token = localStorage.getItem('adminToken');
         if (token) {
@@ -218,14 +218,14 @@
                     'Authorization': `Bearer ${token}`
                 }
             })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = '/admin/dashboard';
-                }
-            })
-            .catch(() => {
-                localStorage.removeItem('adminToken');
-            });
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/admin/dashboard';
+                    }
+                })
+                .catch(() => {
+                    localStorage.removeItem('adminToken');
+                });
         }
     </script>
 </body>
