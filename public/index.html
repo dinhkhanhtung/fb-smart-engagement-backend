@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB Smart Engagement Pro - Upgrade to PRO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #007bff;
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #007bff;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-upgrade {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-upgrade:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list i {
+            color: #28a745;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Header -->
+                <div class="text-center text-white mb-5">
+                    <h1 class="display-4 fw-bold mb-3">
+                        <i class="fas fa-robot text-warning"></i>
+                        FB Smart Engagement Pro
+                    </h1>
+                    <p class="lead">Nâng cấp lên PRO để sử dụng không giới hạn</p>
+                </div>
+
+                <!-- Pricing Cards -->
+                <div class="row g-4">
+                    <!-- Monthly Plan -->
+                    <div class="col-md-6">
+                        <div class="card pricing-card h-100">
+                            <div class="card-body text-center p-4">
+                                <h3 class="card-title">Monthly Plan</h3>
+                                <div class="display-4 fw-bold text-primary mb-3">$4.99</div>
+                                <p class="text-muted">/tháng</p>
+
+                                <ul class="feature-list text-start">
+                                    <li><i class="fas fa-check"></i> Unlimited reactions</li>
+                                    <li><i class="fas fa-check"></i> Advanced settings</li>
+                                    <li><i class="fas fa-check"></i> Priority support</li>
+                                    <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                                    <li><i class="fas fa-check"></i> Custom patterns</li>
+                                </ul>
+
+                                <button class="btn btn-upgrade w-100 mt-4" onclick="selectPlan('pro_monthly', 499)">
+                                    Chọn Monthly
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yearly Plan -->
+                    <div class="col-md-6">
+                        <div class="card pricing-card featured h-100">
+                            <div class="card-body text-center p-4">
+                                <h3 class="card-title">Yearly Plan</h3>
+                                <div class="display-4 fw-bold text-primary mb-3">$39.99</div>
+                                <p class="text-muted">/năm <span class="badge bg-success">Tiết kiệm 33%</span></p>
+
+                                <ul class="feature-list text-start">
+                                    <li><i class="fas fa-check"></i> Unlimited reactions</li>
+                                    <li><i class="fas fa-check"></i> Advanced settings</li>
+                                    <li><i class="fas fa-check"></i> Priority support</li>
+                                    <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                                    <li><i class="fas fa-check"></i> Custom patterns</li>
+                                    <li><i class="fas fa-check"></i> API access</li>
+                                    <li><i class="fas fa-check"></i> Multiple accounts</li>
+                                </ul>
+
+                                <button class="btn btn-upgrade w-100 mt-4" onclick="selectPlan('pro_yearly', 3999)">
+                                    Chọn Yearly
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <div id="payment-form" class="card mt-5" style="display: none;">
+                    <div class="card-body">
+                        <h4 class="card-title text-center mb-4">
+                            <i class="fas fa-credit-card text-primary"></i>
+                            Thanh toán
+                        </h4>
+
+                        <form id="checkout-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Tên</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thông tin thẻ</label>
+                                <div id="card-element" class="form-control p-3">
+                                    <!-- Stripe Elements will be inserted here -->
+                                </div>
+                                <div id="card-errors" class="text-danger mt-2"></div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-upgrade btn-lg">
+                                    <i class="fas fa-lock me-2"></i>
+                                    Thanh toán <span id="amount">$4.99</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div id="success-message" class="alert alert-success text-center" style="display: none;">
+                    <h4><i class="fas fa-check-circle"></i> Thanh toán thành công!</h4>
+                    <p>License key đã được gửi qua email. Vui lòng kiểm tra hộp thư.</p>
+                    <button class="btn btn-primary" onclick="closeExtension()">
+                        Đóng và kích hoạt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('pk_test_your_stripe_public_key');
+        let selectedPlan = null;
+        let selectedAmount = 0;
+
+        function selectPlan(plan, amount) {
+            selectedPlan = plan;
+            selectedAmount = amount;
+
+            document.getElementById('payment-form').style.display = 'block';
+            document.getElementById('amount').textContent = '$' + (amount / 100).toFixed(2);
+
+            // Scroll to payment form
+            document.getElementById('payment-form').scrollIntoView({ behavior: 'smooth' });
+
+            // Initialize Stripe Elements
+            initializeStripe();
+        }
+
+        function initializeStripe() {
+            const elements = stripe.elements();
+            const cardElement = elements.create('card');
+            cardElement.mount('#card-element');
+
+            cardElement.on('change', function (event) {
+                const displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+
+            const form = document.getElementById('checkout-form');
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                const { token, error } = await stripe.createToken(cardElement);
+
+                if (error) {
+                    document.getElementById('card-errors').textContent = error.message;
+                } else {
+                    // Send token to server
+                    await processPayment(token);
+                }
+            });
+        }
+
+        async function processPayment(token) {
+            try {
+                const response = await fetch('/api/process-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        token: token.id,
+                        plan: selectedPlan,
+                        amount: selectedAmount,
+                        email: document.getElementById('email').value,
+                        name: document.getElementById('name').value
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('payment-form').style.display = 'none';
+                    document.getElementById('success-message').style.display = 'block';
+                } else {
+                    alert('Payment failed: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Payment error:', error);
+                alert('Payment failed. Please try again.');
+            }
+        }
+
+        function closeExtension() {
+            // Send message to extension
+            if (window.opener) {
+                window.opener.postMessage({
+                    type: 'PAYMENT_SUCCESS',
+                    plan: selectedPlan
+                }, '*');
+            }
+            window.close();
+        }
+
+        // Get user ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('userId');
+
+        if (userId) {
+            // Pre-fill email if available
+            fetch(`/api/user/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.email) {
+                        document.getElementById('email').value = data.email;
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>
