@@ -616,19 +616,19 @@ app.get('/admin', (req, res) => {
 // Admin dashboard route (protected)
 app.get('/admin/dashboard', (req, res) => {
     const token = req.query.token || req.headers.authorization?.replace('Bearer ', '');
-    
+
     if (!token) {
-        return res.status(401).json({ error: 'No token provided' });
+        return res.redirect('/admin');
     }
-    
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin-secret-key');
         if (decoded.role !== 'admin') {
-            return res.status(403).json({ error: 'Access denied' });
+            return res.redirect('/admin');
         }
         res.sendFile(require('path').join(__dirname, 'public', 'admin.html'));
     } catch (error) {
-        res.status(401).json({ error: 'Invalid token' });
+        res.redirect('/admin');
     }
 });
 
@@ -691,33 +691,31 @@ function verifyAdminToken(req, res, next) {
 }
 
 // Admin API endpoints
-app.get('/api/admin/analytics', verifyAdminToken, (req, res) => {
-    db.all("SELECT COUNT(*) as total FROM users", (err, users) => {
-        if (err) {
-            return res.status(500).json({ success: false, error: err.message });
-        }
-
-        db.all("SELECT COUNT(*) as total FROM users WHERE is_pro = 1", (err, proUsers) => {
-            if (err) {
-                return res.status(500).json({ success: false, error: err.message });
-            }
-
-            db.all("SELECT COUNT(*) as total FROM payments WHERE status = 'completed'", (err, payments) => {
-                if (err) {
-                    return res.status(500).json({ success: false, error: err.message });
-                }
-
-                res.json({
-                    success: true,
-                    analytics: {
-                        total_users: users[0].total,
-                        pro_users: proUsers[0].total,
-                        total_payments: payments[0].total
-                    }
-                });
+app.get('/api/admin/analytics', verifyAdminToken, async (req, res) => {
+    try {
+        const analytics = await new Promise((resolve, reject) => {
+            db.all(`
+                SELECT
+                    COUNT(*) as total_users,
+                    SUM(CASE WHEN is_pro = 1 THEN 1 ELSE 0 END) as pro_users,
+                    SUM(CASE WHEN is_trial = 1 THEN 1 ELSE 0 END) as trial_users,
+                    SUM(CASE WHEN plan = 'pro_monthly' THEN 1 ELSE 0 END) as monthly_users,
+                    SUM(CASE WHEN plan = 'pro_yearly' THEN 1 ELSE 0 END) as yearly_users
+                FROM users
+            `, (err, row) => {
+                if (err) reject(err);
+                else resolve(row[0]);
             });
         });
-    });
+
+        res.json({
+            success: true,
+            analytics: analytics
+        });
+    } catch (error) {
+        console.error('Get analytics error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
 });
 
 app.get('/api/admin/users', verifyAdminToken, (req, res) => {
