@@ -21,12 +21,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Home route
+// Home route - New landing page
 app.get('/', (req, res) => {
     try {
-        res.sendFile(require('path').join(__dirname, 'public', 'index.html'));
+        res.sendFile(require('path').join(__dirname, 'public', 'landing.html'));
     } catch (error) {
-        console.error('Error serving index.html:', error);
+        console.error('Error serving landing.html:', error);
+        res.status(500).send('Error loading page');
+    }
+});
+
+// Download route
+app.get('/download', (req, res) => {
+    try {
+        res.sendFile(require('path').join(__dirname, 'public', 'download.html'));
+    } catch (error) {
+        console.error('Error serving download.html:', error);
         res.status(500).send('Error loading page');
     }
 });
@@ -296,12 +306,12 @@ app.post('/api/create-license', async (req, res) => {
 app.post('/api/payment/bank-transfer', async (req, res) => {
     try {
         const { userId, plan, amount, paymentCode, userInfo } = req.body;
-        
+
         // Validate required fields
         if (!userId || !plan || !amount || !paymentCode || !userInfo) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Missing required fields' 
+            return res.status(400).json({
+                success: false,
+                error: 'Missing required fields'
             });
         }
 
@@ -311,8 +321,8 @@ app.post('/api/payment/bank-transfer', async (req, res) => {
             VALUES (?, ?, ?, ?, 'pending', ?, ?, datetime('now'))
         `, [paymentCode, userId, plan, amount, paymentCode, JSON.stringify(userInfo)]);
 
-        res.json({ 
-            success: true, 
+        res.json({
+            success: true,
             paymentId: paymentCode,
             message: 'Payment code created. Please transfer money and wait for auto verification.',
             bankInfo: {
@@ -336,16 +346,16 @@ app.post('/api/payment/bank-transfer', async (req, res) => {
  */
 app.get('/api/payment/check/:paymentCode', (req, res) => {
     const { paymentCode } = req.params;
-    
+
     db.get('SELECT * FROM payments WHERE id = ?', [paymentCode], (err, row) => {
         if (err) {
             return res.status(500).json({ error: 'Database error' });
         }
-        
+
         if (!row) {
             return res.status(404).json({ error: 'Payment not found' });
         }
-        
+
         res.json({
             status: row.status,
             paymentId: row.id,

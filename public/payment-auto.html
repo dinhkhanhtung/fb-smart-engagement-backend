@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,23 +13,27 @@
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .card {
             border: none;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
+
         .btn-primary {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
             border-radius: 10px;
             padding: 12px 30px;
         }
+
         .bank-info {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
         }
+
         .copy-btn {
             background: #28a745;
             color: white;
@@ -37,6 +42,7 @@
             padding: 5px 10px;
             cursor: pointer;
         }
+
         .payment-code {
             background: linear-gradient(45deg, #ff6b6b, #feca57);
             color: white;
@@ -47,16 +53,19 @@
             font-weight: bold;
             letter-spacing: 2px;
         }
+
         .status-checking {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
             color: #856404;
         }
+
         .status-success {
             background: #d4edda;
             border: 1px solid #c3e6cb;
             color: #155724;
         }
+
         .status-error {
             background: #f8d7da;
             border: 1px solid #f5c6cb;
@@ -64,6 +73,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container py-5">
         <!-- Admin Login Button -->
@@ -72,7 +82,7 @@
                 <i class="fas fa-cog me-2"></i>Admin Login
             </a>
         </div>
-        
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -126,7 +136,7 @@
                                 <label class="form-label">Số điện thoại</label>
                                 <input type="tel" class="form-control" id="phone" required>
                             </div>
-                            
+
                             <button class="btn btn-primary w-100" onclick="generatePaymentCode()">
                                 <i class="fas fa-barcode me-2"></i>Tạo mã thanh toán
                             </button>
@@ -135,7 +145,7 @@
                         <!-- Bank Transfer Info -->
                         <div id="bank-info" style="display: none;">
                             <h4>Thông tin chuyển khoản</h4>
-                            
+
                             <!-- Payment Code -->
                             <div class="payment-code mb-4">
                                 <i class="fas fa-barcode me-2"></i>
@@ -150,12 +160,14 @@
                                     <div class="col-md-6">
                                         <strong>Số tài khoản:</strong>
                                         <span id="account-number">0982581222</span>
-                                        <button class="copy-btn ms-2" onclick="copyToClipboard('account-number')">Copy</button>
+                                        <button class="copy-btn ms-2"
+                                            onclick="copyToClipboard('account-number')">Copy</button>
                                     </div>
                                     <div class="col-md-6">
                                         <strong>Tên chủ tài khoản:</strong>
                                         <span id="account-name">Đinh Khánh Tùng</span>
-                                        <button class="copy-btn ms-2" onclick="copyToClipboard('account-name')">Copy</button>
+                                        <button class="copy-btn ms-2"
+                                            onclick="copyToClipboard('account-name')">Copy</button>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -233,15 +245,15 @@
         function selectPlan(plan, amount) {
             selectedPlan = plan;
             selectedAmount = amount;
-            
+
             // Remove active class from all cards
             document.querySelectorAll('.plan-card').forEach(card => {
                 card.classList.remove('border-primary');
             });
-            
+
             // Add active class to selected card
             event.currentTarget.classList.add('border-primary');
-            
+
             // Show payment form
             document.getElementById('payment-form').style.display = 'block';
         }
@@ -250,7 +262,7 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
-            
+
             if (!name || !email || !phone) {
                 alert('Vui lòng điền đầy đủ thông tin');
                 return;
@@ -259,19 +271,19 @@
             try {
                 // Generate payment code
                 paymentId = 'FB' + Date.now();
-                
+
                 // Update display
                 document.getElementById('payment-code').textContent = paymentId;
                 document.getElementById('amount').textContent = selectedAmount.toLocaleString() + '₫';
                 document.getElementById('content').textContent = `FBENGAGE ${paymentId}`;
-                
+
                 // Show bank info
                 document.getElementById('payment-form').style.display = 'none';
                 document.getElementById('bank-info').style.display = 'block';
-                
+
                 // Start auto checking
                 startAutoCheck();
-                
+
                 // Create payment record
                 await fetch('/api/payment/bank-transfer', {
                     method: 'POST',
@@ -299,26 +311,26 @@
         function startAutoCheck() {
             let attempts = 0;
             const maxAttempts = 20; // 20 attempts = 10 minutes
-            
+
             checkInterval = setInterval(async () => {
                 attempts++;
-                
+
                 try {
                     const response = await fetch(`/api/payment/check/${paymentId}`);
                     const result = await response.json();
-                    
+
                     if (result.status === 'paid') {
                         // Payment confirmed
                         clearInterval(checkInterval);
                         document.getElementById('status-check').className = 'alert status-success';
                         document.getElementById('status-text').innerHTML = '<i class="fas fa-check me-2"></i>Thanh toán đã được xác nhận!';
-                        
+
                         // Show success message
                         setTimeout(() => {
                             document.getElementById('bank-info').style.display = 'none';
                             document.getElementById('success-message').style.display = 'block';
                         }, 2000);
-                        
+
                     } else if (attempts >= maxAttempts) {
                         // Timeout
                         clearInterval(checkInterval);
@@ -328,7 +340,7 @@
                         // Still checking
                         document.getElementById('status-text').textContent = `Đang kiểm tra thanh toán... (${attempts}/${maxAttempts})`;
                     }
-                    
+
                 } catch (error) {
                     console.error('Check payment error:', error);
                 }
@@ -344,4 +356,5 @@
         }
     </script>
 </body>
+
 </html>
