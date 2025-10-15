@@ -308,7 +308,7 @@
         if (!token) {
             window.location.href = '/admin';
         }
-        
+
         // Global variables
         let currentSection = 'dashboard';
         let users = [];
@@ -320,7 +320,7 @@
             localStorage.removeItem('adminToken');
             window.location.href = '/admin';
         }
-        
+
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function () {
             loadDashboard();

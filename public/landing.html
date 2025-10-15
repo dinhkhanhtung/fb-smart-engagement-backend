@@ -349,7 +349,7 @@
                                 </ul>
                             </div>
 
-                            <a href="/payment" class="btn-upgrade w-100">Chọn Tháng</a>
+                            <a href="/payment?plan=monthly" class="btn-upgrade w-100">Mua Ngay - 99,000₫</a>
                         </div>
                     </div>
                 </div>
@@ -374,7 +374,7 @@
                                 </ul>
                             </div>
 
-                            <a href="/payment" class="btn-upgrade w-100">Chọn Năm</a>
+                            <a href="/payment?plan=yearly" class="btn-upgrade w-100">Mua Ngay - 990,000₫</a>
                         </div>
                     </div>
                 </div>
@@ -401,7 +401,7 @@
                                 </ul>
                             </div>
 
-                            <a href="/payment" class="btn-upgrade w-100">Chọn Trọn Đời</a>
+                            <a href="/payment?plan=lifetime" class="btn-upgrade w-100">Mua Ngay - 1,990,000₫</a>
                         </div>
                     </div>
                 </div>
@@ -508,6 +508,10 @@
                     <p>© 2025 AppX. All rights reserved.</p>
                     <p>Liên hệ: <a href="https://www.facebook.com/dinhkhanhtung" class="text-white">Facebook</a> | Zalo:
                         0982581222</p>
+                    <p class="small text-muted">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        Admin: <a href="/?admin=true" class="text-light">Truy cập quản trị</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -515,26 +519,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Admin access - Triple click to show admin button
-        let clickCount = 0;
-        let clickTimer = null;
-
-        document.addEventListener('click', function (e) {
-            clickCount++;
-
-            if (clickTimer) {
-                clearTimeout(clickTimer);
-            }
-
-            if (clickCount === 3) {
-                document.getElementById('admin-btn').style.display = 'block';
-                clickCount = 0;
-            } else {
-                clickTimer = setTimeout(() => {
-                    clickCount = 0;
-                }, 1000);
-            }
-        });
+        // Check for admin access via URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('admin') === 'true') {
+            document.getElementById('admin-btn').style.display = 'block';
+        }
     </script>
 </body>
 

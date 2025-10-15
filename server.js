@@ -603,11 +603,11 @@ app.get('/admin', (req, res) => {
 // Admin dashboard route (protected)
 app.get('/admin/dashboard', (req, res) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
-    
+
     if (!token) {
         return res.status(401).json({ error: 'No token provided' });
     }
-    
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin-secret-key');
         if (decoded.role !== 'admin') {
@@ -622,26 +622,26 @@ app.get('/admin/dashboard', (req, res) => {
 // Admin login API
 app.post('/api/admin/login', async (req, res) => {
     const { email, password } = req.body;
-    
+
     const adminEmail = process.env.ADMIN_EMAIL || 'dinhkhanhtung@outlook.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin123456';
-    
+
     if (email === adminEmail && password === adminPassword) {
         const token = jwt.sign(
             { email, role: 'admin' },
             process.env.JWT_SECRET || 'admin-secret-key',
             { expiresIn: '24h' }
         );
-        
-        res.json({ 
-            success: true, 
+
+        res.json({
+            success: true,
             token,
-            message: 'Login successful' 
+            message: 'Login successful'
         });
     } else {
-        res.status(401).json({ 
-            success: false, 
-            message: 'Invalid credentials' 
+        res.status(401).json({
+            success: false,
+            message: 'Invalid credentials'
         });
     }
 });
@@ -649,11 +649,11 @@ app.post('/api/admin/login', async (req, res) => {
 // Middleware to verify admin token
 function verifyAdminToken(req, res, next) {
     const token = req.headers.authorization?.replace('Bearer ', '');
-    
+
     if (!token) {
         return res.status(401).json({ error: 'No token provided' });
     }
-    
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'admin-secret-key');
         if (decoded.role !== 'admin') {
@@ -672,17 +672,17 @@ app.get('/api/admin/analytics', verifyAdminToken, (req, res) => {
         if (err) {
             return res.status(500).json({ success: false, error: err.message });
         }
-        
+
         db.all("SELECT COUNT(*) as total FROM users WHERE is_pro = 1", (err, proUsers) => {
             if (err) {
                 return res.status(500).json({ success: false, error: err.message });
             }
-            
+
             db.all("SELECT COUNT(*) as total FROM payments WHERE status = 'completed'", (err, payments) => {
                 if (err) {
                     return res.status(500).json({ success: false, error: err.message });
                 }
-                
+
                 res.json({
                     success: true,
                     analytics: {

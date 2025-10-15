@@ -36,13 +36,13 @@
             "dest": "server.js"
         }
     ],
-              "env": {
-                "NODE_ENV": "production",
-                "BANK_ACCOUNT": "0982581222",
-                "BANK_NAME": "Đinh Khánh Tùng",
-                "BANK_BRANCH": "BIDV",
-                "ADMIN_EMAIL": "dinhkhanhtung@outlook.com",
-                "ADMIN_PASSWORD": "admin123456",
-                "JWT_SECRET": "fb-smart-engagement-pro-admin-secret-key-2024"
-              }
+    "env": {
+        "NODE_ENV": "production",
+        "BANK_ACCOUNT": "0982581222",
+        "BANK_NAME": "Đinh Khánh Tùng",
+        "BANK_BRANCH": "BIDV",
+        "ADMIN_EMAIL": "dinhkhanhtung@outlook.com",
+        "ADMIN_PASSWORD": "admin123456",
+        "JWT_SECRET": "fb-smart-engagement-pro-admin-secret-key-2024"
+    }
 }

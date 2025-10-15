@@ -241,6 +241,20 @@
         let selectedAmount = 0;
         let paymentId = null;
         let checkInterval = null;
+        
+        // Get plan from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const plan = urlParams.get('plan');
+        if (plan) {
+            const planAmounts = {
+                'monthly': 99000,
+                'yearly': 990000,
+                'lifetime': 1990000
+            };
+            if (planAmounts[plan]) {
+                selectPlan(plan, planAmounts[plan]);
+            }
+        }
 
         function selectPlan(plan, amount) {
             selectedPlan = plan;
