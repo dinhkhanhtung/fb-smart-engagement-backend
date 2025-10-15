@@ -1,38 +1,43 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "server.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "server.js"
-        },
-        {
-            "src": "/admin",
-            "dest": "server.js"
-        },
-        {
-            "src": "/test",
-            "dest": "server.js"
-        },
-        {
-            "src": "/test-html",
-            "dest": "server.js"
-        },
-        {
-            "src": "/payment",
-            "dest": "server.js"
-        },
-        {
-            "src": "/",
-            "dest": "server.js"
-        }
-    ],
-    "env": {
-        "NODE_ENV": "production"
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
     }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "src": "/admin",
+      "dest": "server.js"
+    },
+    {
+      "src": "/test",
+      "dest": "server.js"
+    },
+    {
+      "src": "/test-html",
+      "dest": "server.js"
+    },
+    {
+      "src": "/payment",
+      "dest": "server.js"
+    },
+    {
+      "src": "/",
+      "dest": "server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "BANK_ACCOUNT": "0982581222",
+    "BANK_NAME": "Đinh Khánh Tùng",
+    "BANK_BRANCH": "BIDV",
+    "ADMIN_EMAIL": "dinhkhanhtung@outlook.com",
+    "ADMIN_PASSWORD": "admin123456"
+  }
 }

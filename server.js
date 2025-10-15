@@ -23,12 +23,22 @@ app.use(express.static('public'));
 
 // Home route
 app.get('/', (req, res) => {
-    res.sendFile(require('path').join(__dirname, 'public', 'index.html'));
+    try {
+        res.sendFile(require('path').join(__dirname, 'public', 'index.html'));
+    } catch (error) {
+        console.error('Error serving index.html:', error);
+        res.status(500).send('Error loading page');
+    }
 });
 
 // Test route
 app.get('/test', (req, res) => {
-    res.json({ message: 'Server is working!', timestamp: new Date().toISOString() });
+    res.json({ 
+        message: 'Server is working!', 
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+        port: process.env.PORT || 3000
+    });
 });
 
 // Test HTML route
@@ -41,8 +51,8 @@ app.get('/payment', (req, res) => {
     res.sendFile(require('path').join(__dirname, 'public', 'payment-vietnam.html'));
 });
 
-// Database setup
-const db = new sqlite3.Database('database.db');
+// Database setup - Use in-memory database for Vercel
+const db = new sqlite3.Database(':memory:');
 
 // Initialize database
 db.serialize(() => {
@@ -557,9 +567,17 @@ app.get('/admin', (req, res) => {
     res.sendFile(require('path').join(__dirname, 'public', 'admin.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`FB Smart Engagement Pro Backend running on port ${PORT}`);
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Server error:', err);
+    res.status(500).json({ error: 'Internal server error' });
 });
+
+// Start server
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`FB Smart Engagement Pro Backend running on port ${PORT}`);
+    });
+}
 
 module.exports = app;
