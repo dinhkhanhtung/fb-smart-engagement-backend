@@ -18,6 +18,15 @@ class PaymentController {
             console.log('Payment request body:', req.body);
             const { plan, amount, paymentCode, customerName, customerEmail, customerPhone } = req.body;
             
+            // Map frontend plan to backend plan
+            const planMapping = {
+                'monthly': 'pro_monthly',
+                'yearly': 'pro_yearly', 
+                'lifetime': 'pro_yearly' // Treat lifetime as yearly for now
+            };
+            
+            const mappedPlan = planMapping[plan] || plan;
+            
             // Create user info object
             const userInfo = {
                 name: customerName,
@@ -28,13 +37,13 @@ class PaymentController {
             // Generate a temporary userId for this payment
             const userId = `temp_${Date.now()}`;
 
-            console.log('Creating payment with:', { paymentCode, userId, plan, amount, userInfo });
+            console.log('Creating payment with:', { paymentCode, userId, plan: mappedPlan, amount, userInfo });
 
             // Create payment record
             await Payment.create({
                 paymentId: paymentCode,
                 userId,
-                plan,
+                plan: mappedPlan,
                 amount,
                 userInfo
             });

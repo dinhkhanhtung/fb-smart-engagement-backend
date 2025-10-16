@@ -73,7 +73,7 @@ const validatePayment = (req, res, next) => {
     }
 
     // Validate plan
-    const validPlans = ['pro_monthly', 'pro_yearly'];
+    const validPlans = ['monthly', 'yearly', 'lifetime', 'pro_monthly', 'pro_yearly'];
     if (!validPlans.includes(plan)) {
         return res.status(400).json({
             success: false,
