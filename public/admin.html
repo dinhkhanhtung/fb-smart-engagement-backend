@@ -965,7 +965,7 @@
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    
+
                     if (response.status === 401) {
                         console.log('Token expired, redirecting to login');
                         localStorage.removeItem('adminToken');
@@ -999,7 +999,7 @@
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    
+
                     if (response.status === 401) {
                         console.log('Token expired during auto-refresh, redirecting to login');
                         localStorage.removeItem('adminToken');
@@ -1011,7 +1011,7 @@
             }, 10 * 60 * 1000); // 10 minutes
 
             // Handle page visibility change (when user comes back to tab)
-            document.addEventListener('visibilitychange', async function() {
+            document.addEventListener('visibilitychange', async function () {
                 if (!document.hidden && token) {
                     console.log('Page became visible, checking token validity');
                     const isValid = await verifyToken();
@@ -1023,36 +1023,77 @@
 
             // Initialize dashboard with token verification
             document.addEventListener('DOMContentLoaded', async function () {
+                console.log('DOM Content Loaded');
+                
                 // Verify token first
                 const isValid = await verifyToken();
                 if (!isValid) {
                     return; // Will redirect to login
                 }
                 
+                // Test navigation elements
+                console.log('Testing navigation elements...');
+                const navLinks = document.querySelectorAll('.nav-link');
+                console.log('Found nav links:', navLinks.length);
+                
                 // Load dashboard data
                 loadDashboard();
                 loadUsers();
                 loadPayments();
                 loadLicenses();
+                
+                console.log('Dashboard initialization completed');
             });
 
-            // Navigation
+            // Navigation with error handling
             function showSection(section) {
-                // Hide all sections
-                document.querySelectorAll('[id$="-section"]').forEach(el => {
-                    el.style.display = 'none';
-                });
+                try {
+                    console.log('Switching to section:', section);
+                    
+                    // Hide all sections
+                    document.querySelectorAll('[id$="-section"]').forEach(el => {
+                        el.style.display = 'none';
+                    });
 
-                // Show selected section
-                document.getElementById(section + '-section').style.display = 'block';
+                    // Show selected section
+                    const targetSection = document.getElementById(section + '-section');
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                        console.log('Section displayed:', section);
+                    } else {
+                        console.error('Section not found:', section + '-section');
+                        return;
+                    }
 
-                // Update nav links
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-                event.target.classList.add('active');
+                    // Update nav links
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Find and activate the correct nav link
+                    const activeLink = document.querySelector(`[onclick="showSection('${section}')"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
 
-                currentSection = section;
+                    currentSection = section;
+                    console.log('Navigation completed for:', section);
+                    
+                    // Reload data for specific sections
+                    if (section === 'users') {
+                        loadUsers();
+                    } else if (section === 'payments') {
+                        loadPayments();
+                    } else if (section === 'licenses') {
+                        loadLicenses();
+                    } else if (section === 'dashboard') {
+                        loadDashboard();
+                    }
+                    
+                } catch (error) {
+                    console.error('Navigation error:', error);
+                    showToast('Lỗi chuyển trang: ' + error.message, 'error');
+                }
             }
 
             // Dashboard functions
@@ -1147,19 +1188,28 @@
             // Payment functions
             async function loadPayments() {
                 try {
+                    console.log('Loading payments with token:', token);
                     const response = await fetch('/api/admin/payments', {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
                     });
+                    
+                    console.log('Payments response status:', response.status);
                     const data = await response.json();
+                    console.log('Payments response data:', data);
 
                     if (data.success) {
-                        payments = data.payments;
+                        payments = data.payments || [];
+                        console.log('Loaded payments:', payments.length);
                         renderPaymentsTable();
+                    } else {
+                        console.error('Payments API error:', data.error);
+                        showToast('Lỗi tải payments: ' + data.error, 'error');
                     }
                 } catch (error) {
                     console.error('Error loading payments:', error);
+                    showToast('Lỗi kết nối payments: ' + error.message, 'error');
                 }
             }
 
@@ -1167,26 +1217,78 @@
                 const tbody = document.getElementById('payments-table');
                 tbody.innerHTML = '';
 
+                console.log('Rendering payments table with', payments.length, 'payments');
+
+                if (payments.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center">Không có payment nào</td></tr>';
+                    return;
+                }
+
                 payments.forEach(payment => {
+                    console.log('Rendering payment:', payment);
                     const row = document.createElement('tr');
+                    
+                    // Extract customer info from userInfo
+                    let customerInfo = 'N/A';
+                    if (payment.userInfo) {
+                        const userInfo = typeof payment.userInfo === 'string' ? JSON.parse(payment.userInfo) : payment.userInfo;
+                        customerInfo = `${userInfo.name || 'N/A'}<br><small>${userInfo.email || 'N/A'}</small>`;
+                    }
+                    
                     row.innerHTML = `
+                    <td><strong>${payment.paymentId || payment.id}</strong></td>
                     <td>${payment.user_id}</td>
-                    <td>$${(payment.amount / 100).toFixed(2)}</td>
-                    <td>${payment.plan}</td>
+                    <td>${customerInfo}</td>
+                    <td><span class="badge badge-info">$${(payment.amount / 100).toFixed(2)}</span></td>
+                    <td><span class="badge badge-secondary">${payment.plan}</span></td>
                     <td>
-                        <span class="badge ${payment.status === 'completed' ? 'bg-success' : 'bg-warning'}">
+                        <span class="badge ${payment.status === 'completed' ? 'badge-success' : payment.status === 'pending' ? 'badge-warning' : 'badge-danger'}">
                             ${payment.status}
                         </span>
                     </td>
-                    <td>${new Date(payment.created_at).toLocaleDateString()}</td>
+                    <td><small>${new Date(payment.created_at).toLocaleDateString()}</small></td>
                     <td>
-                        <button class="btn btn-sm btn-info btn-action" onclick="viewPayment('${payment.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-primary btn-action" onclick="viewPayment('${payment.id}')" title="Xem chi tiết">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success btn-action" onclick="approvePayment('${payment.id}')" title="Duyệt payment" style="background: linear-gradient(45deg, #28a745, #20c997);">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
                     tbody.appendChild(row);
                 });
+            }
+
+            // Payment approval function
+            async function approvePayment(paymentId) {
+                try {
+                    console.log('Approving payment:', paymentId);
+                    const response = await fetch(`/api/admin/payments/${paymentId}/approve`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    console.log('Approval response:', data);
+                    
+                    if (data.success) {
+                        showToast('Payment đã được duyệt thành công!', 'success');
+                        loadPayments(); // Reload payments
+                        loadUsers(); // Reload users
+                        loadDashboard(); // Reload dashboard
+                    } else {
+                        showToast('Lỗi duyệt payment: ' + data.error, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error approving payment:', error);
+                    showToast('Lỗi kết nối: ' + error.message, 'error');
+                }
             }
 
             // License functions
