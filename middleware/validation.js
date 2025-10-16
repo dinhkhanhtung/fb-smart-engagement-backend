@@ -61,9 +61,9 @@ const validateLicenseValidation = (req, res, next) => {
  * Validate payment data
  */
 const validatePayment = (req, res, next) => {
-    const { userId, plan, amount, paymentCode, userInfo } = req.body;
+    const { plan, amount, paymentCode, customerName, customerEmail, customerPhone } = req.body;
 
-    if (!userId || !plan || !amount || !paymentCode || !userInfo) {
+    if (!plan || !amount || !paymentCode || !customerName || !customerEmail || !customerPhone) {
         return res.status(400).json({
             success: false,
             error: 'Missing required fields'

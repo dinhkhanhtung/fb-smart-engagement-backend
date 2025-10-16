@@ -1101,7 +1101,7 @@
             currentPaymentCode = paymentCode;
 
             try {
-                const response = await fetch('/api/payment/bank-transfer', {
+                const response = await fetch('/api/payments/bank-transfer', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

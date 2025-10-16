@@ -15,8 +15,17 @@ class PaymentController {
      */
     async createBankTransfer(req, res) {
         try {
-            const { userId, plan, amount, userInfo } = req.body;
-            const paymentCode = generatePaymentCode();
+            const { plan, amount, paymentCode, customerName, customerEmail, customerPhone } = req.body;
+            
+            // Create user info object
+            const userInfo = {
+                name: customerName,
+                email: customerEmail,
+                phone: customerPhone
+            };
+
+            // Generate a temporary userId for this payment
+            const userId = `temp_${Date.now()}`;
 
             // Create payment record
             await Payment.create({
