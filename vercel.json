@@ -16,7 +16,7 @@
             "dest": "server.js"
         },
         {
-            "src": "/admin/(.*)",
+            "src": "/admin/verify-payment",
             "dest": "server.js"
         },
         {
@@ -35,10 +35,7 @@
             "src": "/download",
             "dest": "server.js"
         },
-        {
-            "src": "/download/(.*)",
-            "dest": "server.js"
-        },
+
         {
             "src": "/",
             "dest": "server.js"
