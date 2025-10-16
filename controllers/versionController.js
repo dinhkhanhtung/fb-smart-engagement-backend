@@ -46,11 +46,11 @@ class VersionController {
     async checkUserVersion(req, res) {
         try {
             const { user_version, user_id } = req.body;
-            
+
             if (!user_version) {
-                return res.status(400).json({ 
-                    success: false, 
-                    error: 'User version is required' 
+                return res.status(400).json({
+                    success: false,
+                    error: 'User version is required'
                 });
             }
 
@@ -83,15 +83,15 @@ class VersionController {
     compareVersions(version1, version2) {
         const v1parts = version1.split('.').map(Number);
         const v2parts = version2.split('.').map(Number);
-        
+
         for (let i = 0; i < Math.max(v1parts.length, v2parts.length); i++) {
             const v1part = v1parts[i] || 0;
             const v2part = v2parts[i] || 0;
-            
+
             if (v1part < v2part) return -1;
             if (v1part > v2part) return 1;
         }
-        
+
         return 0;
     }
 
@@ -149,7 +149,7 @@ class VersionController {
     async sendUpdateNotification(req, res) {
         try {
             const { version, message, target_users } = req.body;
-            
+
             // Simulate sending notifications
             const notification = {
                 version,
@@ -161,10 +161,10 @@ class VersionController {
 
             console.log(`Update notification sent for version ${version}:`, notification);
 
-            res.json({ 
-                success: true, 
+            res.json({
+                success: true,
                 message: 'Update notification sent successfully',
-                notification 
+                notification
             });
         } catch (error) {
             console.error('Send update notification error:', error);
