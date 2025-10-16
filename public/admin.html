@@ -618,23 +618,24 @@
 
         /* Mobile Responsive Design */
         @media (max-width: 768px) {
+
             /* Top Navigation Mobile */
             .top-navbar {
                 padding: 0.75rem 1rem;
             }
-            
+
             .navbar-brand {
                 font-size: 1rem;
             }
-            
+
             .navbar-actions {
                 gap: 0.5rem;
             }
-            
+
             .user-profile span {
                 display: none;
             }
-            
+
             /* Sidebar Mobile */
             .sidebar {
                 position: fixed;
@@ -647,160 +648,161 @@
                 background: #ffffff;
                 box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             }
-            
+
             .sidebar.show {
                 left: 0;
             }
-            
+
             .sidebar-header {
                 padding: 1rem;
                 border-bottom: 1px solid #e9ecef;
             }
-            
+
             .sidebar-title {
                 font-size: 1.1rem;
                 margin: 0;
             }
-            
+
             .sidebar-nav {
                 padding: 1rem 0;
             }
-            
+
             .sidebar-nav .nav-link {
                 padding: 0.75rem 1.5rem;
                 font-size: 0.9rem;
             }
-            
+
             /* Main Content Mobile */
             .main-content {
                 margin-left: 0;
                 padding: 1rem;
             }
-            
+
             .page-header {
                 padding: 1rem 0;
                 margin-bottom: 1rem;
             }
-            
+
             .page-title {
                 font-size: 1.5rem;
                 margin-bottom: 0.5rem;
             }
-            
+
             .page-subtitle {
                 font-size: 0.9rem;
             }
-            
+
             /* Stats Cards Mobile */
             .stats-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
                 margin-bottom: 1.5rem;
             }
-            
+
             .stat-card {
                 padding: 1.5rem;
                 text-align: center;
             }
-            
+
             .stat-icon {
                 font-size: 2rem;
                 margin-bottom: 1rem;
             }
-            
+
             .stat-value {
                 font-size: 2rem;
                 margin-bottom: 0.5rem;
             }
-            
+
             .stat-label {
                 font-size: 0.9rem;
             }
-            
+
             /* Charts Mobile */
             .chart-card {
                 margin-bottom: 1.5rem;
             }
-            
+
             .chart-header {
                 padding: 1rem;
             }
-            
+
             .chart-title {
                 font-size: 1.1rem;
             }
-            
+
             .chart-body {
                 padding: 1rem;
             }
-            
+
             /* Tables Mobile */
             .table-card {
                 margin-bottom: 1.5rem;
                 overflow-x: auto;
             }
-            
+
             .table-header {
                 padding: 1rem;
             }
-            
+
             .table-title {
                 font-size: 1.1rem;
             }
-            
+
             .table-responsive {
                 font-size: 0.85rem;
             }
-            
+
             .table th,
             .table td {
                 padding: 0.5rem;
                 white-space: nowrap;
             }
-            
+
             .btn-action {
                 padding: 0.25rem 0.5rem;
                 font-size: 0.75rem;
             }
-            
+
             /* Modal Mobile */
             .modal-dialog {
                 margin: 0.5rem;
                 max-width: calc(100% - 1rem);
             }
-            
+
             .modal-content {
                 border-radius: 0.5rem;
             }
-            
+
             .modal-header {
                 padding: 1rem;
             }
-            
+
             .modal-body {
                 padding: 1rem;
             }
-            
+
             .modal-footer {
                 padding: 1rem;
             }
-            
+
             /* Forms Mobile */
             .form-control {
-                font-size: 16px; /* Prevent zoom on iOS */
+                font-size: 16px;
+                /* Prevent zoom on iOS */
                 padding: 0.75rem;
             }
-            
+
             .form-label {
                 font-size: 0.9rem;
                 margin-bottom: 0.5rem;
             }
-            
+
             .btn {
                 padding: 0.75rem 1rem;
                 font-size: 0.9rem;
             }
-            
+
             /* Mobile Menu Toggle */
             .mobile-menu-toggle {
                 display: block;
@@ -816,11 +818,11 @@
                 font-size: 1.2rem;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             }
-            
+
             .mobile-menu-toggle:hover {
                 background: #166fe5;
             }
-            
+
             /* Overlay for mobile sidebar */
             .sidebar-overlay {
                 position: fixed;
@@ -832,48 +834,48 @@
                 z-index: 999;
                 display: none;
             }
-            
+
             .sidebar-overlay.show {
                 display: block;
             }
         }
-        
+
         /* Extra Small Mobile */
         @media (max-width: 480px) {
             .top-navbar {
                 padding: 0.5rem;
             }
-            
+
             .navbar-brand {
                 font-size: 0.9rem;
             }
-            
+
             .sidebar {
                 width: 100%;
             }
-            
+
             .main-content {
                 padding: 0.5rem;
             }
-            
+
             .page-title {
                 font-size: 1.3rem;
             }
-            
+
             .stat-card {
                 padding: 1rem;
             }
-            
+
             .stat-value {
                 font-size: 1.5rem;
             }
-            
+
             .table th,
             .table td {
                 padding: 0.25rem;
                 font-size: 0.8rem;
             }
-            
+
             .btn-action {
                 padding: 0.2rem 0.4rem;
                 font-size: 0.7rem;
@@ -944,6 +946,12 @@
                         <a class="nav-link" href="#licenses" onclick="showSection('licenses')">
                             <i class="fas fa-key"></i>
                             Licenses
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="#versions" onclick="showSection('versions')">
+                            <i class="fas fa-code-branch"></i>
+                            Versions
                         </a>
                     </div>
                     <div class="nav-item">
@@ -1139,6 +1147,121 @@
                                         </thead>
                                         <tbody id="payments-table">
                                             <!-- Payments will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Versions Section -->
+                    <div id="versions-section" style="display: none;">
+                        <h2 class="mb-4">Version Management</h2>
+
+                        <!-- Current Version Info -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Current Version</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="version-info">
+                                            <h4 class="text-primary">v1.2.0</h4>
+                                            <p class="text-muted">Latest stable release</p>
+                                            <small class="text-success">
+                                                <i class="fas fa-check-circle"></i> Released: 2024-01-15
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="version-stats">
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number text-primary">1,250</div>
+                                                        <small class="text-muted">Users Notified</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number text-success">890</div>
+                                                        <small class="text-muted">Users Updated</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="stat-item">
+                                                        <div class="stat-number text-info">71.2%</div>
+                                                        <small class="text-muted">Update Rate</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Send Update Notification -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Send Update Notification</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="update-notification-form">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label for="notification-version">Version</label>
+                                                <input type="text" class="form-control" id="notification-version" value="1.2.0" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label for="notification-target">Target Users</label>
+                                                <select class="form-control" id="notification-target">
+                                                    <option value="all">All Users</option>
+                                                    <option value="pro">PRO Users Only</option>
+                                                    <option value="trial">Trial Users Only</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="notification-message">Message</label>
+                                        <textarea class="form-control" id="notification-message" rows="3" placeholder="Enter update message...">🚀 Có phiên bản mới! Cập nhật để trải nghiệm tính năng mới:
+- Auto-activation system
+- Mobile responsive design
+- Bug fixes và performance improvements</textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i> Send Notification
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Update History -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Update History</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Version</th>
+                                                <th>Title</th>
+                                                <th>Release Date</th>
+                                                <th>Users Notified</th>
+                                                <th>Users Updated</th>
+                                                <th>Update Rate</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="versions-table">
+                                            <!-- Versions will be loaded here -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -1432,25 +1555,25 @@
             async function loadDashboard() {
                 try {
                     console.log('Loading dashboard with token:', token);
-                    
+
                     // Add timeout to prevent hanging
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-                    
+
                     const response = await fetch('/api/admin/analytics', {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         },
                         signal: controller.signal
                     });
-                    
+
                     clearTimeout(timeoutId);
                     console.log('Dashboard response status:', response.status);
-                    
+
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
-                    
+
                     const data = await response.json();
                     console.log('Dashboard response data:', data);
 
@@ -1480,25 +1603,25 @@
             async function loadUsers() {
                 try {
                     console.log('Loading users with token:', token);
-                    
+
                     // Add timeout to prevent hanging
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-                    
+
                     const response = await fetch('/api/admin/users', {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         },
                         signal: controller.signal
                     });
-                    
+
                     clearTimeout(timeoutId);
                     console.log('Users response status:', response.status);
-                    
+
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
-                    
+
                     const data = await response.json();
                     console.log('Users response data:', data);
 
@@ -2004,26 +2127,26 @@
                     }
                 });
             });
-            
+
             // Mobile Sidebar Functions
-            window.toggleMobileSidebar = function() {
+            window.toggleMobileSidebar = function () {
                 const sidebar = document.querySelector('.sidebar');
                 const overlay = document.querySelector('.sidebar-overlay');
-                
+
                 sidebar.classList.toggle('show');
                 overlay.classList.toggle('show');
             };
-            
-            window.closeMobileSidebar = function() {
+
+            window.closeMobileSidebar = function () {
                 const sidebar = document.querySelector('.sidebar');
                 const overlay = document.querySelector('.sidebar-overlay');
-                
+
                 sidebar.classList.remove('show');
                 overlay.classList.remove('show');
             };
-            
+
             // Close sidebar when clicking on nav links
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (e.target.closest('.sidebar-nav .nav-link')) {
                     closeMobileSidebar();
                 }

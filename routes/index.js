@@ -11,6 +11,7 @@ const userRoutes = require('./userRoutes');
 const licenseRoutes = require('./licenseRoutes');
 const paymentRoutes = require('./paymentRoutes');
 const adminRoutes = require('./adminRoutes');
+const versionRoutes = require('./versionRoutes');
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.use('/api/users', userRoutes);
 router.use('/api/licenses', licenseRoutes);
 router.use('/api/payments', paymentRoutes);
 router.use('/api/admin', adminRoutes);
+router.use('/api/version', versionRoutes);
 
 // Static file routes
 router.get('/', (req, res) => {
