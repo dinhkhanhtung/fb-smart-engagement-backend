@@ -723,8 +723,22 @@
                             <div class="stat-card">
                                 <div class="text-center">
                                     <i class="fas fa-dollar-sign stat-icon"></i>
-                                    <div class="stat-value" id="revenue">$0</div>
-                                    <div class="stat-label">Revenue</div>
+                                    <div class="stat-value" id="revenue">0₫</div>
+                                    <div class="stat-label">Doanh thu</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="text-center">
+                                    <i class="fas fa-shopping-cart stat-icon"></i>
+                                    <div class="stat-value" id="total-orders">0</div>
+                                    <div class="stat-label">Đơn hàng</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="text-center">
+                                    <i class="fas fa-clock stat-icon"></i>
+                                    <div class="stat-value" id="pending-payments">0</div>
+                                    <div class="stat-label">Chờ xử lý</div>
                                 </div>
                             </div>
                         </div>
@@ -789,8 +803,10 @@
                                         <tr>
                                             <th>User ID</th>
                                             <th>Email</th>
+                                            <th>Device ID</th>
                                             <th>Status</th>
                                             <th>Plan</th>
+                                            <th>Last Active</th>
                                             <th>Created</th>
                                             <th>Actions</th>
                                         </tr>
@@ -825,7 +841,9 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Payment ID</th>
                                             <th>User ID</th>
+                                            <th>Customer Info</th>
                                             <th>Amount</th>
                                             <th>Plan</th>
                                             <th>Status</th>
@@ -1178,22 +1196,29 @@
             filteredUsers.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${user.user_id}</td>
+                    <td><strong>${user.user_id}</strong></td>
                     <td>${user.email || 'N/A'}</td>
+                    <td><small>${user.device_id || 'N/A'}</small></td>
                     <td>
                         <span class="badge ${user.is_pro ? 'badge-success' : user.is_trial ? 'badge-warning' : 'badge-secondary'}">
                             ${user.is_pro ? 'PRO' : user.is_trial ? 'Trial' : 'Free'}
                         </span>
                     </td>
-                    <td>${user.plan || 'N/A'}</td>
-                    <td>${new Date(user.created_at).toLocaleDateString()}</td>
+                    <td><span class="badge badge-info">${user.plan || 'N/A'}</span></td>
+                    <td><small>${user.last_active ? new Date(user.last_active).toLocaleDateString() : 'Never'}</small></td>
+                    <td><small>${new Date(user.created_at).toLocaleDateString()}</small></td>
                     <td>
-                        <button class="btn btn-sm btn-primary-custom btn-action" onclick="viewUser('${user.user_id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-warning btn-action" onclick="editUser('${user.user_id}')" style="background: linear-gradient(45deg, #ffd43b, #fab005); color: #212529;">
-                            <i class="fas fa-edit"></i>
-                        </button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-primary-custom btn-action" onclick="viewUser('${user.user_id}')" title="Xem chi tiết">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning btn-action" onclick="editUser('${user.user_id}')" title="Chỉnh sửa" style="background: linear-gradient(45deg, #ffd43b, #fab005); color: #212529;">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success btn-action" onclick="createLicenseForUser('${user.user_id}')" title="Tạo license">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -1267,6 +1292,39 @@
         function createLicense() {
             // Show create license modal
             showToast('Create license modal opened', 'info');
+        }
+
+        function createLicenseForUser(userId) {
+            const plan = prompt('Nhập plan cho user (pro_monthly/pro_yearly):', 'pro_monthly');
+            if (plan && (plan === 'pro_monthly' || plan === 'pro_yearly')) {
+                const expires = prompt('Nhập ngày hết hạn (YYYY-MM-DD):', new Date(Date.now() + 365*24*60*60*1000).toISOString().split('T')[0]);
+                if (expires) {
+                    fetch('/api/licenses/admin/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('adminToken')
+                        },
+                        body: JSON.stringify({
+                            userId: userId,
+                            plan: plan,
+                            expires: expires
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(`License tạo thành công: ${data.licenseKey}`, 'success');
+                            loadUsers();
+                        } else {
+                            showToast('Lỗi tạo license: ' + data.error, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        showToast('Lỗi kết nối: ' + error.message, 'error');
+                    });
+                }
+            }
         }
 
         function editLicense(licenseId) {
