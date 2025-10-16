@@ -874,12 +874,16 @@
                     <div id="licenses-section" style="display: none;">
                         <h2 class="mb-4">License Management</h2>
 
+                        <!-- Auto-Activation Info -->
+                        <div class="alert alert-info mb-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Auto-Activation System:</strong> Licenses are automatically created and activated when payments are approved. Users receive PRO features immediately without manual steps.
+                        </div>
+
                         <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="card-header">
                                 <h5 class="mb-0">All Licenses</h5>
-                                <button class="btn btn-success" onclick="createLicense()">
-                                    <i class="fas fa-plus me-2"></i>Create License
-                                </button>
+                                <small class="text-muted">Licenses are automatically created when payments are approved</small>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -1537,10 +1541,6 @@
                 showToast(`Viewing payment: ${paymentId}`, 'info');
             }
 
-            function createLicense() {
-                // Show create license modal
-                showToast('Create license modal opened', 'info');
-            }
 
             function createLicenseForUser(userId) {
                 const plan = prompt('Nhập plan cho user (pro_monthly/pro_yearly):', 'pro_monthly');
