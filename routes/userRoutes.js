@@ -18,9 +18,7 @@ router.get('/profile/:userId', userController.getProfile);
 // Update user last active
 router.post('/update-active', userController.updateLastActive);
 
-// Admin routes
-router.get('/admin/users', verifyAdminToken, userController.getAllUsers);
-router.get('/admin/analytics', verifyAdminToken, userController.getAnalytics);
+// Admin routes - moved to adminRoutes.js to avoid conflicts
 
 // Extension activation routes
 router.get('/activation-status/:userId', userController.getActivationStatus);

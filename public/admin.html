@@ -1160,13 +1160,25 @@
             async function loadDashboard() {
                 try {
                     console.log('Loading dashboard with token:', token);
+                    
+                    // Add timeout to prevent hanging
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                    
                     const response = await fetch('/api/admin/analytics', {
                         headers: {
                             'Authorization': `Bearer ${token}`
-                        }
+                        },
+                        signal: controller.signal
                     });
-
+                    
+                    clearTimeout(timeoutId);
                     console.log('Dashboard response status:', response.status);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
                     const data = await response.json();
                     console.log('Dashboard response data:', data);
 
@@ -1184,7 +1196,11 @@
                     }
                 } catch (error) {
                     console.error('Error loading dashboard:', error);
-                    showToast('Lỗi kết nối dashboard: ' + error.message, 'error');
+                    if (error.name === 'AbortError') {
+                        showToast('Timeout: Không thể tải dashboard. Vui lòng thử lại.', 'error');
+                    } else {
+                        showToast('Lỗi kết nối dashboard: ' + error.message, 'error');
+                    }
                 }
             }
 
@@ -1192,13 +1208,25 @@
             async function loadUsers() {
                 try {
                     console.log('Loading users with token:', token);
+                    
+                    // Add timeout to prevent hanging
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                    
                     const response = await fetch('/api/admin/users', {
                         headers: {
                             'Authorization': `Bearer ${token}`
-                        }
+                        },
+                        signal: controller.signal
                     });
-
+                    
+                    clearTimeout(timeoutId);
                     console.log('Users response status:', response.status);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
                     const data = await response.json();
                     console.log('Users response data:', data);
 
@@ -1212,7 +1240,11 @@
                     }
                 } catch (error) {
                     console.error('Error loading users:', error);
-                    showToast('Lỗi kết nối users: ' + error.message, 'error');
+                    if (error.name === 'AbortError') {
+                        showToast('Timeout: Không thể tải users. Vui lòng thử lại.', 'error');
+                    } else {
+                        showToast('Lỗi kết nối users: ' + error.message, 'error');
+                    }
                 }
             }
 
