@@ -1,6 +1,3 @@
-# Ignore backend directory (separate repository)
-backend/
-
 # Node modules
 node_modules/
 
