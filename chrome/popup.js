@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setupEventListeners();
         await checkProStatus();
         await checkTrialStatus();
+        await checkForUpdates();
 
         console.log('Popup initialized successfully');
     }
@@ -190,6 +191,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Pro link
         setupProLinkListener();
+
+        // Window resize handler for responsive behavior
+        setupResponsiveHandler();
     }
 
     /**
@@ -199,20 +203,78 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if buttons exist
         const btnSetting = document.getElementById('btn-setting');
         const btnHome = document.getElementById('btn-home');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const backdropOverlay = document.getElementById('backdrop-overlay');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
 
         if (!btnSetting) {
             console.error('btn-setting button not found!');
-            return;
         }
 
         if (!btnHome) {
             console.error('btn-home button not found!');
-            return;
+        }
+
+        if (!hamburgerBtn) {
+            console.error('hamburger-btn button not found!');
+        }
+
+        if (!backdropOverlay) {
+            console.error('backdrop-overlay not found!');
+        }
+
+        if (!mobileSidebar) {
+            console.error('mobile-sidebar not found!');
         }
 
         console.log('Navigation buttons found, setting up listeners...');
 
-        // Settings page navigation
+        // Hamburger menu toggle
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', function () {
+                console.log('Hamburger menu clicked');
+                toggleMobileSidebar();
+            });
+        }
+
+        // Backdrop overlay click to close sidebar
+        if (backdropOverlay) {
+            backdropOverlay.addEventListener('click', function () {
+                console.log('Backdrop clicked');
+                closeMobileSidebar();
+            });
+        }
+
+        // Close sidebar when clicking outside on mobile
+        if (mobileSidebar) {
+            // Add close button to sidebar
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-btn';
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            closeBtn.addEventListener('click', function() {
+                closeMobileSidebar();
+            });
+
+            // Add header to sidebar
+            const sidebarHeader = document.createElement('div');
+            sidebarHeader.className = 'mobile-sidebar-header';
+            sidebarHeader.innerHTML = '<span>Cài đặt</span>';
+            sidebarHeader.appendChild(closeBtn);
+
+            mobileSidebar.insertBefore(sidebarHeader, mobileSidebar.firstChild);
+
+            // Wrap existing content in sidebar-content div
+            const existingContent = mobileSidebar.innerHTML;
+            mobileSidebar.innerHTML = '';
+            mobileSidebar.appendChild(sidebarHeader);
+
+            const sidebarContent = document.createElement('div');
+            sidebarContent.className = 'mobile-sidebar-content';
+            sidebarContent.innerHTML = existingContent.replace(sidebarHeader.outerHTML, '');
+            mobileSidebar.appendChild(sidebarContent);
+        }
+
+        // Settings page navigation (desktop)
         btnSetting.addEventListener('click', function () {
             console.log('Settings button clicked');
             const mainPage = document.querySelector('.main-page');
@@ -379,6 +441,132 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * Thiết lập responsive behavior handler
+     */
+    function setupResponsiveHandler() {
+        let resizeTimeout;
+
+        window.addEventListener('resize', function() {
+            // Debounce resize events
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                handleResponsiveChanges();
+            }, 250);
+        });
+
+        // Initial check
+        handleResponsiveChanges();
+    }
+
+    /**
+     * Handle responsive behavior changes
+     */
+    function handleResponsiveChanges() {
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const backdropOverlay = document.getElementById('backdrop-overlay');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+
+        if (isMobileView()) {
+            // Mobile view - ensure hamburger menu is available
+            if (hamburgerBtn) {
+                hamburgerBtn.style.display = 'block';
+            }
+
+            // Close sidebar if switching from desktop to mobile
+            if (mobileSidebar && mobileSidebar.classList.contains('open')) {
+                // Sidebar was open, keep it open for mobile
+                console.log('Mobile view: keeping sidebar open');
+            }
+        } else {
+            // Desktop view - hide mobile elements and close sidebar
+            if (mobileSidebar && mobileSidebar.classList.contains('open')) {
+                closeMobileSidebar();
+            }
+
+            if (hamburgerBtn) {
+                hamburgerBtn.style.display = 'none';
+            }
+        }
+    }
+
+    // ==================== MOBILE SIDEBAR FUNCTIONS ====================
+
+    /**
+     * Toggle mobile sidebar
+     */
+    function toggleMobileSidebar() {
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const backdropOverlay = document.getElementById('backdrop-overlay');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+
+        if (!mobileSidebar || !backdropOverlay || !hamburgerBtn) {
+            console.error('Mobile sidebar elements not found');
+            return;
+        }
+
+        const isOpen = mobileSidebar.classList.contains('open');
+
+        if (isOpen) {
+            closeMobileSidebar();
+        } else {
+            openMobileSidebar();
+        }
+    }
+
+    /**
+     * Open mobile sidebar
+     */
+    function openMobileSidebar() {
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const backdropOverlay = document.getElementById('backdrop-overlay');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+
+        if (!mobileSidebar || !backdropOverlay || !hamburgerBtn) {
+            console.error('Mobile sidebar elements not found');
+            return;
+        }
+
+        mobileSidebar.classList.add('open');
+        backdropOverlay.classList.add('active');
+        hamburgerBtn.classList.add('active');
+
+        // Prevent body scroll when sidebar is open
+        document.body.style.overflow = 'hidden';
+
+        console.log('Mobile sidebar opened');
+    }
+
+    /**
+     * Close mobile sidebar
+     */
+    function closeMobileSidebar() {
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const backdropOverlay = document.getElementById('backdrop-overlay');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+
+        if (!mobileSidebar || !backdropOverlay || !hamburgerBtn) {
+            console.error('Mobile sidebar elements not found');
+            return;
+        }
+
+        mobileSidebar.classList.remove('open');
+        backdropOverlay.classList.remove('active');
+        hamburgerBtn.classList.remove('active');
+
+        // Restore body scroll
+        document.body.style.overflow = '';
+
+        console.log('Mobile sidebar closed');
+    }
+
+    /**
+     * Check if mobile sidebar should be used (based on screen size)
+     */
+    function isMobileView() {
+        return window.innerWidth <= 768;
+    }
+
     // ==================== USER ID MANAGEMENT ====================
 
     /**
@@ -515,10 +703,98 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // ==================== UPDATE NOTIFICATIONS ====================
+
+    /**
+     * Check for updates
+     */
+    async function checkForUpdates() {
+        try {
+            // Check storage for update info
+            const result = await chrome.storage.local.get([
+                'update_available',
+                'update_required',
+                'current_version',
+                'update_message'
+            ]);
+
+            if (result.update_available || result.update_required) {
+                showUpdateNotification(
+                    result.update_required,
+                    result.update_message || 'Có phiên bản mới!',
+                    result.current_version
+                );
+            }
+        } catch (error) {
+            console.error('Error checking for updates:', error);
+        }
+    }
+
+    /**
+     * Show update notification
+     */
+    function showUpdateNotification(updateRequired, message, currentVersion) {
+        const updateAvailable = document.getElementById('update-available');
+        const updateRequiredDiv = document.getElementById('update-required');
+        const updateMessage = document.getElementById('update-message');
+        const updateRequiredMessage = document.getElementById('update-required-message');
+
+        if (updateRequired) {
+            updateRequiredDiv.style.display = 'block';
+            updateRequiredMessage.textContent = message;
+        } else {
+            updateAvailable.style.display = 'block';
+            updateMessage.textContent = message;
+        }
+    }
+
+    /**
+     * Setup update buttons
+     */
+    function setupUpdateButtons() {
+        const updateBtn = document.getElementById('update-btn');
+        const updateRequiredBtn = document.getElementById('update-required-btn');
+
+        if (updateBtn) {
+            updateBtn.addEventListener('click', () => {
+                openUpdatePage();
+            });
+        }
+
+        if (updateRequiredBtn) {
+            updateRequiredBtn.addEventListener('click', () => {
+                openUpdatePage();
+            });
+        }
+    }
+
+    /**
+     * Open update page
+     */
+    function openUpdatePage() {
+        chrome.tabs.create({
+            url: 'https://fb-smart-engagement-backend.vercel.app/download'
+        });
+    }
+
+    /**
+     * Listen for update messages from background
+     */
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        if (request.type === 'UPDATE_AVAILABLE') {
+            showUpdateNotification(
+                request.update_required,
+                request.message,
+                request.current_version
+            );
+        }
+    });
+
     // Khởi tạo popup
     localizeElements();
     initPopup();
     setupUpgradeButton();
+    setupUpdateButtons();
 
     console.log('Smart Auto Reaction for FB popup script loaded');
 });

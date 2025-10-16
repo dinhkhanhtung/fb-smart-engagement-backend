@@ -29,10 +29,14 @@
                 <i class="fas fa-arrow-left"></i>
             </button>
             <h1 class="text-center" id="title">FB Smart Engagement Pro</h1>
-            <button class="btn btn-light btn-top r-10" id="btn-setting" type="button">
-                <i class="fas fa-cog"></i>
+            <!-- Hamburger Menu Button -->
+            <button class="btn btn-light btn-top r-10 hamburger-btn" id="hamburger-btn" type="button">
+                <i class="fas fa-bars"></i>
             </button>
         </div>
+
+        <!-- Backdrop Overlay -->
+        <div class="backdrop-overlay" id="backdrop-overlay"></div>
 
         <!-- Main Content -->
         <div class="card-body">
@@ -71,6 +75,20 @@
                     <br><button id="upgrade-btn" class="btn btn-primary btn-sm mt-2">Nâng cấp ngay</button>
                 </div>
 
+                <!-- Update Available -->
+                <div id="update-available" class="alert alert-info" style="display: none;">
+                    <strong>🆕 Có phiên bản mới!</strong> <span id="update-message">Cập nhật để trải nghiệm tính năng
+                        mới.</span>
+                    <br><button id="update-btn" class="btn btn-success btn-sm mt-2">Cập nhật ngay</button>
+                </div>
+
+                <!-- Update Required -->
+                <div id="update-required" class="alert alert-danger" style="display: none;">
+                    <strong>🚨 Cập nhật bắt buộc!</strong> <span id="update-required-message">Vui lòng cập nhật để tiếp
+                        tục sử dụng.</span>
+                    <br><button id="update-required-btn" class="btn btn-danger btn-sm mt-2">Cập nhật ngay</button>
+                </div>
+
                 <p class="text-center">
                     Mẹo an toàn: Giữ ít nhất một tab Facebook mở để duy trì ổn định phiên.
                 </p>
@@ -83,8 +101,8 @@
                 </div>
             </div>
 
-            <!-- Settings Page -->
-            <div class="second-page">
+            <!-- Mobile Sidebar Overlay -->
+            <div class="mobile-sidebar" id="mobile-sidebar">
                 <div class="mx-3 my-3 pb-3">
                     <!-- Startup Setting -->
                     <div class="form-check">
@@ -122,6 +140,7 @@
                                 <div class="input-group-text">phút</div>
                             </div>
                         </div>
+                        <!-- End Mobile Sidebar -->
                     </div>
 
                     <!-- Blacklist Setting -->

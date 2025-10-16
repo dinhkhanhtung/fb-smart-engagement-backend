@@ -29,10 +29,14 @@
                 <i class="fas fa-arrow-left"></i>
             </button>
             <h1 class="text-center" id="title">FB Smart Engagement Pro</h1>
-            <button class="btn btn-light btn-top r-10" id="btn-setting" type="button">
-                <i class="fas fa-cog"></i>
+            <!-- Hamburger Menu Button -->
+            <button class="btn btn-light btn-top r-10 hamburger-btn" id="hamburger-btn" type="button">
+                <i class="fas fa-bars"></i>
             </button>
         </div>
+
+        <!-- Backdrop Overlay -->
+        <div class="backdrop-overlay" id="backdrop-overlay"></div>
 
         <!-- Main Content -->
         <div class="card-body">
@@ -83,8 +87,8 @@
                 </div>
             </div>
 
-            <!-- Settings Page -->
-            <div class="second-page">
+            <!-- Mobile Sidebar Overlay -->
+            <div class="mobile-sidebar" id="mobile-sidebar">
                 <div class="mx-3 my-3 pb-3">
                     <!-- Startup Setting -->
                     <div class="form-check">
@@ -122,6 +126,7 @@
                                 <div class="input-group-text">phút</div>
                             </div>
                         </div>
+                        <!-- End Mobile Sidebar -->
                     </div>
 
                     <!-- Blacklist Setting -->

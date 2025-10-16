@@ -1,161 +1,309 @@
-# Smart Auto Reaction for FB - Chrome & Firefox Versions
+# FB Smart Engagement Pro - Complete Project
+
+## 🚀 Project Overview
+
+**FB Smart Engagement Pro** is a comprehensive Facebook auto-reaction system with Chrome/Firefox extensions and a complete backend API. The system includes auto-activation, payment processing, admin dashboard, and seamless user experience.
 
 ## 📁 Project Structure
 
 ```
 Smart Auto Reaction for FB/
-├── chrome/           # Chrome extension version
-│   ├── manifest.json
-│   ├── background.js
-│   ├── popup.html
-│   ├── popup.js
-│   ├── style.css
-│   ├── facebook-uid-finder.html
-│   ├── uid-finder.js
-│   └── polyfill.js
+├── backend/                    # Backend API (Node.js + Express)
+│   ├── config/                # Configuration files
+│   │   ├── database.js        # Database configuration
+│   │   └── index.js           # Main configuration
+│   ├── controllers/           # Business logic controllers
+│   │   ├── adminController.js # Admin operations
+│   │   ├── licenseController.js # License management
+│   │   ├── paymentController.js # Payment processing
+│   │   └── userController.js  # User management
+│   ├── models/                # Database models
+│   │   ├── Analytics.js       # Analytics data
+│   │   ├── License.js         # License management
+│   │   ├── Payment.js         # Payment records
+│   │   └── User.js            # User accounts
+│   ├── routes/                # API routes
+│   │   ├── adminRoutes.js     # Admin endpoints
+│   │   ├── index.js            # Main routes
+│   │   ├── licenseRoutes.js   # License endpoints
+│   │   ├── paymentRoutes.js   # Payment endpoints
+│   │   └── userRoutes.js      # User endpoints
+│   ├── middleware/            # Middleware functions
+│   │   ├── auth.js            # Authentication
+│   │   └── validation.js      # Input validation
+│   ├── utils/                 # Utility functions
+│   │   ├── email.js           # Email service
+│   │   └── helpers.js         # Helper functions
+│   ├── public/                # Static files
+│   │   ├── admin.html         # Admin dashboard
+│   │   ├── index.html         # Landing page
+│   │   ├── download.html      # Download page
+│   │   ├── FB-Smart-Engagement-Pro-Chrome.zip
+│   │   └── FB-Smart-Engagement-Pro-Firefox.zip
+│   ├── server.js              # Main server (MVC architecture)
+│   ├── vercel.json            # Vercel deployment config
+│   └── package.json           # Dependencies
 │
-├── firefox/          # Firefox extension version
-│   ├── manifest.json
-│   ├── background.js
-│   ├── popup.html
-│   ├── popup.js
-│   ├── style.css
-│   ├── facebook-uid-finder.html
-│   ├── uid-finder.js
-│   └── polyfill.js
+├── chrome/                    # Chrome extension
+│   ├── manifest.json          # Extension manifest
+│   ├── background.js          # Background script with auto-activation
+│   ├── popup.html             # Extension popup
+│   ├── popup.js               # Popup functionality
+│   ├── style.css              # Styling
+│   ├── facebook-uid-finder.html # UID finder tool
+│   ├── uid-finder.js          # UID finder logic
+│   └── polyfill.js            # Browser compatibility
 │
-└── README.md
+├── firefox/                   # Firefox extension
+│   ├── manifest.json          # Firefox-specific manifest
+│   ├── background.js          # Background script (same as Chrome)
+│   ├── popup.html             # Extension popup
+│   ├── popup.js               # Popup functionality
+│   ├── style.css              # Styling
+│   ├── facebook-uid-finder.html # UID finder tool
+│   ├── uid-finder.js          # UID finder logic
+│   └── polyfill.js            # Browser compatibility
+│
+└── Tham khảo/                 # Reference files (legacy)
+    ├── background.js          # Legacy background script
+    ├── manifest.json          # Legacy manifest
+    ├── popup.html             # Legacy popup
+    ├── popup.js               # Legacy popup script
+    ├── style.css              # Legacy styling
+    ├── find-facebook-uid.html # Legacy UID finder
+    ├── find-uid.js            # Legacy UID finder
+    ├── polyfill.js            # Legacy polyfill
+    ├── ic/                    # Icon files
+    └── locales/               # Localization files
 ```
 
-## 🌐 Browser Compatibility
+## 🎯 Key Features
 
-### Chrome Version (`chrome/`)
-- **Target**: Google Chrome, Chromium-based browsers
-- **Manifest**: V3 (compatible with Chrome's latest requirements)
-- **APIs**: Uses `chrome.*` namespace
-- **Features**: Full compatibility with Chrome extension APIs
+### 🔄 Auto-Activation System
+- **Seamless Experience**: Users install extension → Create payment → Admin approve → Auto-activate PRO
+- **No Manual Steps**: No license key entry required
+- **Real-time Polling**: Extension checks activation status every 30 seconds
+- **Instant Activation**: PRO features activate immediately after payment approval
 
-### Firefox Version (`firefox/`)
-- **Target**: Mozilla Firefox
-- **Manifest**: V3 with Firefox-specific settings
-- **APIs**: Uses `browser.*` namespace for compatibility
-- **Features**:
-  - Firefox-specific manifest settings (`browser_specific_settings`)
-  - Compatible cookie handling
-  - Cross-browser storage APIs
+### 💳 Payment System
+- **Bank Transfer**: Vietnam bank transfer integration
+- **Payment Tracking**: Real-time payment status monitoring
+- **Admin Approval**: Manual payment verification system
+- **Customer Management**: Complete customer information tracking
 
-## 🚀 Installation Guide
+### 🛡️ Admin Dashboard
+- **User Management**: View and manage all users
+- **Payment Management**: Approve/reject payments
+- **License Management**: Create and manage licenses
+- **Analytics**: Revenue and user statistics
+- **Real-time Updates**: Live data refresh
 
-### Chrome Installation
-1. Open Chrome and go to `chrome://extensions/`
-2. Enable "Developer mode" (toggle in top right)
-3. Click "Load unpacked"
-4. Select the `chrome/` folder
-5. Extension is now installed!
+### 🚀 Extension Features
+- **Smart Auto Reactions**: AI-powered reaction selection
+- **Safety Features**: Built-in limits to avoid detection
+- **Trial System**: 3-day free trial
+- **Cross-browser**: Chrome and Firefox support
+- **Auto-activation**: Seamless PRO upgrade
 
-### Firefox Installation
-1. Open Firefox and go to `about:debugging`
-2. Click "This Firefox" in the left sidebar
-3. Click "Load Temporary Add-on..."
-4. Navigate to the `firefox/` folder and select `manifest.json`
-5. Extension is now installed!
+## 🏗️ Backend Architecture (MVC)
 
-## ⚡ Features
+### **Models (Database Layer)**
+- **User.js**: User account management
+- **License.js**: License key generation and validation
+- **Payment.js**: Payment processing and tracking
+- **Analytics.js**: Statistics and reporting
 
-### Core Functionality
-- **Smart Auto Reactions**: Intelligent reaction selection based on post engagement
-- **Safety Features**: Built-in limits and monitoring to avoid detection
-- **Human Behavior Simulation**: Randomized delays and patterns
-- **Activity Tracking**: Monitor reactions per hour/day
-- **Trial System**: 3-day free trial with PRO upgrade path
+### **Controllers (Business Logic)**
+- **userController.js**: User registration, profile management
+- **licenseController.js**: License creation, validation
+- **paymentController.js**: Payment processing, bank transfer
+- **adminController.js**: Admin operations, dashboard data
 
-### Advanced Features
-- **Multiple Account Support**: Handle different Facebook accounts
-- **Blacklist System**: Exclude specific users/pages
-- **Customizable Settings**: Extensive configuration options
-- **UID Finder Tool**: Extract Facebook user IDs from profiles
-- **Real-time Monitoring**: Live activity tracking
+### **Routes (API Endpoints)**
+- **User APIs**: Registration, profile, activation status
+- **License APIs**: Validation, creation, management
+- **Payment APIs**: Bank transfer, status checking
+- **Admin APIs**: Dashboard, user management, analytics
 
-## 🔧 Configuration
+### **Middleware**
+- **Authentication**: JWT token validation
+- **Validation**: Input sanitization and validation
+- **CORS**: Cross-origin request handling
 
-Both versions support identical configuration options:
+## 🚀 Deployment Guide
 
-### Basic Settings
-- **Auto Startup**: Launch extension when browser starts
-- **Ignore Fanpages**: Skip posts from Facebook pages
-- **Ignore Groups**: Skip posts from Facebook groups
-- **Time Period**: Check interval for new posts (minutes)
+### **Vercel Deployment (Recommended)**
 
-### Safety Settings
-- **Working Hours Only**: Restrict activity to 9 AM - 6 PM
-- **Weekdays Only**: Disable on weekends
-- **Max Reactions/Hour**: Hourly reaction limit
-- **Max Reactions/Day**: Daily reaction limit
-- **Delay Between Reactions**: Pause between reactions (seconds)
+#### **1. Environment Variables**
+```bash
+NODE_ENV=production
+JWT_SECRET=your_strong_jwt_secret_here
+ADMIN_EMAIL=dinhkhanhtung@outlook.com
+ADMIN_PASSWORD=your_secure_admin_password
+BANK_ACCOUNT=0982581222
+BANK_NAME=Đinh Khánh Tùng
+BANK_BRANCH=BIDV
+```
 
-## 📋 Usage Instructions
+#### **2. Deploy Steps**
+1. **Connect GitHub Repository**
+2. **Set Root Directory**: `backend`
+3. **Configure Environment Variables**
+4. **Deploy**
 
-1. **Install** the appropriate version for your browser
-2. **Open Facebook** in a new tab
-3. **Click** the extension icon in your browser toolbar
-4. **Configure** settings as needed
-5. **Click "Kích hoạt"** to start auto reactions
-6. **Monitor** activity in the popup interface
+#### **3. API Endpoints**
+```
+https://your-domain.vercel.app/api/health
+https://your-domain.vercel.app/api/users/register
+https://your-domain.vercel.app/api/licenses/validate
+https://your-domain.vercel.app/api/payments/bank-transfer
+https://your-domain.vercel.app/api/admin/login
+https://your-domain.vercel.app/admin
+https://your-domain.vercel.app/download
+```
 
-## 🔒 Safety Guidelines
+## 🔧 Extension Installation
 
-- Keep at least one Facebook tab open for stability
-- Start with conservative settings (lower limits)
-- Monitor your Facebook activity regularly
-- Use the blacklist feature for unwanted content
-- Consider enabling working hours restriction
+### **Chrome Extension**
+1. Download `FB-Smart-Engagement-Pro-Chrome.zip`
+2. Extract to a folder
+3. Open Chrome → `chrome://extensions/`
+4. Enable "Developer mode"
+5. Click "Load unpacked" → Select extracted folder
+
+### **Firefox Extension**
+1. Download `FB-Smart-Engagement-Pro-Firefox.zip`
+2. Extract to a folder
+3. Open Firefox → `about:debugging`
+4. Click "This Firefox" → "Load Temporary Add-on"
+5. Select `manifest.json` from extracted folder
+
+## 📱 User Workflow
+
+### **1. Installation**
+- User downloads extension
+- Installs in browser
+- Extension starts auto-activation polling
+
+### **2. Payment Creation**
+- User visits landing page
+- Fills payment form with personal info
+- Creates bank transfer payment
+- Gets payment code and bank details
+
+### **3. Admin Approval**
+- Admin receives payment notification
+- Admin checks bank transfer
+- Admin approves payment in dashboard
+- System auto-activates user's extension
+
+### **4. Auto-Activation**
+- Extension detects activation flag
+- Extension calls activation API
+- User gets PRO features immediately
+- No manual steps required
 
 ## 🛠️ Development
 
-### Key Differences Between Versions
+### **Backend Development**
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-#### Manifest Files
-- **Chrome**: Standard Manifest V3
-- **Firefox**: Manifest V3 + `browser_specific_settings.gecko` section
+### **Extension Development**
+- Chrome: Load unpacked extension
+- Firefox: Load temporary add-on
+- Both versions share same codebase
 
-#### JavaScript APIs
-- **Chrome**: `chrome.storage`, `chrome.alarms`, `chrome.tabs`
-- **Firefox**: `browser.storage`, `browser.alarms`, `browser.tabs`
+### **API Testing**
+```bash
+# Health check
+curl https://your-domain.vercel.app/api/health
 
-#### Cookie Handling
-- **Chrome**: Direct cookie access via `chrome.cookies`
-- **Firefox**: Requires `host_permissions` for cookie access
+# Admin login
+curl -X POST https://your-domain.vercel.app/api/admin/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@example.com","password":"password"}'
+```
 
-## 📝 Version History
+## 🔒 Security Features
 
-- **v1.0.0**: Initial release with Chrome & Firefox support
-- **Features**: Smart reactions, safety limits, trial system
-- **Compatibility**: Chrome 88+, Firefox 85+
+### **Authentication**
+- JWT token-based authentication
+- Admin-only endpoints protection
+- Secure password hashing
 
-## 🆘 Troubleshooting
+### **Validation**
+- Input sanitization
+- SQL injection prevention
+- XSS protection
 
-### Common Issues
+### **Rate Limiting**
+- API rate limiting
+- Extension polling limits
+- Safety mechanisms
 
-**Extension not working:**
-- Ensure Facebook tab is open
-- Check if cookies are enabled for facebook.com
-- Verify extension permissions
+## 📊 Analytics & Monitoring
 
-**Reactions not posting:**
-- Check rate limits in settings
-- Ensure valid Facebook session
-- Try refreshing Facebook page
+### **Admin Dashboard**
+- Total users count
+- PRO users count
+- Revenue tracking
+- Payment statistics
+- Real-time updates
 
-**Settings not saving:**
-- Check browser storage permissions
-- Try restarting the extension
+### **User Analytics**
+- Activity tracking
+- License usage
+- Payment history
+- Extension performance
+
+## 🚨 Troubleshooting
+
+### **Common Issues**
+
+**Extension not activating:**
+- Check activation polling logs
+- Verify user ID in extension
+- Check server activation status
+
+**Payment not processing:**
+- Verify bank transfer details
+- Check payment code format
+- Contact admin for approval
+
+**Admin dashboard issues:**
+- Check authentication token
+- Verify admin credentials
+- Check browser console for errors
 
 ## 📞 Support
 
-For support and updates, visit:
-- Facebook: https://www.facebook.com/dinhkhanhtung
-- Repository: [GitHub Link]
+- **Facebook**: https://www.facebook.com/dinhkhanhtung
+- **Repository**: https://github.com/dinhkhanhtung/fb-smart-engagement-backend
+- **Live Demo**: https://fb-smart-engagement-backend.vercel.app
+
+## 🎉 Project Status
+
+### **✅ Completed Features**
+- [x] Backend MVC architecture
+- [x] Auto-activation system
+- [x] Payment processing
+- [x] Admin dashboard
+- [x] Chrome extension
+- [x] Firefox extension
+- [x] Vercel deployment
+- [x] Complete user workflow
+
+### **🚀 Ready for Production**
+- Backend deployed on Vercel
+- Extensions packaged and ready
+- Auto-activation working
+- Admin dashboard functional
+- Payment system operational
 
 ---
 
-**Note**: This extension is designed for educational and research purposes. Use responsibly and in accordance with Facebook's Terms of Service.
+**FB Smart Engagement Pro** - Complete auto-reaction system with seamless user experience! 🎯
