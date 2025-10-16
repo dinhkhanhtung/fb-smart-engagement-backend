@@ -18,35 +18,36 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
             min-height: 100vh;
-            color: #495057;
+            color: #1c1e21;
         }
 
-        /* Modern Scrollbar */
+        /* Facebook Style Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f3f4;
+            background: #f0f2f5;
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #c1c8cd;
-            border-radius: 10px;
+            background: #bcc0c4;
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #a8b1b8;
+            background: #8a8d91;
         }
 
-        /* Top Navigation Bar */
+        /* Top Navigation Bar - Facebook Style */
         .top-navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1877f2;
             padding: 1rem 2rem;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -282,10 +283,11 @@
         /* Chart Cards */
         .chart-card {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
             overflow: hidden;
+            border: 1px solid #dadde1;
         }
 
         .chart-header {
@@ -308,9 +310,10 @@
         /* Data Tables */
         .table-card {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            border: 1px solid #dadde1;
         }
 
         .table-header {
@@ -336,11 +339,12 @@
 
         .btn-action {
             padding: 0.5rem 1rem;
-            border-radius: 25px;
+            border-radius: 12px;
             font-size: 0.875rem;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary-custom {
@@ -877,13 +881,15 @@
                         <!-- Auto-Activation Info -->
                         <div class="alert alert-info mb-4">
                             <i class="fas fa-info-circle me-2"></i>
-                            <strong>Auto-Activation System:</strong> Licenses are automatically created and activated when payments are approved. Users receive PRO features immediately without manual steps.
+                            <strong>Auto-Activation System:</strong> Licenses are automatically created and activated
+                            when payments are approved. Users receive PRO features immediately without manual steps.
                         </div>
 
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="mb-0">All Licenses</h5>
-                                <small class="text-muted">Licenses are automatically created when payments are approved</small>
+                                <small class="text-muted">Licenses are automatically created when payments are
+                                    approved</small>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
