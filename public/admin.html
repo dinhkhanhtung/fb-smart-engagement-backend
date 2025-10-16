@@ -994,43 +994,60 @@
             // Dashboard functions
             async function loadDashboard() {
                 try {
+                    console.log('Loading dashboard with token:', token);
                     const response = await fetch('/api/admin/analytics', {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
                     });
+                    
+                    console.log('Dashboard response status:', response.status);
                     const data = await response.json();
+                    console.log('Dashboard response data:', data);
 
                     if (data.success) {
-                        document.getElementById('total-users').textContent = data.analytics.total_users;
-                        document.getElementById('pro-users').textContent = data.analytics.pro_users;
-                        document.getElementById('trial-users').textContent = data.analytics.trial_users;
+                        document.getElementById('total-users').textContent = data.analytics.total_users || 0;
+                        document.getElementById('pro-users').textContent = data.analytics.pro_users || 0;
+                        document.getElementById('trial-users').textContent = data.analytics.trial_users || 0;
 
                         // Calculate revenue (simplified)
                         const revenue = (data.analytics.monthly_users * 4.99) + (data.analytics.yearly_users * 39.99);
                         document.getElementById('revenue').textContent = '$' + revenue.toFixed(2);
+                    } else {
+                        console.error('Dashboard API error:', data.error);
+                        showToast('Lỗi tải dashboard: ' + data.error, 'error');
                     }
                 } catch (error) {
                     console.error('Error loading dashboard:', error);
+                    showToast('Lỗi kết nối dashboard: ' + error.message, 'error');
                 }
             }
 
             // Users functions
             async function loadUsers() {
                 try {
+                    console.log('Loading users with token:', token);
                     const response = await fetch('/api/admin/users', {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
                     });
+                    
+                    console.log('Users response status:', response.status);
                     const data = await response.json();
+                    console.log('Users response data:', data);
 
                     if (data.success) {
-                        users = data.users;
+                        users = data.users || [];
+                        console.log('Loaded users:', users.length);
                         renderUsersTable();
+                    } else {
+                        console.error('Users API error:', data.error);
+                        showToast('Lỗi tải users: ' + data.error, 'error');
                     }
                 } catch (error) {
                     console.error('Error loading users:', error);
+                    showToast('Lỗi kết nối users: ' + error.message, 'error');
                 }
             }
 

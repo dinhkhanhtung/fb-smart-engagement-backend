@@ -36,7 +36,7 @@ class PaymentController {
 
             // Create or find user account
             const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-            
+
             // Create user account first
             const User = require('../models/User');
             await User.create({
