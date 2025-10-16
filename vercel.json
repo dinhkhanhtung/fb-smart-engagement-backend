@@ -8,46 +8,8 @@
     ],
     "routes": [
         {
-            "src": "/api/(.*)",
-            "dest": "server.js"
-        },
-        {
-            "src": "/admin",
-            "dest": "server.js"
-        },
-        {
-            "src": "/admin/verify-payment",
-            "dest": "server.js"
-        },
-        {
-            "src": "/test",
-            "dest": "server.js"
-        },
-        {
-            "src": "/test-html",
-            "dest": "server.js"
-        },
-        {
-            "src": "/payment",
-            "dest": "server.js"
-        },
-        {
-            "src": "/download",
-            "dest": "server.js"
-        },
-
-        {
-            "src": "/",
-            "dest": "server.js"
+            "src": "/(.*)",
+            "dest": "/server.js"
         }
-    ],
-    "env": {
-        "NODE_ENV": "production",
-        "BANK_ACCOUNT": "0982581222",
-        "BANK_NAME": "Đinh Khánh Tùng",
-        "BANK_BRANCH": "BIDV",
-        "ADMIN_EMAIL": "dinhkhanhtung@outlook.com",
-        "ADMIN_PASSWORD": "48w1F0DYyjE1s1",
-        "JWT_SECRET": "fb-smart-engagement-pro-admin-secret-key-2024"
-    }
+    ]
 }
