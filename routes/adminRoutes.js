@@ -19,4 +19,7 @@ router.get('/payments', verifyAdminToken, adminController.getPayments);
 router.get('/licenses', verifyAdminToken, adminController.getLicenses);
 router.get('/analytics-summary', verifyAdminToken, adminController.getAnalyticsSummary);
 
+// Payment management routes
+router.post('/payments/:paymentId/approve', verifyAdminToken, adminController.approvePayment);
+
 module.exports = router;

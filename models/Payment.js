@@ -40,6 +40,13 @@ class Payment {
     }
 
     /**
+     * Get payment by ID (alias for findById)
+     */
+    async getById(paymentId) {
+        return this.findById(paymentId);
+    }
+
+    /**
      * Update payment status
      */
     async updateStatus(paymentId, status) {

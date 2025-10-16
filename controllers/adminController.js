@@ -127,6 +127,69 @@ class AdminController {
             res.status(500).json({ success: false, error: error.message });
         }
     }
+
+    /**
+     * Approve payment
+     */
+    async approvePayment(req, res) {
+        try {
+            const { paymentId } = req.params;
+            console.log('Approving payment:', paymentId);
+
+            // Get payment details
+            const payment = await Payment.getById(paymentId);
+            if (!payment) {
+                return res.status(404).json({ success: false, error: 'Payment not found' });
+            }
+
+            if (payment.status === 'completed') {
+                return res.status(400).json({ success: false, error: 'Payment already approved' });
+            }
+
+            // Update payment status
+            await Payment.updateStatus(paymentId, 'completed');
+
+            // Create or update user account
+            let user = await User.getById(payment.user_id);
+            if (!user) {
+                // Create new user account
+                const userInfo = payment.bank_info ? JSON.parse(payment.bank_info) : {};
+                user = await User.create({
+                    userId: payment.user_id,
+                    email: userInfo.email || 'unknown@example.com',
+                    deviceId: `device_${Date.now()}`,
+                    isPro: true,
+                    plan: payment.plan
+                });
+            } else {
+                // Update existing user to PRO
+                await User.updateProStatus(payment.user_id, true, payment.plan);
+            }
+
+            // Create license for user
+            const licenseKey = await License.create({
+                userId: payment.user_id,
+                plan: payment.plan,
+                expires: new Date(Date.now() + (payment.plan === 'pro_monthly' ? 30 : 365) * 24 * 60 * 60 * 1000)
+            });
+
+            console.log('Payment approved successfully:', {
+                paymentId,
+                userId: payment.user_id,
+                licenseKey
+            });
+
+            res.json({
+                success: true,
+                message: 'Payment approved successfully',
+                licenseKey
+            });
+
+        } catch (error) {
+            console.error('Approve payment error:', error);
+            res.status(500).json({ success: false, error: error.message });
+        }
+    }
 }
 
 module.exports = new AdminController();
