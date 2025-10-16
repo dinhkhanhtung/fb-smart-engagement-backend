@@ -8,6 +8,22 @@
     ],
     "routes": [
         {
+            "src": "/",
+            "dest": "/server-new.js"
+        },
+        {
+            "src": "/api/(.*)",
+            "dest": "/server-new.js"
+        },
+        {
+            "src": "/admin(.*)",
+            "dest": "/server-new.js"
+        },
+        {
+            "src": "/download(.*)",
+            "dest": "/server-new.js"
+        },
+        {
             "src": "/(.*)",
             "dest": "/server-new.js"
         }

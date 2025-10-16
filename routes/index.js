@@ -22,7 +22,7 @@ router.use('/api/admin', adminRoutes);
 
 // Static file routes
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'landing.html'));
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
 // Test route to check which file is being served
