@@ -82,13 +82,35 @@
                             <p class="mb-0">Không cần thẻ tín dụng, tải ngay và trải nghiệm full tính năng</p>
                         </div>
 
-                        <!-- Download Button -->
+                        <!-- Download Buttons -->
                         <div class="mb-5">
-                            <a href="/download/extension.zip" class="btn-download btn-lg">
-                                <i class="fas fa-download me-2"></i>TẢI EXTENSION NGAY
-                            </a>
-                            <p class="text-muted mt-3">File size: ~2MB | Tương thích: Chrome, Edge (Chromium-based
-                                browsers)</p>
+                            <div class="row justify-content-center mb-4">
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <i class="fab fa-chrome fa-3x text-primary mb-3"></i>
+                                            <h5>Google Chrome</h5>
+                                            <p class="text-muted">Chrome, Edge, Opera</p>
+                                            <a href="/download/chrome" class="btn btn-success w-100">
+                                                <i class="fas fa-download me-2"></i>Tải cho Chrome
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <i class="fab fa-firefox fa-3x text-warning mb-3"></i>
+                                            <h5>Mozilla Firefox</h5>
+                                            <p class="text-muted">Firefox Browser</p>
+                                            <a href="/download/firefox" class="btn btn-warning w-100">
+                                                <i class="fas fa-download me-2"></i>Tải cho Firefox
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">File size: ~2MB mỗi phiên bản | Chọn trình duyệt phù hợp với bạn</p>
                         </div>
 
                         <!-- Installation Steps -->
@@ -122,24 +144,62 @@
                         <div class="mt-5">
                             <h4 class="mb-3">🔧 Hướng dẫn chi tiết</h4>
                             <div class="text-start">
-                                <div class="card bg-light">
+                                <!-- Chrome Instructions -->
+                                <div class="card bg-light mb-4">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <i class="fab fa-chrome text-primary me-2"></i>Chrome/Edge (Chromium-based)
+                                        </h5>
+                                    </div>
                                     <div class="card-body">
-                                        <h5>Chrome/Edge (Chromium-based):</h5>
                                         <ol>
-                                            <li>Tải file extension.zip</li>
-                                            <li>Giải nén file vào thư mục</li>
+                                            <li>Tải file <strong>FB-Smart-Engagement-Pro-Chrome.zip</strong></li>
+                                            <li>Giải nén file vào thư mục trên máy tính</li>
                                             <li>Mở Chrome/Edge, gõ: <code>chrome://extensions/</code></li>
                                             <li>Bật "Developer mode" (góc trên bên phải)</li>
                                             <li>Click "Load unpacked"</li>
-                                            <li>Chọn thư mục đã giải nén</li>
+                                            <li>Chọn thư mục <code>chrome/</code> đã giải nén</li>
+                                            <li>Extension sẽ xuất hiện trong danh sách</li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <!-- Firefox Instructions -->
+                                <div class="card bg-light mb-4">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <i class="fab fa-firefox text-warning me-2"></i>Mozilla Firefox
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ol>
+                                            <li>Tải file <strong>FB-Smart-Engagement-Pro-Firefox.zip</strong></li>
+                                            <li>Giải nén file vào thư mục trên máy tính</li>
+                                            <li>Mở Firefox, gõ: <code>about:debugging</code></li>
+                                            <li>Click "This Firefox" trong menu bên trái</li>
+                                            <li>Click "Load Temporary Add-on..."</li>
+                                            <li>Chọn file <code>firefox/manifest.json</code> trong thư mục đã giải nén</li>
                                             <li>Extension sẽ xuất hiện trong danh sách</li>
                                         </ol>
 
-                                        <div class="alert alert-warning mt-3">
-                                            <strong>Lưu ý:</strong> Extension này được thiết kế cho Chrome và Edge
-                                            (Chromium).
-                                            Firefox và Safari có thể không tương thích hoàn toàn do khác biệt về API.
+                                        <div class="alert alert-info mt-3">
+                                            <strong>Lưu ý cho Firefox:</strong> Extension sẽ hoạt động ở chế độ tạm thời.
+                                            Sau khi đóng Firefox, bạn cần tải lại extension.
                                         </div>
+                                    </div>
+                                </div>
+
+                                <!-- General Instructions -->
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5><i class="fas fa-lightbulb text-warning me-2"></i>Mẹo sử dụng</h5>
+                                        <ul class="mb-0">
+                                            <li>Giữ ít nhất một tab Facebook mở để extension hoạt động ổn định</li>
+                                            <li>Bắt đầu với thiết lập an toàn (giới hạn thấp) để làm quen</li>
+                                            <li>Kiểm tra hoạt động Facebook thường xuyên</li>
+                                            <li>Sử dụng tính năng blacklist để loại trừ nội dung không mong muốn</li>
+                                            <li>Liên hệ hỗ trợ nếu gặp vấn đề: Zalo 0982581222</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

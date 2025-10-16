@@ -2,10 +2,10 @@
     "name": "fb-smart-engagement-backend",
     "version": "1.0.0",
     "description": "Backend API for FB Smart Engagement Pro",
-    "main": "server.js",
+    "main": "backend/server.js",
     "scripts": {
-        "start": "node server.js",
-        "dev": "nodemon server.js",
+        "start": "node backend/server.js",
+        "dev": "nodemon backend/server.js",
         "build": "echo 'Build completed'"
     },
     "dependencies": {
