@@ -36,6 +36,10 @@
             "dest": "server.js"
         },
         {
+            "src": "/download/(.*)",
+            "dest": "server.js"
+        },
+        {
             "src": "/",
             "dest": "server.js"
         }
