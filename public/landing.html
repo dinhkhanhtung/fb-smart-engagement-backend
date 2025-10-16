@@ -7,31 +7,309 @@
     <title>FB Smart Engagement Pro - Tự động tương tác Facebook</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .hero-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 100px 0;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-badges {
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 0.25rem;
+            animation: bounceIn 0.8s ease-out 0.6s both;
+        }
+
+        .badge-hot {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: #fff;
+        }
+
+        .badge-safe {
+            background: linear-gradient(45deg, #51cf66, #40c057);
+            color: #fff;
+        }
+
+        .badge-auto {
+            background: linear-gradient(45deg, #339af0, #228be6);
+            color: #fff;
+        }
+
+        .hero-buttons {
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .btn-download {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-download::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-download:hover::before {
+            left: 100%;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+            color: white;
+        }
+
+        .btn-outline-light {
+            border: 2px solid rgba(255,255,255,0.8);
+            border-radius: 50px;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .hero-feature-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hero-feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .hero-feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
         }
 
         .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 25px;
+            padding: 2.5rem;
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .benefit-card:hover::before {
+            opacity: 1;
         }
 
         .benefit-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes countUp {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+            margin-right: 1rem;
         }
 
         .pricing-card {
@@ -219,29 +497,31 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-3 fw-bold mb-4">
-                        🤖 FB Smart Engagement Pro
-                    </h1>
-                    <p class="lead mb-4">
-                        Trợ lý tự động tương tác Facebook thông minh nhất Việt Nam
-                    </p>
-                    <div class="mb-4">
-                        <span class="badge bg-warning text-dark me-2">🔥 HOT</span>
-                        <span class="badge bg-success me-2">✅ AN TOÀN</span>
-                        <span class="badge bg-info">⚡ TỰ ĐỘNG</span>
-                    </div>
-                    <div class="d-flex gap-3">
-                        <a href="#download" class="btn-download">
-                            <i class="fas fa-download me-2"></i>DÙNG THỬ MIỄN PHÍ
-                        </a>
-                        <a href="#pricing" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-crown me-2"></i>Nâng cấp PRO
-                        </a>
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            🤖 FB Smart Engagement Pro
+                        </h1>
+                        <p class="hero-subtitle">
+                            Trợ lý tự động tương tác Facebook thông minh nhất Việt Nam
+                        </p>
+                        <div class="hero-badges">
+                            <span class="badge-custom badge-hot">🔥 HOT</span>
+                            <span class="badge-custom badge-safe">✅ AN TOÀN</span>
+                            <span class="badge-custom badge-auto">⚡ TỰ ĐỘNG</span>
+                        </div>
+                        <div class="hero-buttons">
+                            <a href="#download" class="btn-download">
+                                <i class="fas fa-download me-2"></i>DÙNG THỬ MIỄN PHÍ
+                            </a>
+                            <a href="#pricing" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-crown me-2"></i>Nâng cấp PRO
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <div class="benefit-card">
-                        <i class="fas fa-robot fa-5x text-warning mb-3"></i>
+                    <div class="hero-feature-card">
+                        <i class="fas fa-robot feature-icon text-warning"></i>
                         <h3>Trợ lý AI thông minh</h3>
                         <p>Hoạt động 24/7, tương tác tự nhiên như người thật</p>
                     </div>
@@ -254,30 +534,42 @@
     <section class="py-5">
         <div class="container">
             <div class="text-center text-white mb-5">
-                <h2 class="display-5 fw-bold mb-3">Tại sao chọn FB Smart Engagement Pro?</h2>
-                <p class="lead">Công nghệ tiên tiến, an toàn tuyệt đối</p>
+                <h2 class="display-5 fw-bold mb-3" style="animation: fadeInUp 0.8s ease-out;">Tại sao chọn FB Smart Engagement Pro?</h2>
+                <p class="lead" style="animation: fadeInUp 0.8s ease-out 0.2s both;">Công nghệ tiên tiến, an toàn tuyệt đối</p>
             </div>
 
             <div class="row g-4">
-                <div class="col-md-4">
+                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.4s both;">
                     <div class="benefit-card">
-                        <i class="fas fa-bolt fa-3x text-warning mb-3"></i>
-                        <h4>Tự động 24/7</h4>
-                        <p>Hoạt động liên tục, không cần giám sát. Tương tác mọi lúc mọi nơi.</p>
+                        <div class="text-center mb-4">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #ff6b6b, #feca57); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);">
+                                <i class="fas fa-bolt fa-2x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-white text-center mb-3">Tự động 24/7</h4>
+                        <p class="text-white text-center">Hoạt động liên tục, không cần giám sát. Tương tác mọi lúc mọi nơi.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.6s both;">
                     <div class="benefit-card">
-                        <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
-                        <h4>An toàn tuyệt đối</h4>
-                        <p>Thuật toán thông minh, mô phỏng hành vi người thật, tránh bị khóa tài khoản.</p>
+                        <div class="text-center mb-4">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #51cf66, #40c057); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(81, 207, 102, 0.3);">
+                                <i class="fas fa-shield-alt fa-2x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-white text-center mb-3">An toàn tuyệt đối</h4>
+                        <p class="text-white text-center">Thuật toán thông minh, mô phỏng hành vi người thật, tránh bị khóa tài khoản.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.8s both;">
                     <div class="benefit-card">
-                        <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
-                        <h4>Tăng tương tác</h4>
-                        <p>Tăng like, comment, share tự nhiên. Tăng reach và engagement hiệu quả.</p>
+                        <div class="text-center mb-4">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #339af0, #228be6); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(51, 154, 240, 0.3);">
+                                <i class="fas fa-chart-line fa-2x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-white text-center mb-3">Tăng tương tác</h4>
+                        <p class="text-white text-center">Tăng like, comment, share tự nhiên. Tăng reach và engagement hiệu quả.</p>
                     </div>
                 </div>
             </div>
@@ -289,27 +581,27 @@
         <div class="container">
             <div class="stats-section">
                 <div class="row text-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out;">
                         <div class="stat-item">
-                            <div class="stat-number">10K+</div>
+                            <div class="stat-number" style="animation: countUp 2s ease-out;">10K+</div>
                             <p>Người dùng tin tưởng</p>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out 0.2s both;">
                         <div class="stat-item">
-                            <div class="stat-number">99%</div>
+                            <div class="stat-number" style="animation: countUp 2s ease-out 0.2s both;">99%</div>
                             <p>Tỷ lệ an toàn</p>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out 0.4s both;">
                         <div class="stat-item">
-                            <div class="stat-number">24/7</div>
+                            <div class="stat-number" style="animation: countUp 2s ease-out 0.4s both;">24/7</div>
                             <p>Hoạt động liên tục</p>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out 0.6s both;">
                         <div class="stat-item">
-                            <div class="stat-number">5★</div>
+                            <div class="stat-number" style="animation: countUp 2s ease-out 0.6s both;">5★</div>
                             <p>Đánh giá trung bình</p>
                         </div>
                     </div>
@@ -477,17 +769,16 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-md-4">
+                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out;">
                     <div class="testimonial">
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+                            <div class="testimonial-avatar">NA</div>
                             <div>
-                                <h6 class="mb-0">Nguyễn Văn A</h6>
+                                <h6 class="mb-0 text-white">Nguyễn Văn A</h6>
                                 <small class="text-muted">Doanh nhân</small>
                             </div>
                         </div>
-                        <p>"Extension này thực sự tuyệt vời! Tương tác tự nhiên, không bị khóa tài khoản. Doanh thu tăng
-                            300%!"</p>
+                        <p class="text-white">"Extension này thực sự tuyệt vời! Tương tác tự nhiên, không bị khóa tài khoản. Doanh thu tăng 300%!"</p>
                         <div class="text-warning">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -497,17 +788,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.2s both;">
                     <div class="testimonial">
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+                            <div class="testimonial-avatar" style="background: linear-gradient(45deg, #ff6b6b, #feca57);">TB</div>
                             <div>
-                                <h6 class="mb-0">Trần Thị B</h6>
+                                <h6 class="mb-0 text-white">Trần Thị B</h6>
                                 <small class="text-muted">Influencer</small>
                             </div>
                         </div>
-                        <p>"Dùng được 6 tháng rồi, chưa bao giờ bị vấn đề gì. Engagement tăng đáng kể, fan tương tác
-                            nhiều hơn."</p>
+                        <p class="text-white">"Dùng được 6 tháng rồi, chưa bao giờ bị vấn đề gì. Engagement tăng đáng kể, fan tương tác nhiều hơn."</p>
                         <div class="text-warning">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -517,16 +807,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.4s both;">
                     <div class="testimonial">
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+                            <div class="testimonial-avatar" style="background: linear-gradient(45deg, #51cf66, #40c057);">LC</div>
                             <div>
-                                <h6 class="mb-0">Lê Văn C</h6>
+                                <h6 class="mb-0 text-white">Lê Văn C</h6>
                                 <small class="text-muted">Marketer</small>
                             </div>
                         </div>
-                        <p>"Công cụ marketing Facebook tốt nhất tôi từng dùng. ROI cao, dễ sử dụng, hỗ trợ tốt."</p>
+                        <p class="text-white">"Công cụ marketing Facebook tốt nhất tôi từng dùng. ROI cao, dễ sử dụng, hỗ trợ tốt."</p>
                         <div class="text-warning">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
