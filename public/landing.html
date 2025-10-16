@@ -17,10 +17,10 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f0f2f5;
             min-height: 100vh;
             line-height: 1.6;
-            color: #333;
+            color: #1c1e21;
             overflow-x: hidden;
         }
 
@@ -43,176 +43,129 @@
         }
 
         .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 120px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            background: #ffffff;
+            padding: 80px 0;
+            border-bottom: 1px solid #dadde1;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 2;
+            text-align: center;
         }
 
         .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, #fff, #feca57);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 0.8s ease-out;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1c1e21;
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
-            font-weight: 400;
+            font-size: 1.1rem;
+            color: #65676b;
             margin-bottom: 2rem;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-badges {
-            margin-bottom: 2.5rem;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .badge-custom {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.875rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 600;
-            margin: 0.25rem;
-            animation: bounceIn 0.8s ease-out 0.6s both;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .badge-hot {
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            background: #e41e3f;
             color: #fff;
         }
 
         .badge-safe {
-            background: linear-gradient(45deg, #51cf66, #40c057);
+            background: #42b883;
             color: #fff;
         }
 
         .badge-auto {
-            background: linear-gradient(45deg, #339af0, #228be6);
+            background: #1877f2;
             color: #fff;
         }
 
         .hero-buttons {
-            animation: fadeInUp 0.8s ease-out 0.8s both;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn-download {
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            background: #42b883;
             border: none;
-            border-radius: 50px;
-            padding: 1rem 2.5rem;
-            font-size: 1.125rem;
-            font-weight: 700;
+            border-radius: 6px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
             color: white;
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-download::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-download:hover::before {
-            left: 100%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-download:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+            background: #369870;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             color: white;
         }
 
         .btn-outline-light {
-            border: 2px solid rgba(255,255,255,0.8);
-            border-radius: 50px;
-            padding: 0.875rem 2rem;
+            border: 2px solid #1877f2;
+            border-radius: 6px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
             font-weight: 600;
+            color: #1877f2;
+            background: transparent;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-outline-light:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: white;
-            transform: translateY(-2px);
+            background: #1877f2;
             color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
         }
 
         .hero-feature-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 2.5rem;
+            background: #ffffff;
+            border: 1px solid #dadde1;
+            border-radius: 8px;
+            padding: 2rem;
             text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .hero-feature-card:hover::before {
-            opacity: 1;
-        }
-
-        .hero-feature-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
         }
 
         .feature-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            animation: pulse 2s infinite;
+            font-size: 3rem;
+            color: #1877f2;
+            margin-bottom: 1rem;
         }
 
         .benefit-card {
@@ -531,45 +484,45 @@
     </section>
 
     <!-- Benefits Section -->
-    <section class="py-5">
+    <section class="py-5" style="background: #ffffff; border-top: 1px solid #dadde1;">
         <div class="container">
-            <div class="text-center text-white mb-5">
-                <h2 class="display-5 fw-bold mb-3" style="animation: fadeInUp 0.8s ease-out;">Tại sao chọn FB Smart Engagement Pro?</h2>
-                <p class="lead" style="animation: fadeInUp 0.8s ease-out 0.2s both;">Công nghệ tiên tiến, an toàn tuyệt đối</p>
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3" style="color: #1c1e21;">Tại sao chọn FB Smart Engagement Pro?</h2>
+                <p style="color: #65676b; font-size: 1.1rem;">Công nghệ tiên tiến, an toàn tuyệt đối</p>
             </div>
 
             <div class="row g-4">
-                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.4s both;">
-                    <div class="benefit-card">
+                <div class="col-md-4">
+                    <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 8px; padding: 2rem; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
                         <div class="text-center mb-4">
-                            <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #ff6b6b, #feca57); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);">
-                                <i class="fas fa-bolt fa-2x text-white"></i>
+                            <div style="width: 60px; height: 60px; background: #e41e3f; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 2px 8px rgba(228, 30, 63, 0.3);">
+                                <i class="fas fa-bolt fa-lg text-white"></i>
                             </div>
                         </div>
-                        <h4 class="text-white text-center mb-3">Tự động 24/7</h4>
-                        <p class="text-white text-center">Hoạt động liên tục, không cần giám sát. Tương tác mọi lúc mọi nơi.</p>
+                        <h4 style="color: #1c1e21; margin-bottom: 1rem;">Tự động 24/7</h4>
+                        <p style="color: #65676b;">Hoạt động liên tục, không cần giám sát. Tương tác mọi lúc mọi nơi.</p>
                     </div>
                 </div>
-                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.6s both;">
-                    <div class="benefit-card">
+                <div class="col-md-4">
+                    <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 8px; padding: 2rem; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
                         <div class="text-center mb-4">
-                            <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #51cf66, #40c057); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(81, 207, 102, 0.3);">
-                                <i class="fas fa-shield-alt fa-2x text-white"></i>
+                            <div style="width: 60px; height: 60px; background: #42b883; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 2px 8px rgba(66, 184, 131, 0.3);">
+                                <i class="fas fa-shield-alt fa-lg text-white"></i>
                             </div>
                         </div>
-                        <h4 class="text-white text-center mb-3">An toàn tuyệt đối</h4>
-                        <p class="text-white text-center">Thuật toán thông minh, mô phỏng hành vi người thật, tránh bị khóa tài khoản.</p>
+                        <h4 style="color: #1c1e21; margin-bottom: 1rem;">An toàn tuyệt đối</h4>
+                        <p style="color: #65676b;">Thuật toán thông minh, mô phỏng hành vi người thật, tránh bị khóa tài khoản.</p>
                     </div>
                 </div>
-                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.8s both;">
-                    <div class="benefit-card">
+                <div class="col-md-4">
+                    <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 8px; padding: 2rem; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
                         <div class="text-center mb-4">
-                            <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #339af0, #228be6); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(51, 154, 240, 0.3);">
-                                <i class="fas fa-chart-line fa-2x text-white"></i>
+                            <div style="width: 60px; height: 60px; background: #1877f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);">
+                                <i class="fas fa-chart-line fa-lg text-white"></i>
                             </div>
                         </div>
-                        <h4 class="text-white text-center mb-3">Tăng tương tác</h4>
-                        <p class="text-white text-center">Tăng like, comment, share tự nhiên. Tăng reach và engagement hiệu quả.</p>
+                        <h4 style="color: #1c1e21; margin-bottom: 1rem;">Tăng tương tác</h4>
+                        <p style="color: #65676b;">Tăng like, comment, share tự nhiên. Tăng reach và engagement hiệu quả.</p>
                     </div>
                 </div>
             </div>
@@ -577,32 +530,32 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="py-5">
+    <section class="py-5" style="background: #f8f9fa;">
         <div class="container">
-            <div class="stats-section">
+            <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 12px; padding: 3rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
                 <div class="row text-center">
-                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out;">
-                        <div class="stat-item">
-                            <div class="stat-number" style="animation: countUp 2s ease-out;">10K+</div>
-                            <p>Người dùng tin tưởng</p>
+                    <div class="col-md-3">
+                        <div style="color: #1c1e21;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #1877f2; margin-bottom: 0.5rem;">10K+</div>
+                            <p style="color: #65676b; margin: 0;">Người dùng tin tưởng</p>
                         </div>
                     </div>
-                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out 0.2s both;">
-                        <div class="stat-item">
-                            <div class="stat-number" style="animation: countUp 2s ease-out 0.2s both;">99%</div>
-                            <p>Tỷ lệ an toàn</p>
+                    <div class="col-md-3">
+                        <div style="color: #1c1e21;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #42b883; margin-bottom: 0.5rem;">99%</div>
+                            <p style="color: #65676b; margin: 0;">Tỷ lệ an toàn</p>
                         </div>
                     </div>
-                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out 0.4s both;">
-                        <div class="stat-item">
-                            <div class="stat-number" style="animation: countUp 2s ease-out 0.4s both;">24/7</div>
-                            <p>Hoạt động liên tục</p>
+                    <div class="col-md-3">
+                        <div style="color: #1c1e21;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #e41e3f; margin-bottom: 0.5rem;">24/7</div>
+                            <p style="color: #65676b; margin: 0;">Hoạt động liên tục</p>
                         </div>
                     </div>
-                    <div class="col-md-3" style="animation: fadeInUp 0.8s ease-out 0.6s both;">
-                        <div class="stat-item">
-                            <div class="stat-number" style="animation: countUp 2s ease-out 0.6s both;">5★</div>
-                            <p>Đánh giá trung bình</p>
+                    <div class="col-md-3">
+                        <div style="color: #1c1e21;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #ffd43b; margin-bottom: 0.5rem;">5★</div>
+                            <p style="color: #65676b; margin: 0;">Đánh giá trung bình</p>
                         </div>
                     </div>
                 </div>
@@ -762,24 +715,24 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="py-5">
+    <section class="py-5" style="background: #f8f9fa;">
         <div class="container">
-            <div class="text-center text-white mb-5">
-                <h2 class="display-5 fw-bold mb-3">💬 Khách hàng nói gì</h2>
+            <div class="text-center mb-5">
+                <h2 style="color: #1c1e21; font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">💬 Khách hàng nói gì</h2>
             </div>
 
             <div class="row g-4">
-                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out;">
-                    <div class="testimonial">
+                <div class="col-md-4">
+                    <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="testimonial-avatar">NA</div>
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45deg, #1877f2, #42b883); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.2rem; margin-right: 1rem;">NA</div>
                             <div>
-                                <h6 class="mb-0 text-white">Nguyễn Văn A</h6>
-                                <small class="text-muted">Doanh nhân</small>
+                                <h6 style="color: #1c1e21; margin: 0; font-weight: 600;">Nguyễn Văn A</h6>
+                                <small style="color: #65676b;">Doanh nhân</small>
                             </div>
                         </div>
-                        <p class="text-white">"Extension này thực sự tuyệt vời! Tương tác tự nhiên, không bị khóa tài khoản. Doanh thu tăng 300%!"</p>
-                        <div class="text-warning">
+                        <p style="color: #1c1e21; margin-bottom: 1rem;">"Extension này thực sự tuyệt vời! Tương tác tự nhiên, không bị khóa tài khoản. Doanh thu tăng 300%!"</p>
+                        <div style="color: #ffd43b;">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -788,17 +741,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.2s both;">
-                    <div class="testimonial">
+                <div class="col-md-4">
+                    <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="testimonial-avatar" style="background: linear-gradient(45deg, #ff6b6b, #feca57);">TB</div>
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45deg, #e41e3f, #ff6b6b); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.2rem; margin-right: 1rem;">TB</div>
                             <div>
-                                <h6 class="mb-0 text-white">Trần Thị B</h6>
-                                <small class="text-muted">Influencer</small>
+                                <h6 style="color: #1c1e21; margin: 0; font-weight: 600;">Trần Thị B</h6>
+                                <small style="color: #65676b;">Influencer</small>
                             </div>
                         </div>
-                        <p class="text-white">"Dùng được 6 tháng rồi, chưa bao giờ bị vấn đề gì. Engagement tăng đáng kể, fan tương tác nhiều hơn."</p>
-                        <div class="text-warning">
+                        <p style="color: #1c1e21; margin-bottom: 1rem;">"Dùng được 6 tháng rồi, chưa bao giờ bị vấn đề gì. Engagement tăng đáng kể, fan tương tác nhiều hơn."</p>
+                        <div style="color: #ffd43b;">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -807,17 +760,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4" style="animation: fadeInUp 0.8s ease-out 0.4s both;">
-                    <div class="testimonial">
+                <div class="col-md-4">
+                    <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="testimonial-avatar" style="background: linear-gradient(45deg, #51cf66, #40c057);">LC</div>
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45deg, #42b883, #51cf66); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.2rem; margin-right: 1rem;">LC</div>
                             <div>
-                                <h6 class="mb-0 text-white">Lê Văn C</h6>
-                                <small class="text-muted">Marketer</small>
+                                <h6 style="color: #1c1e21; margin: 0; font-weight: 600;">Lê Văn C</h6>
+                                <small style="color: #65676b;">Marketer</small>
                             </div>
                         </div>
-                        <p class="text-white">"Công cụ marketing Facebook tốt nhất tôi từng dùng. ROI cao, dễ sử dụng, hỗ trợ tốt."</p>
-                        <div class="text-warning">
+                        <p style="color: #1c1e21; margin-bottom: 1rem;">"Công cụ marketing Facebook tốt nhất tôi từng dùng. ROI cao, dễ sử dụng, hỗ trợ tốt."</p>
+                        <div style="color: #ffd43b;">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -831,33 +784,38 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section">
+    <section style="background: #ffffff; padding: 80px 0; border-top: 1px solid #dadde1;">
         <div class="container">
-            <h2 class="display-4 fw-bold mb-4">🚀 Sẵn sàng tăng tương tác Facebook?</h2>
-            <p class="lead mb-4">Tham gia cùng 10,000+ người dùng đang sử dụng FB Smart Engagement Pro</p>
-            <div class="d-flex gap-3 justify-content-center">
-                <a href="#download" class="btn-download">
-                    <i class="fas fa-download me-2"></i>DÙNG THỬ MIỄN PHÍ
-                </a>
-                <a href="#pricing" class="btn btn-light btn-lg">
-                    <i class="fas fa-crown me-2"></i>Nâng cấp PRO
-                </a>
+            <div style="background: #ffffff; border: 1px solid #dadde1; border-radius: 12px; padding: 3rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); text-align: center;">
+                <h2 style="color: #1c1e21; font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">🚀 Sẵn sàng tăng tương tác Facebook?</h2>
+                <p style="color: #65676b; font-size: 1.1rem; margin-bottom: 2rem;">Tham gia cùng 10,000+ người dùng đang sử dụng FB Smart Engagement Pro</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="#download" class="btn-download">
+                        <i class="fas fa-download me-2"></i>DÙNG THỬ MIỄN PHÍ
+                    </a>
+                    <a href="#pricing" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-crown me-2"></i>Nâng cấp PRO
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
+    <footer style="background: #ffffff; border-top: 1px solid #dadde1; padding: 40px 0; color: #1c1e21;">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5>FB Smart Engagement Pro</h5>
-                    <p>Trợ lý tự động tương tác Facebook thông minh nhất Việt Nam</p>
+                    <h5 style="color: #1877f2; font-weight: 700; margin-bottom: 1rem;">FB Smart Engagement Pro</h5>
+                    <p style="color: #65676b;">Trợ lý tự động tương tác Facebook thông minh nhất Việt Nam</p>
                 </div>
-                <div class="col-md-6 text-end">
-                    <p>© 2025 AppX. All rights reserved.</p>
-                    <p>Liên hệ: <a href="https://www.facebook.com/dinhkhanhtung" class="text-white">Facebook</a> | Zalo:
-                        0982581222</p>
+                <div class="col-md-6" style="text-align: right;">
+                    <p style="color: #65676b; margin-bottom: 0.5rem;">© 2025 AppX. All rights reserved.</p>
+                    <p style="color: #65676b; margin: 0;">
+                        Liên hệ:
+                        <a href="https://www.facebook.com/dinhkhanhtung" style="color: #1877f2; text-decoration: none; margin: 0 0.25rem;">Facebook</a> |
+                        <a href="#" style="color: #1877f2; text-decoration: none; margin-left: 0.25rem;">Zalo: 0982581222</a>
+                    </p>
                 </div>
             </div>
         </div>
