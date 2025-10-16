@@ -109,6 +109,63 @@ class User {
             });
         });
     }
+
+    /**
+     * Set activation flag for user
+     */
+    async setActivationFlag(userId, activationData) {
+        return new Promise((resolve, reject) => {
+            this.db.run(`
+                UPDATE users 
+                SET activation_data = ?, last_updated = datetime('now')
+                WHERE user_id = ?
+            `, [JSON.stringify(activationData), userId], (err) => {
+                if (err) reject(err);
+                else resolve();
+            });
+        });
+    }
+
+    /**
+     * Get activation flag for user
+     */
+    async getActivationFlag(userId) {
+        return new Promise((resolve, reject) => {
+            this.db.get(`
+                SELECT activation_data FROM users 
+                WHERE user_id = ?
+            `, [userId], (err, row) => {
+                if (err) reject(err);
+                else {
+                    if (row && row.activation_data) {
+                        try {
+                            resolve(JSON.parse(row.activation_data));
+                        } catch (e) {
+                            resolve(null);
+                        }
+                    } else {
+                        resolve(null);
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * Update user PRO status
+     */
+    async updateProStatus(userId, isPro, plan) {
+        return new Promise((resolve, reject) => {
+            this.db.run(`
+                UPDATE users 
+                SET is_pro = ?, plan = ?, last_updated = datetime('now')
+                WHERE user_id = ?
+            `, [isPro ? 1 : 0, plan, userId], (err) => {
+                if (err) reject(err);
+                else resolve();
+            });
+        });
+    }
 }
 
 module.exports = new User();

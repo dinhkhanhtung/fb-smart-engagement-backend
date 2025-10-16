@@ -22,4 +22,8 @@ router.post('/update-active', userController.updateLastActive);
 router.get('/admin/users', verifyAdminToken, userController.getAllUsers);
 router.get('/admin/analytics', verifyAdminToken, userController.getAnalytics);
 
+// Extension activation routes
+router.get('/activation-status/:userId', userController.getActivationStatus);
+router.post('/activate-license', userController.activateLicense);
+
 module.exports = router;

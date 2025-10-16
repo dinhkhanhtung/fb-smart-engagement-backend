@@ -92,6 +92,22 @@ class License {
         const expires = new Date(expiresAt);
         return now > expires;
     }
+
+    /**
+     * Get license by key
+     */
+    async getByKey(licenseKey) {
+        return new Promise((resolve, reject) => {
+            this.db.get(
+                'SELECT * FROM licenses WHERE license_key = ? AND status = "active"',
+                [licenseKey],
+                (err, row) => {
+                    if (err) reject(err);
+                    else resolve(row);
+                }
+            );
+        });
+    }
 }
 
 module.exports = new License();

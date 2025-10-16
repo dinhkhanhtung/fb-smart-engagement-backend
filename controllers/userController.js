@@ -115,6 +115,81 @@ class UserController {
             res.status(500).json({ success: false, error: error.message });
         }
     }
+
+    /**
+     * Get activation status for extension
+     */
+    async getActivationStatus(req, res) {
+        try {
+            const { userId } = req.params;
+            console.log('Checking activation status for user:', userId);
+
+            const activationData = await User.getActivationFlag(userId);
+            
+            if (activationData && activationData.activated) {
+                res.json({
+                    success: true,
+                    activated: true,
+                    licenseKey: activationData.licenseKey,
+                    plan: activationData.plan,
+                    activatedAt: activationData.activatedAt
+                });
+            } else {
+                res.json({
+                    success: true,
+                    activated: false
+                });
+            }
+
+        } catch (error) {
+            console.error('Get activation status error:', error);
+            res.status(500).json({ success: false, error: error.message });
+        }
+    }
+
+    /**
+     * Activate license for extension
+     */
+    async activateLicense(req, res) {
+        try {
+            const { userId, licenseKey } = req.body;
+            console.log('Activating license for user:', userId);
+
+            // Validate license
+            const license = await License.getByKey(licenseKey);
+            if (!license || license.userId !== userId) {
+                return res.status(400).json({ 
+                    success: false, 
+                    error: 'Invalid license key' 
+                });
+            }
+
+            // Check if license is expired
+            if (new Date(license.expires) < new Date()) {
+                return res.status(400).json({ 
+                    success: false, 
+                    error: 'License expired' 
+                });
+            }
+
+            // Update user to PRO
+            await User.updateProStatus(userId, true, license.plan);
+
+            // Clear activation flag
+            await User.setActivationFlag(userId, null);
+
+            res.json({
+                success: true,
+                message: 'License activated successfully',
+                plan: license.plan,
+                expires: license.expires
+            });
+
+        } catch (error) {
+            console.error('Activate license error:', error);
+            res.status(500).json({ success: false, error: error.message });
+        }
+    }
 }
 
 module.exports = new UserController();
