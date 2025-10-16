@@ -694,7 +694,8 @@
             .main-content {
                 margin-left: 0;
                 padding: 1rem;
-                margin-top: 60px; /* Space for mobile menu toggle */
+                margin-top: 60px;
+                /* Space for mobile menu toggle */
             }
 
             /* Stats Cards Mobile */
@@ -1051,12 +1052,12 @@
 
 <body>
     <!-- Mobile Menu Toggle -->
-    <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </button>
 
     <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+    <div class="sidebar-overlay" onclick="closeSidebar()"></div>
 
     <!-- Top Navigation Bar -->
     <nav class="top-navbar">
@@ -2270,6 +2271,15 @@
                 }
             }
 
+            // Close sidebar function
+            function closeSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+
             // Initialize theme and mobile handlers
             document.addEventListener('DOMContentLoaded', function () {
                 loadTheme();
@@ -2282,40 +2292,22 @@
                 if (!document.querySelector('.sidebar-overlay')) {
                     const overlay = document.createElement('div');
                     overlay.className = 'sidebar-overlay';
-                    overlay.onclick = closeMobileSidebar;
+                    overlay.onclick = closeSidebar;
                     document.body.appendChild(overlay);
                 }
 
                 // Handle window resize
                 window.addEventListener('resize', function () {
                     if (window.innerWidth > 768) {
-                        document.querySelector('.sidebar').classList.remove('show');
-                        document.querySelector('.sidebar-overlay').classList.remove('show');
+                        closeSidebar();
                     }
                 });
             });
 
-            // Mobile Sidebar Functions
-            window.toggleMobileSidebar = function () {
-                const sidebar = document.querySelector('.sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-
-                sidebar.classList.toggle('show');
-                overlay.classList.toggle('show');
-            };
-
-            window.closeMobileSidebar = function () {
-                const sidebar = document.querySelector('.sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-
-                sidebar.classList.remove('show');
-                overlay.classList.remove('show');
-            };
-
             // Close sidebar when clicking on nav links
             document.addEventListener('click', function (e) {
                 if (e.target.closest('.sidebar-nav .nav-link')) {
-                    closeMobileSidebar();
+                    closeSidebar();
                 }
             });
         </script>
