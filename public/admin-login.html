@@ -200,7 +200,10 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        window.location.href = '/admin/dashboard';
+                        // Redirect with token to maintain session
+                        window.location.href = '/admin/dashboard?token=' + encodeURIComponent(token);
+                    } else {
+                        localStorage.removeItem('adminToken');
                     }
                 })
                 .catch(() => {
