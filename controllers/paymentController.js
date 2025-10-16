@@ -38,8 +38,7 @@ class PaymentController {
             const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
             // Create user account first
-            const userModel = new User();
-            await userModel.create({
+            await User.create({
                 userId: userId,
                 deviceId: `device_${Date.now()}`,
                 email: customerEmail
@@ -48,8 +47,7 @@ class PaymentController {
             console.log('Creating payment with:', { paymentCode, userId, plan: mappedPlan, amount, userInfo });
 
             // Create payment record
-            const paymentModel = new Payment();
-            await paymentModel.create({
+            await Payment.create({
                 paymentId: paymentCode,
                 userId,
                 plan: mappedPlan,
@@ -83,8 +81,7 @@ class PaymentController {
     async checkStatus(req, res) {
         try {
             const { paymentCode } = req.params;
-            const paymentModel = new Payment();
-            const payment = await paymentModel.findById(paymentCode);
+            const payment = await Payment.findById(paymentCode);
 
             if (!payment) {
                 return res.status(404).json({
@@ -116,12 +113,11 @@ class PaymentController {
             const { paymentId, status } = req.body;
 
             // Update payment status
-            const paymentModel = new Payment();
-            await paymentModel.updateStatus(paymentId, status);
+            await Payment.updateStatus(paymentId, status);
 
             // If approved, activate PRO license
             if (status === 'approved') {
-                const payment = await paymentModel.findById(paymentId);
+                const payment = await Payment.findById(paymentId);
                 if (payment) {
                     await this.activateProLicense(payment.user_id, payment.plan);
                 }
@@ -143,8 +139,7 @@ class PaymentController {
      */
     async getAll(req, res) {
         try {
-            const paymentModel = new Payment();
-            const payments = await paymentModel.getAll();
+            const payments = await Payment.getAll();
             res.json({ success: true, payments });
 
         } catch (error) {
@@ -159,8 +154,7 @@ class PaymentController {
     async getByUser(req, res) {
         try {
             const { userId } = req.params;
-            const paymentModel = new Payment();
-            const payments = await paymentModel.getByUser(userId);
+            const payments = await Payment.getByUser(userId);
 
             res.json({ success: true, payments });
 
@@ -176,12 +170,10 @@ class PaymentController {
     async activateProLicense(userId, plan) {
         try {
             const expiresAt = calculateExpirationDate(plan);
-            const licenseModel = new License();
-            const result = await licenseModel.create({ userId, plan, expiresAt });
+            const result = await License.create({ userId, plan, expiresAt });
 
             // Update user to PRO
-            const userModel = new User();
-            await userModel.updateToPro(userId, plan);
+            await User.updateToPro(userId, plan);
 
             // Send license email
             const emailService = require('../utils/email');

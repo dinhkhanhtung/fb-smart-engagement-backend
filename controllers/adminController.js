@@ -63,8 +63,7 @@ class AdminController {
      */
     async getAnalytics(req, res) {
         try {
-            const userModel = new User();
-            const analytics = await userModel.getAnalytics();
+            const analytics = await User.getAnalytics();
             res.json({ success: true, analytics });
 
         } catch (error) {
@@ -78,8 +77,7 @@ class AdminController {
      */
     async getUsers(req, res) {
         try {
-            const userModel = new User();
-            const users = await userModel.getAll();
+            const users = await User.getAll();
             res.json({ success: true, users });
 
         } catch (error) {
@@ -93,8 +91,7 @@ class AdminController {
      */
     async getPayments(req, res) {
         try {
-            const paymentModel = new Payment();
-            const payments = await paymentModel.getAll();
+            const payments = await Payment.getAll();
             res.json({ success: true, payments });
 
         } catch (error) {
@@ -108,8 +105,7 @@ class AdminController {
      */
     async getLicenses(req, res) {
         try {
-            const licenseModel = new License();
-            const licenses = await licenseModel.getAll();
+            const licenses = await License.getAll();
             res.json({ success: true, licenses });
 
         } catch (error) {
@@ -141,8 +137,7 @@ class AdminController {
             console.log('Approving payment:', paymentId);
 
             // Get payment details
-            const paymentModel = new Payment();
-            const payment = await paymentModel.getById(paymentId);
+            const payment = await Payment.getById(paymentId);
             if (!payment) {
                 return res.status(404).json({ success: false, error: 'Payment not found' });
             }
@@ -152,15 +147,14 @@ class AdminController {
             }
 
             // Update payment status
-            await paymentModel.updateStatus(paymentId, 'completed');
+            await Payment.updateStatus(paymentId, 'completed');
 
             // Create or update user account
-            const userModel = new User();
-            let user = await userModel.getById(payment.user_id);
+            let user = await User.getById(payment.user_id);
             if (!user) {
                 // Create new user account
                 const userInfo = payment.bank_info ? JSON.parse(payment.bank_info) : {};
-                user = await userModel.create({
+                user = await User.create({
                     userId: payment.user_id,
                     email: userInfo.email || 'unknown@example.com',
                     deviceId: `device_${Date.now()}`,
@@ -169,12 +163,11 @@ class AdminController {
                 });
             } else {
                 // Update existing user to PRO
-                await userModel.updateProStatus(payment.user_id, true, payment.plan);
+                await User.updateProStatus(payment.user_id, true, payment.plan);
             }
 
             // Create license for user
-            const licenseModel = new License();
-            const licenseKey = await licenseModel.create({
+            const licenseKey = await License.create({
                 userId: payment.user_id,
                 plan: payment.plan,
                 expires: new Date(Date.now() + (payment.plan === 'pro_monthly' ? 30 : 365) * 24 * 60 * 60 * 1000)
@@ -215,8 +208,7 @@ class AdminController {
             console.log('Activating extension for user:', userId);
 
             // Get user info
-            const userModel = new User();
-            const user = await userModel.getById(userId);
+            const user = await User.getById(userId);
             if (!user) {
                 throw new Error('User not found');
             }
@@ -229,8 +221,7 @@ class AdminController {
             // 4. Email with activation link
 
             // For now, we'll use a database flag approach
-            const userModel = new User();
-            await userModel.setActivationFlag(userId, {
+            await User.setActivationFlag(userId, {
                 licenseKey,
                 plan,
                 activated: true,
