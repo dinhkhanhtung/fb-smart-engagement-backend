@@ -206,7 +206,7 @@ class AdminController {
     async activateUserExtension(userId, licenseKey, plan) {
         try {
             console.log('Activating extension for user:', userId);
-            
+
             // Get user info
             const user = await User.getById(userId);
             if (!user) {
@@ -219,7 +219,7 @@ class AdminController {
             // 2. Push notification
             // 3. Database flag that extension polls
             // 4. Email with activation link
-            
+
             // For now, we'll use a database flag approach
             await User.setActivationFlag(userId, {
                 licenseKey,

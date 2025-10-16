@@ -125,7 +125,7 @@ class UserController {
             console.log('Checking activation status for user:', userId);
 
             const activationData = await User.getActivationFlag(userId);
-            
+
             if (activationData && activationData.activated) {
                 res.json({
                     success: true,
@@ -158,17 +158,17 @@ class UserController {
             // Validate license
             const license = await License.getByKey(licenseKey);
             if (!license || license.userId !== userId) {
-                return res.status(400).json({ 
-                    success: false, 
-                    error: 'Invalid license key' 
+                return res.status(400).json({
+                    success: false,
+                    error: 'Invalid license key'
                 });
             }
 
             // Check if license is expired
             if (new Date(license.expires) < new Date()) {
-                return res.status(400).json({ 
-                    success: false, 
-                    error: 'License expired' 
+                return res.status(400).json({
+                    success: false,
+                    error: 'License expired'
                 });
             }
 
