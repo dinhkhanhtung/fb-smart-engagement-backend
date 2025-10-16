@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FB Smart Engagement Pro</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- External JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+    <!-- Extension Scripts -->
+    <script src="popup.js" defer></script>
+</head>
+
+<body>
+    <div class="card border-light mb-3">
+        <!-- Header -->
+        <div class="card-header">
+            <button id="btn-home" class="btn btn-light btn-top l-10" style="display: none;">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="text-center" id="title">FB Smart Engagement Pro</h1>
+            <button class="btn btn-light btn-top r-10" id="btn-setting" type="button">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="card-body">
+            <!-- Main Page -->
+            <div class="main-page py-3">
+                <div class="row px-5 mt-2">
+                    <span class="text-center mx-auto">
+                        Trợ lý tự động tương tác Facebook với thuật toán phản ứng thông minh và bộ lọc nội dung.
+                    </span>
+                </div>
+
+                <div class="my-3">
+                    <div class="row center">
+                        <div style="font-size: 64px; color: #1877f2; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">🤖</div>
+                    </div>
+                    <div class="row center">
+                        <button id="btStart" class="btn btn-success" autofocus="autofocus" type="button">
+                            Kích hoạt
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Trial Status -->
+                <div id="trial-status" class="alert alert-info" style="display: none;">
+                    <strong>🆓 Trial:</strong> <span id="trial-time">3 ngày còn lại</span>
+                </div>
+
+                <!-- PRO Status -->
+                <div id="pro-status" class="alert alert-success" style="display: none;">
+                    <strong>💎 PRO:</strong> <span id="pro-plan">Monthly Plan</span>
+                </div>
+
+                <!-- Upgrade Prompt -->
+                <div id="upgrade-prompt" class="alert alert-warning" style="display: none;">
+                    <strong>⚠️ Trial hết hạn!</strong> Nâng cấp lên PRO để tiếp tục sử dụng.
+                    <br><button id="upgrade-btn" class="btn btn-primary btn-sm mt-2">Nâng cấp ngay</button>
+                </div>
+
+                <p class="text-center">
+                    Mẹo an toàn: Giữ ít nhất một tab Facebook mở để duy trì ổn định phiên.
+                </p>
+
+                <div class="row center">
+                    <a target="_blank" rel="noopener noreferrer"
+                        href="https://facebook.com/me/allactivity?category_key=likes">
+                        Xem lịch sử hoạt động
+                    </a>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="second-page">
+                <div class="mx-3 my-3 pb-3">
+                    <!-- Startup Setting -->
+                    <div class="form-check">
+                        <input class="form-check-input" id="startup" type="checkbox" disabled>
+                        <label for="startup" class="form-check-label">
+                            Tự động khởi động cùng trình duyệt
+                        </label>
+                    </div>
+
+                    <!-- Ignore Fanpage Setting -->
+                    <div class="form-check">
+                        <input class="form-check-input" id="ignore-fp" type="checkbox" disabled>
+                        <label for="ignore-fp" class="form-check-label">
+                            Bỏ qua fanpage
+                        </label>
+                    </div>
+
+                    <!-- Ignore Group Setting -->
+                    <div class="form-check">
+                        <input class="form-check-input" id="ignore-gr" type="checkbox" disabled>
+                        <label for="ignore-gr" class="form-check-label">
+                            Bỏ qua nhóm
+                        </label>
+                    </div>
+
+                    <!-- Time Period Setting -->
+                    <div class="form-group form-group-sm mb-1">
+                        <label for="time-period">
+                            Khoảng thời gian kiểm tra bảng tin
+                        </label>
+                        <div class="input-group input-group-sm">
+                            <input id="time-period" class="form-control" type="number" value="5" min="1" max="60"
+                                disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">phút</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blacklist Setting -->
+                    <div class="form-group">
+                        <label for="blacklist" class="mr-1">
+                            Danh sách chặn UID
+                        </label>
+                        (<a href="facebook-uid-finder.html" target="_blank">Tìm UID</a>)
+                        <textarea class="form-control form-control-sm" id="blacklist" rows="3" disabled
+                            placeholder="Nhập UID ngăn cách bằng dấu phẩy">
+                        </textarea>
+                    </div>
+
+                    <!-- Safety Settings Section -->
+                    <hr class="my-4">
+                    <h6 class="text-primary mb-3">🛡️ Cài đặt An toàn</h6>
+
+                    <!-- Working Hours Only -->
+                    <div class="form-check">
+                        <input class="form-check-input" id="working-hours-only" type="checkbox">
+                        <label for="working-hours-only" class="form-check-label">
+                            Chỉ hoạt động giờ làm việc (9-18h)
+                        </label>
+                    </div>
+
+                    <!-- Weekdays Only -->
+                    <div class="form-check">
+                        <input class="form-check-input" id="weekdays-only" type="checkbox">
+                        <label for="weekdays-only" class="form-check-label">
+                            Chỉ hoạt động ngày trong tuần
+                        </label>
+                    </div>
+
+                    <!-- Max Reactions Per Hour -->
+                    <div class="form-group form-group-sm mb-1">
+                        <label for="max-reactions-hour">
+                            Tối đa reactions/giờ
+                        </label>
+                        <div class="input-group input-group-sm">
+                            <input id="max-reactions-hour" class="form-control" type="number" value="20" min="1"
+                                max="100">
+                            <div class="input-group-append">
+                                <div class="input-group-text">reactions</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Max Reactions Per Day -->
+                    <div class="form-group form-group-sm mb-1">
+                        <label for="max-reactions-day">
+                            Tối đa reactions/ngày
+                        </label>
+                        <div class="input-group input-group-sm">
+                            <input id="max-reactions-day" class="form-control" type="number" value="100" min="1"
+                                max="500">
+                            <div class="input-group-append">
+                                <div class="input-group-text">reactions</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delay Between Reactions -->
+                    <div class="form-group form-group-sm mb-1">
+                        <label for="delay-reactions">
+                            Khoảng cách giữa reactions
+                        </label>
+                        <div class="input-group input-group-sm">
+                            <input id="delay-reactions" class="form-control" type="number" value="3" min="1" max="30">
+                            <div class="input-group-append">
+                                <div class="input-group-text">giây</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pro Time Section -->
+                <div class="row mx-3">
+                    <div class="col-auto mx-auto">
+                        PRO TIME: <span id="pro-time">0</span>
+                        <i id="ic-plus" class="fas fa-plus-circle ml-2"></i>
+                    </div>
+                    <small class="text-center" data-localize="__MSG_pro_days_tip__">
+                        Hết PRO TIME bạn vẫn được dùng extension này miễn phí ngoại trừ việc tùy chỉnh những cài đặt
+                        này.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer text-muted">
+            <div class="float-left ft-ic">
+                <a href="https://www.facebook.com/dinhkhanhtung" title="Facebook" target="_blank"
+                    style="color: #1877f2; font-size: 20px;">
+                    <i class="fab fa-facebook-square"></i>
+                </a>
+            </div>
+            <div class="float-right">
+                <small id="version">v1.0.0</small>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

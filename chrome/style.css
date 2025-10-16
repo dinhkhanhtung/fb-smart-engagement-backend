@@ -1,0 +1,341 @@
+/* FB Smart Engagement Pro - Facebook Style */
+
+/* Main Container */
+body {
+    width: 360px;
+    height: 430px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography */
+h1 {
+    font-size: large;
+    font-weight: bold;
+    margin: 0;
+    color: #1c1e21;
+}
+
+h2 {
+    font-size: large;
+    font-weight: bold;
+    color: #1c1e21;
+}
+
+h6 {
+    color: #1c1e21;
+}
+
+.text-primary {
+    color: #1877f2 !important;
+}
+
+/* Layout */
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card Styles */
+.card {
+    width: 360px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border: 1px solid #dadde1;
+}
+
+.card-body {
+    height: 400px;
+    padding: 0;
+}
+
+/* Header Styles */
+.card-header {
+    background: #1877f2;
+    color: white;
+    padding: 12px 16px;
+    border-bottom: none;
+    position: relative;
+}
+
+/* Page Navigation */
+.main-page {
+    width: 358px;
+    height: 360px;
+    left: 0;
+    position: absolute;
+    transition: left 0.3s ease;
+}
+
+.second-page {
+    width: 358px;
+    height: 360px;
+    left: 360px;
+    display: none;
+    position: absolute;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar for Settings */
+.second-page::-webkit-scrollbar {
+    width: 6px;
+}
+
+.second-page::-webkit-scrollbar-track {
+    background: #f0f2f5;
+    border-radius: 3px;
+}
+
+.second-page::-webkit-scrollbar-thumb {
+    background: #bcc0c4;
+    border-radius: 3px;
+}
+
+.second-page::-webkit-scrollbar-thumb:hover {
+    background: #8a8d91;
+}
+
+/* Header Buttons */
+.btn-top {
+    position: absolute;
+    top: 2px;
+    font-size: larger;
+    color: rgba(0, 0, 0, 0.625);
+    border: none;
+    background: transparent;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-top:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.l-10 {
+    left: 10px;
+}
+
+.r-10 {
+    right: 10px;
+}
+
+/* Form Styles */
+form {
+    margin: 0;
+    padding: 0;
+}
+
+.card-setting {
+    margin: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+/* Textarea */
+textarea {
+    font-size: smaller;
+    padding: 8px;
+    resize: vertical;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+}
+
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+textarea[disabled] {
+    background-color: #f8f9fa;
+    opacity: 0.6;
+}
+
+/* Footer Icons */
+.ft-ic>a {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: large;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.ft-ic>a:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Pro Plus Icon */
+.fa-plus-circle {
+    font-size: large;
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.2s ease;
+}
+
+.fa-plus-circle:hover {
+    color: #0056b3;
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-success {
+    background: #42b883;
+    border: none;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #369870;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-danger {
+    background: #f02849;
+    border: none;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #d91e3a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #dadde1;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #ffffff;
+}
+
+.form-control:focus {
+    border-color: #1877f2;
+    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+    outline: none;
+}
+
+.form-control[disabled] {
+    background-color: #f8f9fa;
+    opacity: 0.6;
+}
+
+/* Checkbox Styles */
+.form-check-input {
+    margin-top: 0.25rem;
+}
+
+.form-check-input:checked {
+    background-color: #1877f2;
+    border-color: #1877f2;
+}
+
+.form-check-input:disabled {
+    opacity: 0.6;
+}
+
+/* Input Group */
+.input-group-text {
+    background-color: #f0f2f5;
+    border: 1px solid #dadde1;
+    color: #65676b;
+}
+
+/* Links */
+a {
+    color: #1877f2;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #166fe5;
+    text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 400px) {
+    body {
+        width: 320px;
+    }
+
+    .card {
+        width: 320px;
+    }
+
+    .main-page,
+    .second-page {
+        width: 318px;
+    }
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading State */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Success/Error States */
+.success {
+    color: #28a745;
+}
+
+.error {
+    color: #dc3545;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

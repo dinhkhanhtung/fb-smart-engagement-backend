@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "FB Smart Engagement Pro",
+    "version": "1.0.0",
+    "description": "Intelligent Facebook engagement assistant with advanced reaction algorithms",
+    "action": {
+        "default_title": "FB Smart Engagement Pro",
+        "default_popup": "popup.html"
+    },
+    "author": "AppX",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "homepage_url": "https://www.facebook.com/dinhkhanhtung",
+    "permissions": [
+        "alarms",
+        "cookies",
+        "storage",
+        "declarativeNetRequest",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://*.facebook.com/*",
+        "https://graph.facebook.com/*",
+        "https://m.facebook.com/*",
+        "https://mbasic.facebook.com/*"
+    ],
+    "short_name": "FBEngagePro"
+}
