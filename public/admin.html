@@ -935,6 +935,84 @@
         </div>
 
         <script>
+            // Global functions - define them first
+            window.showSection = function(section) {
+                try {
+                    console.log('Switching to section:', section);
+                    
+                    // Hide all sections
+                    document.querySelectorAll('[id$="-section"]').forEach(el => {
+                        el.style.display = 'none';
+                    });
+
+                    // Show selected section
+                    const targetSection = document.getElementById(section + '-section');
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                        console.log('Section displayed:', section);
+                    } else {
+                        console.error('Section not found:', section + '-section');
+                        return;
+                    }
+
+                    // Update nav links
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Find and activate the correct nav link
+                    const activeLink = document.querySelector(`[onclick="showSection('${section}')"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+
+                    currentSection = section;
+                    console.log('Navigation completed for:', section);
+                    
+                    // Reload data for specific sections
+                    if (section === 'users') {
+                        loadUsers();
+                    } else if (section === 'payments') {
+                        loadPayments();
+                    } else if (section === 'licenses') {
+                        loadLicenses();
+                    } else if (section === 'dashboard') {
+                        loadDashboard();
+                    }
+                    
+                } catch (error) {
+                    console.error('Navigation error:', error);
+                    showToast('Lỗi chuyển trang: ' + error.message, 'error');
+                }
+            };
+
+            // Make other functions global too
+            window.logout = function() {
+                localStorage.removeItem('adminToken');
+                window.location.href = '/admin';
+            };
+
+            window.approvePayment = function(paymentId) {
+                // This will be defined later in the script
+                console.log('approvePayment called with:', paymentId);
+            };
+
+            window.viewUser = function(userId) {
+                console.log('viewUser called with:', userId);
+            };
+
+            window.editUser = function(userId) {
+                console.log('editUser called with:', userId);
+            };
+
+            window.createLicenseForUser = function(userId) {
+                console.log('createLicenseForUser called with:', userId);
+            };
+
+            window.viewPayment = function(paymentId) {
+                console.log('viewPayment called with:', paymentId);
+            };
+
             // Check authentication with better persistence
             let token = localStorage.getItem('adminToken');
             console.log('Initial token from localStorage:', token);
@@ -954,7 +1032,6 @@
             if (!token) {
                 console.log('No token found, redirecting to login');
                 window.location.href = '/admin';
-                return;
             }
 
             // Verify token is still valid
@@ -1024,77 +1101,27 @@
             // Initialize dashboard with token verification
             document.addEventListener('DOMContentLoaded', async function () {
                 console.log('DOM Content Loaded');
-                
+
                 // Verify token first
                 const isValid = await verifyToken();
                 if (!isValid) {
                     return; // Will redirect to login
                 }
-                
+
                 // Test navigation elements
                 console.log('Testing navigation elements...');
                 const navLinks = document.querySelectorAll('.nav-link');
                 console.log('Found nav links:', navLinks.length);
-                
+
                 // Load dashboard data
                 loadDashboard();
                 loadUsers();
                 loadPayments();
                 loadLicenses();
-                
+
                 console.log('Dashboard initialization completed');
             });
 
-            // Navigation with error handling
-            function showSection(section) {
-                try {
-                    console.log('Switching to section:', section);
-                    
-                    // Hide all sections
-                    document.querySelectorAll('[id$="-section"]').forEach(el => {
-                        el.style.display = 'none';
-                    });
-
-                    // Show selected section
-                    const targetSection = document.getElementById(section + '-section');
-                    if (targetSection) {
-                        targetSection.style.display = 'block';
-                        console.log('Section displayed:', section);
-                    } else {
-                        console.error('Section not found:', section + '-section');
-                        return;
-                    }
-
-                    // Update nav links
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    
-                    // Find and activate the correct nav link
-                    const activeLink = document.querySelector(`[onclick="showSection('${section}')"]`);
-                    if (activeLink) {
-                        activeLink.classList.add('active');
-                    }
-
-                    currentSection = section;
-                    console.log('Navigation completed for:', section);
-                    
-                    // Reload data for specific sections
-                    if (section === 'users') {
-                        loadUsers();
-                    } else if (section === 'payments') {
-                        loadPayments();
-                    } else if (section === 'licenses') {
-                        loadLicenses();
-                    } else if (section === 'dashboard') {
-                        loadDashboard();
-                    }
-                    
-                } catch (error) {
-                    console.error('Navigation error:', error);
-                    showToast('Lỗi chuyển trang: ' + error.message, 'error');
-                }
-            }
 
             // Dashboard functions
             async function loadDashboard() {
@@ -1194,7 +1221,7 @@
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    
+
                     console.log('Payments response status:', response.status);
                     const data = await response.json();
                     console.log('Payments response data:', data);
@@ -1227,14 +1254,14 @@
                 payments.forEach(payment => {
                     console.log('Rendering payment:', payment);
                     const row = document.createElement('tr');
-                    
+
                     // Extract customer info from userInfo
                     let customerInfo = 'N/A';
                     if (payment.userInfo) {
                         const userInfo = typeof payment.userInfo === 'string' ? JSON.parse(payment.userInfo) : payment.userInfo;
                         customerInfo = `${userInfo.name || 'N/A'}<br><small>${userInfo.email || 'N/A'}</small>`;
                     }
-                    
+
                     row.innerHTML = `
                     <td><strong>${payment.paymentId || payment.id}</strong></td>
                     <td>${payment.user_id}</td>
@@ -1273,10 +1300,10 @@
                             'Content-Type': 'application/json'
                         }
                     });
-                    
+
                     const data = await response.json();
                     console.log('Approval response:', data);
-                    
+
                     if (data.success) {
                         showToast('Payment đã được duyệt thành công!', 'success');
                         loadPayments(); // Reload payments
