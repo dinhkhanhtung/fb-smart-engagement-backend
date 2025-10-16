@@ -25,6 +25,15 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'landing.html'));
 });
 
+// Test route to check which file is being served
+router.get('/test-landing', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'landing.html'));
+});
+
+router.get('/test-index', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
 router.get('/download', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'download.html'));
 });
