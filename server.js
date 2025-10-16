@@ -10,8 +10,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-// Payment system - using bank transfer for Vietnam
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,60 +18,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
-
-// Home route - New landing page
-app.get('/', (req, res) => {
-    try {
-        res.sendFile(require('path').join(__dirname, 'public', 'landing.html'));
-    } catch (error) {
-        console.error('Error serving landing.html:', error);
-        res.status(500).send('Error loading page');
-    }
-});
-
-// Download route
-app.get('/download', (req, res) => {
-    try {
-        res.sendFile(require('path').join(__dirname, 'public', 'download.html'));
-    } catch (error) {
-        console.error('Error serving download.html:', error);
-        res.status(500).send('Error loading page');
-    }
-});
-
-// Test route
-app.get('/test', (req, res) => {
-    res.json({
-        message: 'Server is working!',
-        timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || 'development',
-        port: process.env.PORT || 3000,
-        adminEmail: process.env.ADMIN_EMAIL || 'dinhkhanhtung@outlook.com',
-        adminPassword: process.env.ADMIN_PASSWORD ? '***' : 'admin123456'
-    });
-});
-
-// Admin test route
-app.get('/api/admin/test', (req, res) => {
-    res.json({
-        adminEmail: process.env.ADMIN_EMAIL || 'dinhkhanhtung@outlook.com',
-        adminPassword: '***',
-        jwtSecret: '***',
-        environment: process.env.NODE_ENV || 'development',
-        message: 'Credentials are configured correctly'
-    });
-});
-
-// Test HTML route
-app.get('/test-html', (req, res) => {
-    res.sendFile(require('path').join(__dirname, 'public', 'test.html'));
-});
-
-// Vietnam Payment route
-app.get('/payment', (req, res) => {
-    res.sendFile(require('path').join(__dirname, 'public', 'payment-auto.html'));
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Database setup - Use in-memory database for Vercel
 const db = new sqlite3.Database(':memory:');
@@ -117,19 +63,6 @@ db.serialize(() => {
         verified_at DATETIME
     )`);
 
-    // Payments table (updated for bank transfer)
-    db.run(`CREATE TABLE IF NOT EXISTS payments (
-        id VARCHAR(255) PRIMARY KEY,
-        user_id VARCHAR(255),
-        plan VARCHAR(50),
-        amount DECIMAL(10,2),
-        status VARCHAR(50) DEFAULT 'pending',
-        transaction_id VARCHAR(255),
-        bank_info TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        verified_at DATETIME
-    )`);
-
     // Analytics table
     db.run(`CREATE TABLE IF NOT EXISTS analytics (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -138,6 +71,52 @@ db.serialize(() => {
         event_data TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
+});
+
+// Routes
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+});
+
+app.get('/download', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'download.html'));
+});
+
+app.get('/download/chrome', (req, res) => {
+    const filePath = path.join(__dirname, 'public', 'FB-Smart-Engagement-Pro-Chrome.zip');
+    res.download(filePath, 'FB-Smart-Engagement-Pro-Chrome.zip', (err) => {
+        if (err) {
+            console.error('Error downloading Chrome extension:', err);
+            res.status(404).send('Chrome extension file not found');
+        }
+    });
+});
+
+app.get('/download/firefox', (req, res) => {
+    const filePath = path.join(__dirname, 'public', 'FB-Smart-Engagement-Pro-Firefox.zip');
+    res.download(filePath, 'FB-Smart-Engagement-Pro-Firefox.zip', (err) => {
+        if (err) {
+            console.error('Error downloading Firefox extension:', err);
+            res.status(404).send('Firefox extension file not found');
+        }
+    });
+});
+
+app.get('/test', (req, res) => {
+    res.json({
+        message: 'Server is working!',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+        port: process.env.PORT || 3000
+    });
+});
+
+app.get('/test-html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'test.html'));
+});
+
+app.get('/payment', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'payment-auto.html'));
 });
 
 // ==================== API ROUTES ====================
@@ -580,6 +559,47 @@ async function sendLicenseEmail(userId, licenseKey, plan) {
 
     } catch (error) {
         console.error('Email sending error:', error);
+    }
+}
+
+/**
+ * Activate PRO license for user
+ */
+async function activateProLicense(userId, plan, expires) {
+    try {
+        const licenseKey = generateLicenseKey();
+        const expiresAt = expires ? new Date(expires).toISOString() : null;
+
+        // Create license
+        await new Promise((resolve, reject) => {
+            db.run(
+                'INSERT INTO licenses (user_id, license_key, plan, expires_at) VALUES (?, ?, ?, ?)',
+                [userId, licenseKey, plan, expiresAt],
+                function (err) {
+                    if (err) reject(err);
+                    else resolve(this.lastID);
+                }
+            );
+        });
+
+        // Update user to PRO
+        await new Promise((resolve, reject) => {
+            db.run(
+                'UPDATE users SET is_pro = 1, is_trial = 0, plan = ? WHERE user_id = ?',
+                [plan, userId],
+                (err) => {
+                    if (err) reject(err);
+                    else resolve();
+                }
+            );
+        });
+
+        console.log(`PRO license activated for user ${userId}, license: ${licenseKey}`);
+        return licenseKey;
+
+    } catch (error) {
+        console.error('License activation error:', error);
+        throw error;
     }
 }
 
