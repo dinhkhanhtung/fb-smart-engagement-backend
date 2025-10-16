@@ -935,21 +935,48 @@
         </div>
 
         <script>
-            // Check authentication
+            // Check authentication with better persistence
             let token = localStorage.getItem('adminToken');
+            console.log('Initial token from localStorage:', token);
 
-            // Get token from URL if available
+            // Get token from URL if available (for login redirect)
             const urlParams = new URLSearchParams(window.location.search);
             const urlToken = urlParams.get('token');
             if (urlToken) {
+                console.log('Token from URL:', urlToken);
                 token = urlToken;
                 localStorage.setItem('adminToken', token);
                 // Clean URL
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
 
+            // If no token, redirect to login
             if (!token) {
+                console.log('No token found, redirecting to login');
                 window.location.href = '/admin';
+                return;
+            }
+
+            // Verify token is still valid
+            async function verifyToken() {
+                try {
+                    const response = await fetch('/api/admin/analytics', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    if (response.status === 401) {
+                        console.log('Token expired, redirecting to login');
+                        localStorage.removeItem('adminToken');
+                        window.location.href = '/admin';
+                        return false;
+                    }
+                    return true;
+                } catch (error) {
+                    console.error('Token verification error:', error);
+                    return false;
+                }
             }
 
             // Global variables
@@ -964,8 +991,45 @@
                 window.location.href = '/admin';
             }
 
-            // Initialize dashboard
-            document.addEventListener('DOMContentLoaded', function () {
+            // Auto-refresh token every 10 minutes to prevent timeout
+            setInterval(async () => {
+                try {
+                    const response = await fetch('/api/admin/analytics', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    if (response.status === 401) {
+                        console.log('Token expired during auto-refresh, redirecting to login');
+                        localStorage.removeItem('adminToken');
+                        window.location.href = '/admin';
+                    }
+                } catch (error) {
+                    console.error('Auto-refresh token error:', error);
+                }
+            }, 10 * 60 * 1000); // 10 minutes
+
+            // Handle page visibility change (when user comes back to tab)
+            document.addEventListener('visibilitychange', async function() {
+                if (!document.hidden && token) {
+                    console.log('Page became visible, checking token validity');
+                    const isValid = await verifyToken();
+                    if (!isValid) {
+                        return; // Will redirect to login
+                    }
+                }
+            });
+
+            // Initialize dashboard with token verification
+            document.addEventListener('DOMContentLoaded', async function () {
+                // Verify token first
+                const isValid = await verifyToken();
+                if (!isValid) {
+                    return; // Will redirect to login
+                }
+                
+                // Load dashboard data
                 loadDashboard();
                 loadUsers();
                 loadPayments();
@@ -1000,7 +1064,7 @@
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    
+
                     console.log('Dashboard response status:', response.status);
                     const data = await response.json();
                     console.log('Dashboard response data:', data);
@@ -1032,7 +1096,7 @@
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    
+
                     console.log('Users response status:', response.status);
                     const data = await response.json();
                     console.log('Users response data:', data);
