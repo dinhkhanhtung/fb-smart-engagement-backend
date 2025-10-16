@@ -63,7 +63,8 @@ class AdminController {
      */
     async getAnalytics(req, res) {
         try {
-            const analytics = await User.getAnalytics();
+            const userModel = new User();
+            const analytics = await userModel.getAnalytics();
             res.json({ success: true, analytics });
 
         } catch (error) {
@@ -77,7 +78,8 @@ class AdminController {
      */
     async getUsers(req, res) {
         try {
-            const users = await User.getAll();
+            const userModel = new User();
+            const users = await userModel.getAll();
             res.json({ success: true, users });
 
         } catch (error) {
@@ -91,7 +93,8 @@ class AdminController {
      */
     async getPayments(req, res) {
         try {
-            const payments = await Payment.getAll();
+            const paymentModel = new Payment();
+            const payments = await paymentModel.getAll();
             res.json({ success: true, payments });
 
         } catch (error) {
@@ -105,7 +108,8 @@ class AdminController {
      */
     async getLicenses(req, res) {
         try {
-            const licenses = await License.getAll();
+            const licenseModel = new License();
+            const licenses = await licenseModel.getAll();
             res.json({ success: true, licenses });
 
         } catch (error) {
@@ -137,7 +141,8 @@ class AdminController {
             console.log('Approving payment:', paymentId);
 
             // Get payment details
-            const payment = await Payment.getById(paymentId);
+            const paymentModel = new Payment();
+            const payment = await paymentModel.getById(paymentId);
             if (!payment) {
                 return res.status(404).json({ success: false, error: 'Payment not found' });
             }
@@ -147,14 +152,15 @@ class AdminController {
             }
 
             // Update payment status
-            await Payment.updateStatus(paymentId, 'completed');
+            await paymentModel.updateStatus(paymentId, 'completed');
 
             // Create or update user account
-            let user = await User.getById(payment.user_id);
+            const userModel = new User();
+            let user = await userModel.getById(payment.user_id);
             if (!user) {
                 // Create new user account
                 const userInfo = payment.bank_info ? JSON.parse(payment.bank_info) : {};
-                user = await User.create({
+                user = await userModel.create({
                     userId: payment.user_id,
                     email: userInfo.email || 'unknown@example.com',
                     deviceId: `device_${Date.now()}`,
@@ -163,11 +169,12 @@ class AdminController {
                 });
             } else {
                 // Update existing user to PRO
-                await User.updateProStatus(payment.user_id, true, payment.plan);
+                await userModel.updateProStatus(payment.user_id, true, payment.plan);
             }
 
             // Create license for user
-            const licenseKey = await License.create({
+            const licenseModel = new License();
+            const licenseKey = await licenseModel.create({
                 userId: payment.user_id,
                 plan: payment.plan,
                 expires: new Date(Date.now() + (payment.plan === 'pro_monthly' ? 30 : 365) * 24 * 60 * 60 * 1000)
@@ -175,7 +182,7 @@ class AdminController {
 
             // 🆕 Auto-activate extension for user
             try {
-                await activateUserExtension(payment.user_id, licenseKey, payment.plan);
+                await this.activateUserExtension(payment.user_id, licenseKey, payment.plan);
                 console.log('Extension activated for user:', payment.user_id);
             } catch (error) {
                 console.error('Extension activation failed:', error);
@@ -208,7 +215,8 @@ class AdminController {
             console.log('Activating extension for user:', userId);
 
             // Get user info
-            const user = await User.getById(userId);
+            const userModel = new User();
+            const user = await userModel.getById(userId);
             if (!user) {
                 throw new Error('User not found');
             }
@@ -221,7 +229,8 @@ class AdminController {
             // 4. Email with activation link
 
             // For now, we'll use a database flag approach
-            await User.setActivationFlag(userId, {
+            const userModel = new User();
+            await userModel.setActivationFlag(userId, {
                 licenseKey,
                 plan,
                 activated: true,

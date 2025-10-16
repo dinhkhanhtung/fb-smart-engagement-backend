@@ -15,7 +15,8 @@ class LicenseController {
         try {
             const { licenseKey, userId, deviceId } = req.body;
 
-            const license = await License.findByKeyAndUser(licenseKey, userId);
+            const licenseModel = new License();
+            const license = await licenseModel.findByKeyAndUser(licenseKey, userId);
 
             if (!license) {
                 return res.json({
@@ -27,7 +28,7 @@ class LicenseController {
             // Check expiration
             if (License.isExpired(license.expires_at)) {
                 // Update license status
-                await License.updateStatus(licenseKey, 'expired');
+                await licenseModel.updateStatus(licenseKey, 'expired');
 
                 return res.json({
                     valid: false,
@@ -36,7 +37,8 @@ class LicenseController {
             }
 
             // Update user status
-            await User.updateToPro(userId, license.plan);
+            const userModel = new User();
+            await userModel.updateToPro(userId, license.plan);
 
             res.json({
                 valid: true,
@@ -58,10 +60,12 @@ class LicenseController {
             const { userId, plan, expires } = req.body;
 
             const expiresAt = new Date(expires).toISOString();
-            const result = await License.create({ userId, plan, expiresAt });
+            const licenseModel = new License();
+            const result = await licenseModel.create({ userId, plan, expiresAt });
 
             // Update user to PRO
-            await User.updateToPro(userId, plan);
+            const userModel = new User();
+            await userModel.updateToPro(userId, plan);
 
             // Send license email
             const emailService = require('../utils/email');
@@ -84,7 +88,8 @@ class LicenseController {
      */
     async getAll(req, res) {
         try {
-            const licenses = await License.getAll();
+            const licenseModel = new License();
+            const licenses = await licenseModel.getAll();
             res.json({ success: true, licenses });
 
         } catch (error) {
@@ -100,7 +105,8 @@ class LicenseController {
         try {
             const { licenseKey, status } = req.body;
 
-            await License.updateStatus(licenseKey, status);
+            const licenseModel = new License();
+            await licenseModel.updateStatus(licenseKey, status);
 
             res.json({
                 success: true,

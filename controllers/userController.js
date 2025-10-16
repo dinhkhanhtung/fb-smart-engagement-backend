@@ -16,7 +16,8 @@ class UserController {
             const { userId, deviceId, email } = req.body;
 
             // Check if user exists
-            const existingUser = await User.findById(userId);
+            const userModel = new User();
+            const existingUser = await userModel.findById(userId);
             if (existingUser) {
                 return res.json({
                     success: true,
@@ -26,10 +27,11 @@ class UserController {
             }
 
             // Create new user
-            const result = await User.create({ userId, deviceId, email });
+            const result = await userModel.create({ userId, deviceId, email });
 
             // Log analytics
-            await Analytics.log(userId, 'user_registered', { deviceId, email });
+            const analyticsModel = new Analytics();
+            await analyticsModel.log(userId, 'user_registered', { deviceId, email });
 
             res.json({
                 success: true,
@@ -49,7 +51,8 @@ class UserController {
     async getProfile(req, res) {
         try {
             const { userId } = req.params;
-            const user = await User.findById(userId);
+            const userModel = new User();
+            const user = await userModel.findById(userId);
 
             if (!user) {
                 return res.status(404).json({
@@ -75,7 +78,8 @@ class UserController {
     async updateLastActive(req, res) {
         try {
             const { userId } = req.body;
-            await User.updateLastActive(userId);
+            const userModel = new User();
+            await userModel.updateLastActive(userId);
 
             res.json({
                 success: true,
@@ -93,7 +97,8 @@ class UserController {
      */
     async getAllUsers(req, res) {
         try {
-            const users = await User.getAll();
+            const userModel = new User();
+            const users = await userModel.getAll();
             res.json({ success: true, users });
 
         } catch (error) {
@@ -107,7 +112,8 @@ class UserController {
      */
     async getAnalytics(req, res) {
         try {
-            const analytics = await User.getAnalytics();
+            const userModel = new User();
+            const analytics = await userModel.getAnalytics();
             res.json({ success: true, analytics });
 
         } catch (error) {
@@ -124,7 +130,8 @@ class UserController {
             const { userId } = req.params;
             console.log('Checking activation status for user:', userId);
 
-            const activationData = await User.getActivationFlag(userId);
+            const userModel = new User();
+            const activationData = await userModel.getActivationFlag(userId);
 
             if (activationData && activationData.activated) {
                 res.json({
@@ -156,7 +163,8 @@ class UserController {
             console.log('Activating license for user:', userId);
 
             // Validate license
-            const license = await License.getByKey(licenseKey);
+            const licenseModel = new License();
+            const license = await licenseModel.getByKey(licenseKey);
             if (!license || license.userId !== userId) {
                 return res.status(400).json({
                     success: false,
@@ -173,10 +181,11 @@ class UserController {
             }
 
             // Update user to PRO
-            await User.updateProStatus(userId, true, license.plan);
+            const userModel = new User();
+            await userModel.updateProStatus(userId, true, license.plan);
 
             // Clear activation flag
-            await User.setActivationFlag(userId, null);
+            await userModel.setActivationFlag(userId, null);
 
             res.json({
                 success: true,
